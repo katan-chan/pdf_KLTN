@@ -26,13 +26,14 @@ Cho một đồ thị vô hướng $G = (V, E)$ mô hình hoá một hệ thốn
     \label{fig:partition-example}
 \end{figure}
 
-Đặc điểm quan trọng nhất khiến bài toán này khó là khái niệm cộng đồng vốn không có một định nghĩa toán học duy nhất. Trong mạng xã hội, cộng đồng có thể là một nhóm bạn bè thân thiết; trong mạng sinh học, có thể là một phức hợp protein cùng chức năng; trong mạng trích dẫn, có thể là một chủ đề nghiên cứu. Mỗi ngữ cảnh ứng với một tiêu chí khác nhau về "thế nào là cộng đồng", và do đó không có một phân hoạch nào được công nhận là đúng tuyệt đối cho mọi đồ thị. Để có thể giải bài toán bằng thuật toán, người ta phải thao tác hoá khái niệm cộng đồng thông qua một hàm chất lượng
-\[
-    f: \mathcal{P}_K(V) \longrightarrow \mathbb{R},
-\]
-trong đó $\mathcal{P}_K(V)$ là tập tất cả các phân hoạch của $V$ thành đúng $K$ cụm không rỗng, và $f(\mathcal{C})$ đo mức độ "tốt" của một phân hoạch $\mathcal{C}$ theo một tiêu chí cụ thể. Bài toán phát hiện cộng đồng khi đó được quy về việc tìm phân hoạch tối ưu hoá $f$. Tuỳ cách chọn hàm $f$, bài toán có hai dạng. Khi $f$ đo mức độ tốt theo nghĩa cộng đồng, ta tìm cực đại $\mathcal{C}^* = \arg\max_{\mathcal{C}} f(\mathcal{C})$, mà đại diện điển hình là modularity. Khi $f$ đo chi phí cắt qua biên cụm, ta tìm cực tiểu $\mathcal{C}^* = \arg\min_{\mathcal{C}} f(\mathcal{C})$, mà đại diện điển hình là tổng conductance hoặc tổng normalized cut trên các cụm. Hai hàm chất lượng cụ thể này, cùng với tính chất của bài toán tối ưu tương ứng, sẽ được trình bày trong hai mục tiếp theo.
-
-Ngay cả khi đã cố định hàm $f$, bản chất tổ hợp của bài toán làm cho việc tìm cực trị toàn cục là rất tốn kém: lực lượng của $\mathcal{P}_K(V)$ tăng theo cấp số mũ với $n$ và được đếm bởi số Stirling loại hai $S(n, K)$, nên tối ưu trực tiếp bằng phương pháp duyệt là không khả thi với đồ thị quy mô lớn. Hơn nữa, hai dạng tối ưu sẽ xét cụ thể, cực đại modularity và cực tiểu normalized cut, đều thuộc lớp các bài toán NP-khó \cite{newman2006, shi2000}. Vì vậy, các thuật toán thực tế phải chấp nhận một trong hai con đường: hoặc dùng phương pháp xấp xỉ rời rạc dạng tham lam, hoặc nới lỏng bài toán tổ hợp thành một bài toán liên tục có cấu trúc đại số tuyến tính rồi giải bằng các công cụ phổ. Khoá luận đi theo hướng thứ hai.
+Đặc điểm quan trọng nhất khiến bài toán này khó là khái niệm cộng đồng vốn không có một định nghĩa toán học duy nhất. Trong mạng xã hội, cộng đồng có thể là một nhóm bạn bè thân thiết; trong mạng sinh học, có thể là một phức hợp protein cùng chức năng; trong mạng trích dẫn, có thể là một chủ đề nghiên cứu. Mỗi ngữ cảnh ứng với một tiêu chí khác nhau về ``thế nào là cộng đồng'', và do đó không có một phân hoạch nào được công nhận là đúng tuyệt đối cho mọi đồ thị. Để có thể đánh giá và so sánh các phân hoạch một cách có hệ thống, người ta đưa ra các tiêu chí đánh giá dưới dạng một hàm số 
+\begin{equation}
+    f: \mathcal{P}(V) \to \mathbb{R}
+\end{equation}
+\begin{itemize}
+    \item Trong đó $\mathcal{P}(V)$ là tập tất cả các phân hoạch của $V$ thành các tập con không rỗng đôi một rời nhau.
+\end{itemize}
+Ngay cả khi đã cố định một tiêu chí $f$, việc tìm phân hoạch tối ưu $f$ vẫn là một bài toán khó. Lực lượng của $\mathcal{P}(V)$ tăng theo cấp số mũ với $n$ và được đếm bởi số Bell $B_n$, nên duyệt toàn bộ là không khả thi với đồ thị quy mô lớn. Hơn nữa, hai bài toán cụ thể là cực đại modularity và cực tiểu normalized cut đều thuộc lớp NP-khó \cite{newman2006, shi2000}.
 
 % ............................................................
 \subsection{Bài toán với modularity}
@@ -49,7 +50,7 @@ trong đó $d \in \mathbb{R}^n$ là vector bậc của đồ thị.
 
 \begin{definition}[Modularity của phân hoạch \cite{newman2006}]
 \label{def:modularity}
-Cho phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $c_u$ ký hiệu cụm chứa đỉnh $u$. Modularity được định nghĩa
+Cho phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $c_u$ ký hiệu cụm chứa đỉnh $u$, và $\delta(c_u, c_v)$ là Kronecker delta, bằng $1$ nếu $c_u = c_v$ và bằng $0$ nếu khác. Modularity được định nghĩa
 \[
     Q(\mathcal{C}) = \frac{1}{2m} \sum_{u, v} \!\left( A_{uv} - \frac{d_u d_v}{2m} \right)\! \delta(c_u, c_v).
 \]
@@ -63,12 +64,12 @@ Cho phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $c_u$ ký hiệu c�
 
 \clearpage
 
-\textbf{Bài toán tối ưu.} Bài toán phát hiện cộng đồng theo modularity được phát biểu như sau. Hàm mục tiêu là vết của ma trận $S^\top B S$, đại diện cho tổng modularity tích lũy trên các cụm:
+\textbf{Bài toán phát hiện cộng đồng theo modularity} được phát biểu như sau. Hàm mục tiêu là vết của ma trận $S^\top B S$, đại diện cho modularity của một phân hoạch:
 \begin{equation}
 \label{eq:modularity-objective}
     \max_{S \in \mathbb{R}^{n \times K}} \; \mathrm{Tr}(S^\top B S).
 \end{equation}
-Ma trận $S$ chịu ba ràng buộc, mỗi ràng buộc thể hiện một tính chất bắt buộc của phân hoạch.
+Ma trận $S$ là ma trận assignment chịu ba ràng buộc, mỗi ràng buộc thể hiện một tính chất bắt buộc của phân hoạch.
 
 Mỗi phần tử $S_{uk}$ là nhãn cho biết đỉnh $u$ có thuộc cụm $k$ hay không, do đó chỉ nhận giá trị nhị phân:
 \begin{equation}
@@ -110,24 +111,6 @@ Nghiệm cực đại đạt tại $X^* = [v_n, v_{n-1}, \ldots, v_{n-k+1}]$ và
     \max_{S \in \mathbb{R}^{n \times K},\ S^\top S = I_K} \mathrm{Tr}(S^\top B S).
 \end{equation}
 Nghiệm tối ưu là $S^* = [v_n, v_{n-1}, \ldots, v_{n-K+1}]$ gồm $K$ vector riêng của $B$ ứng với $K$ giá trị riêng lớn nhất, và giá trị tối ưu bằng tổng $K$ giá trị riêng lớn nhất đó. Bước rời rạc hóa từ $S^* \in \mathbb{R}^{n \times K}$ về một phân hoạch cụ thể được thực hiện bằng $k$-means trên các hàng của $S^*$, sẽ trình bày ở Mục~\ref{sec:spectral-clustering}.
-
-\begin{remark}[Resolution limit]
-\label{rem:resolution-limit}
-Modularity có một giới hạn nội tại liên quan đến kích thước cụm, được phát hiện và phân tích bởi Fortunato và Barthélemy năm 2007 \cite{fortunato2007}. Nguyên nhân nằm ở chính mô hình ngẫu nhiên null trong định nghĩa $B$: kỳ vọng cạnh $d_u d_v / (2m)$ được chuẩn hóa theo tổng cạnh toàn cục $m$, do đó một cụm có mật độ nội bộ tuyệt đối thấp vẫn bị xem là không khác biệt đáng kể với phần còn lại, ngay cả khi mật độ tương đối của nó cao hơn nhiều so với mặt bằng chung. Cụ thể, tồn tại một ngưỡng
-\[
-    \gamma(m) = \sqrt{\frac{m}{2}}
-\]
-sao cho mọi cụm có số cạnh nội bộ $\ell < \gamma(m)$ đều không được modularity đánh giá đúng là một cộng đồng tách rời, kể cả khi cấu trúc nội bộ của nó rất chặt. Hệ quả là khi cực đại hóa $Q$, các cụm nhỏ thỏa $\ell < \gamma(m)$ có xu hướng bị gộp vào cụm khác trong nghiệm tối ưu.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{resolution_limit.pdf}
-    \caption[Resolution limit trên vòng $16$ tam giác $K_3$.]{Resolution limit trên vòng $16$ tam giác $K_3$. Phân hoạch tự nhiên (a) đúng với cấu trúc nhưng cho $Q$ thấp hơn phân hoạch gộp cặp (b).}
-    \label{fig:resolution-limit}
-\end{figure}
-
-Hình~\ref{fig:resolution-limit} minh họa hiện tượng này trên vòng $16$ tam giác $K_3$ nối với nhau bằng một cạnh giữa hai tam giác kề. Phân hoạch tự nhiên với mỗi tam giác là một cụm cho $Q = 0{,}6875$, trong khi phân hoạch gộp từng cặp tam giác kề nhau cho $Q = 0{,}7500$. Modularity ưu tiên cấu hình gộp dù cấu hình này rõ ràng kém hơn về mặt cấu trúc cộng đồng. Với $m = 64$ ta có $\gamma(m) \approx 5{,}66$, mỗi tam giác chỉ có $\ell = 3 < \gamma(m)$, đúng theo dự đoán của ngưỡng phân giải.
-\end{remark}
 
 % ............................................................
 \subsection{Bài toán với conductance}
@@ -389,24 +372,6 @@ Việc khảo sát các motif khác như $K_4$ hay bi-fan là một hướng m�
 Trên các lớp đồ thị đã được định nghĩa, gồm đồ thị gốc $G$ và đồ thị Higher Order $G_M$, phân cụm phổ là một trong những thuật toán ứng dụng tốt nhất phép tọa độ hóa qua phổ của Laplacian, và đã được chứng minh là cách hiệu quả để tối ưu normalized cut trên đồ thị có trọng số không âm \cite{shi2000}.
 
 % ............................................................
-\subsection{Tọa độ hóa các đỉnh bằng phổ của toán tử Laplace}
-\label{subsec:spectral-embedding}
-
-Cho ma trận trọng số $W$ đối xứng không âm trên $V$, ma trận bậc $D = \mathrm{diag}(W \mathbf{1})$ và Laplacian chuẩn hóa $\mathcal{L} = I - D^{-1/2} W D^{-1/2}$. Theo Định lý~\ref{thm:cheeger}, $\mathcal{L}$ đối xứng nửa xác định dương với phổ $0 = \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n \leq 2$ và hệ vector riêng đơn vị $u_1, \ldots, u_n$ trực giao đôi một.
-
-\begin{definition}[Tọa độ phổ của đỉnh \cite{belkin2003}]
-\label{def:spectral-embedding}
-Đặt $U = [u_1, u_2, \ldots, u_K] \in \mathbb{R}^{n \times K}$ là ma trận có cột là $K$ vector riêng đầu của $\mathcal{L}$. Tọa độ phổ $K$ chiều của đỉnh là ánh xạ $\psi: V \to \mathbb{R}^K$ gán cho mỗi đỉnh $u$ hàng thứ $u$ của $U$:
-\[
-    \psi(u) = \bigl( u_1(u), u_2(u), \ldots, u_K(u) \bigr).
-\]
-\end{definition}
-
-Trực giác cho phép tọa độ hóa này được Chung \cite{chung1997} trình bày qua trường hợp $K = 2$. Vector riêng $u_2$ ứng với giá trị riêng nhỏ thứ hai của $\mathcal{L}$ chia tập đỉnh thành hai nhóm theo dấu của tọa độ: đỉnh có $u_2(u) > 0$ thuộc một cộng đồng, đỉnh có $u_2(u) < 0$ thuộc cộng đồng còn lại. Quan sát then chốt là các đỉnh trong cùng một cộng đồng có xu hướng nhận giá trị tương tự nhau trên $u_2$, vì $u_2$ tối thiểu hóa tổng bình phương sai phân qua các cạnh: hai đỉnh nối với nhau bằng một cạnh thường có giá trị $u_2$ gần nhau. Cộng đồng được hiểu là tập đỉnh nối nhau dày đặc, do đó các đỉnh bên trong một cộng đồng bị ràng buộc nhận giá trị $u_2$ gần nhau, còn hai cộng đồng khác nhau ngăn cách bởi ít cạnh hơn nên có thể nhận giá trị $u_2$ lệch dấu.
-
-Trường hợp $K$ cộng đồng được Shi và Malik \cite{shi2000} tổng quát hóa trực tiếp: thay vì một tọa độ duy nhất, mỗi đỉnh được mô tả bằng $K$ tọa độ ứng với $K$ vector riêng đầu. Hai đỉnh cùng cộng đồng có $K$ tọa độ tương tự nhau, do đó $\psi(u)$ và $\psi(v)$ gần nhau theo khoảng cách Euclidean. Hai đỉnh khác cộng đồng được phân biệt bởi ít nhất một trong $K$ vector riêng, nên $\psi(u)$ và $\psi(v)$ cách xa nhau. Bài toán tìm kiếm cộng đồng trong $G$ do đó trở thành bài toán phân cụm trong không gian Euclidean $\mathbb{R}^K$.
-
-% ............................................................
 \subsection{Thuật toán $K$-means}
 \label{subsec:kmeans}
 
@@ -492,6 +457,24 @@ Hệ quả~\ref{cor:kmeans-init} là hệ quả trực tiếp của Định lý~
 \fi
 
 Thuật toán $K$-means có thể được hiểu là một dạng phép giảm toạ độ trên hàm mục tiêu $J$: bước gán cực tiểu $J$ với $\{\mu_k\}$ cố định, bước cập nhật cực tiểu $J$ với $\{C_k\}$ cố định. Do đó $J$ không tăng qua mỗi vòng lặp, bị chặn dưới bởi $0$ và chỉ nhận hữu hạn giá trị vì số phân hoạch của $X$ thành $K$ cụm là hữu hạn, nên thuật toán dừng sau hữu hạn bước. Điểm dừng phụ thuộc vào tâm khởi tạo và không nhất thiết là cực tiểu toàn cục của $J$, nên trong thực hành thuật toán được chạy nhiều lần với khởi tạo ngẫu nhiên độc lập và lấy nghiệm có $J$ nhỏ nhất.
+
+% ............................................................
+\subsection{Tọa độ hóa các đỉnh bằng phổ của toán tử Laplace}
+\label{subsec:spectral-embedding}
+
+Cho ma trận trọng số $W$ đối xứng không âm trên $V$, ma trận bậc $D = \mathrm{diag}(W \mathbf{1})$ và Laplacian chuẩn hóa $\mathcal{L} = I - D^{-1/2} W D^{-1/2}$. Theo Định lý~\ref{thm:cheeger}, $\mathcal{L}$ đối xứng nửa xác định dương với phổ $0 = \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n \leq 2$ và hệ vector riêng đơn vị $u_1, \ldots, u_n$ trực giao đôi một.
+
+\begin{definition}[Tọa độ phổ của đỉnh \cite{belkin2003}]
+\label{def:spectral-embedding}
+Đặt $U = [u_1, u_2, \ldots, u_K] \in \mathbb{R}^{n \times K}$ là ma trận có cột là $K$ vector riêng đầu của $\mathcal{L}$. Tọa độ phổ $K$ chiều của đỉnh là ánh xạ $\psi: V \to \mathbb{R}^K$ gán cho mỗi đỉnh $u$ hàng thứ $u$ của $U$:
+\[
+    \psi(u) = \bigl( u_1(u), u_2(u), \ldots, u_K(u) \bigr).
+\]
+\end{definition}
+
+Trực giác cho phép tọa độ hóa này được Chung \cite{chung1997} trình bày qua trường hợp $K = 2$. Vector riêng $u_2$ ứng với giá trị riêng nhỏ thứ hai của $\mathcal{L}$ chia tập đỉnh thành hai nhóm theo dấu của tọa độ: đỉnh có $u_2(u) > 0$ thuộc một cộng đồng, đỉnh có $u_2(u) < 0$ thuộc cộng đồng còn lại. Quan sát then chốt là các đỉnh trong cùng một cộng đồng có xu hướng nhận giá trị tương tự nhau trên $u_2$, vì $u_2$ tối thiểu hóa tổng bình phương sai phân qua các cạnh: hai đỉnh nối với nhau bằng một cạnh thường có giá trị $u_2$ gần nhau. Cộng đồng được hiểu là tập đỉnh nối nhau dày đặc, do đó các đỉnh bên trong một cộng đồng bị ràng buộc nhận giá trị $u_2$ gần nhau, còn hai cộng đồng khác nhau ngăn cách bởi ít cạnh hơn nên có thể nhận giá trị $u_2$ lệch dấu.
+
+Trường hợp $K$ cộng đồng được Shi và Malik \cite{shi2000} tổng quát hóa trực tiếp: thay vì một tọa độ duy nhất, mỗi đỉnh được mô tả bằng $K$ tọa độ ứng với $K$ vector riêng đầu. Hai đỉnh cùng cộng đồng có $K$ tọa độ tương tự nhau, do đó $\psi(u)$ và $\psi(v)$ gần nhau theo khoảng cách Euclidean. Hai đỉnh khác cộng đồng được phân biệt bởi ít nhất một trong $K$ vector riêng, nên $\psi(u)$ và $\psi(v)$ cách xa nhau. Bài toán tìm cộng đồng trong $G$ do đó trở thành bài toán phân cụm $\{\psi(u)\}_{u \in V}$ trong không gian Euclidean $\mathbb{R}^K$, áp dụng được Thuật toán~\ref{alg:kmeans}.
 
 % ............................................................
 \subsection{Thuật toán phân cụm phổ chuẩn hóa}
