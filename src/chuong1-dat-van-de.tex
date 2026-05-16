@@ -1,0 +1,40 @@
+% ============================================================
+%  CHƯƠNG 1: ĐẶT VẤN ĐỀ VÀ TỔNG QUAN
+% ============================================================
+
+\chapter{Đặt vấn đề và tổng quan}
+\label{chap:dat-van-de}
+
+% ============================================================
+\section{Bối cảnh}
+\label{sec:boi-canh}
+
+Đồ thị mạng xã hội ngày nay là những đối tượng có quy mô rất lớn, từ vài trăm nghìn đến hàng tỷ đỉnh, mà cấu trúc của chúng thường mã hoá nhiều hiện tượng xã hội đáng quan tâm, chẳng hạn quá trình lan truyền thông tin, sự hình thành các nhóm sở thích hay sự xuất hiện của những vai trò trung gian giữa các cộng đồng. Để có thể quan sát những hiện tượng này một cách hệ thống thay vì chỉ dựa trên trực giác hay khảo sát thủ công, người nghiên cứu cần một cách phân rã đồ thị thành các đơn vị có ý nghĩa, mà trong đó cộng đồng là đơn vị cơ bản nhất.
+
+Bài toán phát hiện cộng đồng vì vậy không phải là một bài toán đơn lẻ, mà là một họ bài toán mà mỗi biến thể trả lời một câu hỏi quan sát khác nhau về cấu trúc của mạng. Tuỳ vào hiện tượng người ta muốn nắm bắt, cùng một đồ thị có thể được phân tích theo những hướng rất khác nhau, và mỗi hướng đặt ra một bài toán toán học riêng với cách thao tác hoá riêng. Phần tiếp theo điểm qua các biến thể thường gặp nhất và xác định rõ biến thể mà khoá luận tập trung giải quyết.
+
+% ============================================================
+\section{Các biến thể của bài toán}
+\label{sec:bien-the}
+
+Trong thực tế nghiên cứu, ba biến thể được nhắc đến nhiều nhất là phát hiện cộng đồng toàn cục, phát hiện cộng đồng cục bộ và phát hiện cộng đồng chồng chéo. Mỗi biến thể tương ứng với một câu hỏi quan sát khác và do đó dẫn tới các thuật toán có cấu trúc rất khác nhau.
+
+\textbf{Phát hiện cộng đồng toàn cục} đặt ra yêu cầu cơ bản nhất: cho toàn bộ đồ thị $G$, hãy phân hoạch tập đỉnh thành $K$ cụm sao cho cấu trúc cộng đồng nội tại được phản ánh đúng. Đây là biến thể được nghiên cứu sớm nhất và sâu nhất, đồng thời là biến thể mà khoá luận tập trung giải quyết. Lý do nằm ở chỗ phân hoạch toàn cục cho ta một bức tranh tổng thể về cấu trúc của đồ thị, là điểm khởi đầu tự nhiên trước khi xét các biến thể chi tiết hơn.
+
+\textbf{Phát hiện cộng đồng cục bộ} thay đổi giả thiết đầu vào: thay vì duyệt toàn bộ đồ thị, người ta chỉ quan sát một đồ thị con $G' \subseteq G$ hoặc xuất phát từ một tập đỉnh hạt giống, rồi tìm cộng đồng trong lân cận của nó. Biến thể này phù hợp với đồ thị quá lớn để duyệt toàn bộ hoặc khi người dùng chỉ quan tâm tới một nhóm cụ thể. Các phương pháp dựa trên bước ngẫu nhiên cá nhân hoá hay khuếch tán cục bộ là đại diện điển hình.
+
+\textbf{Phát hiện cộng đồng chồng chéo} bỏ giả thiết phân hoạch: trong nhiều mạng thực, một đỉnh có thể đồng thời thuộc nhiều cộng đồng, chẳng hạn một người dùng vừa là thành viên của nhóm bạn học vừa là thành viên của nhóm đồng nghiệp. Khi đó bài toán không còn là phân hoạch tập đỉnh nữa mà là gán cho mỗi đỉnh một tập các cộng đồng mà nó thuộc về \cite{do2025overlap}.
+
+Ngoài ba biến thể trên, còn nhiều mở rộng khác đáng kể, như phát hiện cộng đồng trên đồ thị có hướng \cite{dang2023directed}, trên đồ thị động theo thời gian, hay trên đồ thị có thuộc tính trên đỉnh. Mỗi mở rộng làm thay đổi cấu trúc bài toán và đòi hỏi công cụ riêng. Khoá luận giới hạn ở biến thể toàn cục trên đồ thị vô hướng có trọng số không âm, và trong phạm vi đó tập trung khai thác thông tin cấu trúc bậc cao thông qua các motif.
+
+% ============================================================
+\section{Các hướng tiếp cận thuật toán}
+\label{sec:huong-tiep-can}
+
+Cũng giống như có nhiều biến thể của bài toán, có nhiều hướng tiếp cận thuật toán khác nhau, mà mỗi hướng dựa trên một quan điểm riêng về thế nào là một cộng đồng tốt. Hai họ thuật toán có ảnh hưởng lớn nhất, đồng thời tạo khung tham chiếu cho khoá luận, là hướng tiếp cận theo phổ và hướng tiếp cận heuristic.
+
+\textbf{Hướng tiếp cận theo phổ} dựa trên ý tưởng nới lỏng bài toán tổ hợp về một bài toán liên tục trong không gian các vector chỉ thị, từ đó quy về việc tính phổ của một toán tử tuyến tính liên kết với đồ thị, điển hình là toán tử Laplace. Phân cụm phổ chuẩn hoá của Shi và Malik \cite{shi2000} áp dụng phổ của Laplacian chuẩn hoá để giải bài toán normalized cut, là đại diện kinh điển. Theo cùng hướng này, thuật toán SCORE của Jin \cite{jin2015} khai thác chuẩn hoá cấp đỉnh trên vector riêng để xử lý đồ thị có phân bố bậc lệch, và phân cụm phổ trên đồ thị motif của Benson, Gleich và Leskovec \cite{benson2016} đưa cấu trúc bậc cao trực tiếp vào ma trận trọng số trước khi tính phổ. Ưu điểm của hướng phổ là cấu trúc đại số chặt chẽ và các đảm bảo lý thuyết dạng bất đẳng thức Cheeger; hạn chế là chi phí tính riêng các vector riêng lớn nhất tăng nhanh theo kích thước đồ thị.
+
+\textbf{Hướng tiếp cận heuristic} không tìm cách nới lỏng bài toán mà trực tiếp tối ưu một hàm chất lượng bằng các bước cập nhật cục bộ tham lam. Thuật toán Louvain của Blondel và cộng sự \cite{blondel2008} là đại diện nổi tiếng nhất: thuật toán lặp hai bước, di chuyển từng đỉnh sang cụm lân cận sao cho modularity tăng nhiều nhất, rồi gộp các cụm thành đỉnh siêu để chạy tiếp ở mức cao hơn. Ưu điểm chính là khả năng mở rộng tới hàng triệu đỉnh và chất lượng phân hoạch tốt trong thực hành; hạn chế chủ yếu là phụ thuộc thứ tự duyệt và nguy cơ kẹt ở cực trị địa phương. Trên cơ sở Louvain, nhóm nghiên cứu Đỗ Duy Hiếu và Phan Thị Hà Dương đã đề xuất một cải tiến sử dụng bước ngẫu nhiên để khắc phục một số điểm yếu này \cite{do2025louvain}. Ngoài ra, các phương pháp dựa trên bước ngẫu nhiên như Walktrap mở rộng \cite{do2022walktrap} kết hợp ý tưởng "đỉnh trong cùng cộng đồng thường được nối bằng các bước ngẫu nhiên ngắn" với cấu trúc phân cấp của Louvain để cho ra một họ thuật toán có tốc độ tốt trên đồ thị lớn.
+
+Hai hướng tiếp cận này không loại trừ nhau mà thường bổ sung cho nhau trên thực tế: hướng phổ cho công cụ lý thuyết để chứng minh tính đúng đắn và phân tích chất lượng phân hoạch, trong khi hướng heuristic cho công cụ mở rộng đến quy mô lớn. Khoá luận đi theo hướng phổ, kế thừa khung phân cụm phổ chuẩn hoá và mở rộng nó bằng cách đưa thông tin motif vào ma trận trọng số. Các kết quả lý thuyết và thực nghiệm trong các chương tiếp theo của khoá luận chính là một bước đi cụ thể trong hướng phát triển này, trên cùng dòng chảy với các kết quả của nhóm nghiên cứu \cite{do2025louvain, do2025overlap, do2022walktrap, dang2023directed}.
