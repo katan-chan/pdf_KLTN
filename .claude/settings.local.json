@@ -6,13 +6,18 @@
         "hooks": [
           {
             "type": "command",
-            "shell": "bash",
             "command": "input=$(cat); echo \"$input\" | grep -qE '\\.tex\"' && (cd \"/d/pdf_KLTN/src\" && pdflatex -interaction=nonstopmode -halt-on-error main.tex >/dev/null 2>&1); exit 0",
+            "shell": "bash",
             "timeout": 90,
             "statusMessage": "Compiling main.pdf..."
           }
         ]
       }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(dir d:\\\\pdf_KLTN)"
     ]
   }
 }
