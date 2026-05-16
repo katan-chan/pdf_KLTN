@@ -1,0 +1,102 @@
+% ============================================================
+%  PHỤ LỤC B: CÁC MÔ HÌNH SINH NGẪU NHIÊN
+% ============================================================
+
+\chapter{Các mô hình sinh ngẫu nhiên}
+\label{appx:random-models}
+
+Phụ lục này trình bày định nghĩa hình thức của bốn mô hình sinh ngẫu nhiên có cấu trúc cộng đồng được dùng trong Chương~\ref{chap:thuc-nghiem}: SBM, Planted Partition, Gaussian Random Partition Graph (GRPG) và LFR.
+
+\textbf{Quy ước.} Mỗi mô hình được đặc tả bằng cặp phân bố $(\mathcal{D}_V, \mathcal{D}_E)$:
+\begin{itemize}[topsep=4pt, itemsep=2pt, parsep=0pt]
+    \item $\mathcal{D}_V$ là phân phối sinh tập đỉnh kèm các thuộc tính dùng để sinh cạnh: nhãn cụm $z: V \to \{1, \ldots, K\}$ (nếu có), kích thước cụm $\{n_k\}$, bậc kỳ vọng $\{d_u\}$. Ký hiệu $(V, z) \sim \mathcal{D}_V$.
+    \item $\mathcal{D}_E$ là phân phối có điều kiện trên các phần tử $A_{uv}$ của ma trận kề, cho trước thông tin đỉnh sinh bởi $\mathcal{D}_V$. Ký hiệu $A \mid (V, z) \sim \mathcal{D}_E$.
+\end{itemize}
+
+% ------------------------------------------------------------
+\section{Stochastic Block Model}
+\label{appsec:sbm}
+
+\begin{definition}[Stochastic Block Model \cite{holland1983sbm}]
+\label{def:sbm}
+Cho số đỉnh $n$, số cộng đồng $K$, ánh xạ nhãn $z: V \to \{1, \ldots, K\}$ và ma trận xác suất $P \in [0, 1]^{K \times K}$ đối xứng. Đồ thị SBM $G \sim \mathrm{SBM}(n, z, P)$ được sinh bằng cách: với mỗi cặp $u \neq v$, đặt một cạnh giữa $u$ và $v$ độc lập với xác suất $P_{z(u), z(v)}$.
+\end{definition}
+
+\begin{description}[topsep=4pt, itemsep=2pt, leftmargin=2.4cm, style=nextline]
+    \item[$\mathcal{D}_V$] Tập đỉnh $V = \{1, \ldots, n\}$, nhãn $z$ cố định với $|z^{-1}(k)| = n_k$.
+    \item[$\mathcal{D}_E$] Trường hợp đối xứng: $P_{kk} = p_{\mathrm{in}}$, $P_{kl} = p_{\mathrm{out}}$, $p_{\mathrm{in}} > p_{\mathrm{out}}$.
+    \[
+        A_{uv} \mid z \;\sim\; \mathrm{Bernoulli}\bigl(P_{z(u), z(v)}\bigr), \quad u < v.
+    \]
+\end{description}
+
+Kết quả lý thuyết then chốt của SBM, đã khai thác ở Mục~\ref{subsec:correctness}, là phân hoạch phổ trên $\mathbb{E}[A]$ trùng phân hoạch chuẩn do $\mathbb{E}[A]$ có cấu trúc khối hạng $K$; các định lý Davis--Kahan và Weyl bảo đảm phân hoạch phổ trên $A = \mathbb{E}[A] + E$ vẫn gần phân hoạch chuẩn khi nhiễu đủ nhỏ \cite{lei2015, jin2015, su2017}.
+
+% ------------------------------------------------------------
+\section{Planted Partition}
+\label{appsec:planted}
+
+\begin{definition}[Planted Partition \cite{condon2001}]
+\label{def:planted}
+Trường hợp riêng của Định nghĩa~\ref{def:sbm} với mọi cụm cùng kích thước $s$ và hai xác suất $p_{\mathrm{in}} > p_{\mathrm{out}}$.
+\end{definition}
+
+\begin{description}[topsep=4pt, itemsep=2pt, leftmargin=2.4cm, style=nextline]
+    \item[$\mathcal{D}_V$] $n = K s$ với nhãn $z(u) = \lfloor u / s \rfloor$.
+    \item[$\mathcal{D}_E$] Giống SBM đối xứng:
+    \[
+        A_{uv} \mid z \;\sim\; \mathrm{Bernoulli}\bigl(P_{z(u), z(v)}\bigr), \quad u < v.
+    \]
+\end{description}
+
+Tính đối xứng tuyệt đối khiến Planted Partition là baseline tối thiểu: một thuật toán không phân loại được Planted Partition thì không được kỳ vọng hoạt động trên các mô hình phức tạp hơn.
+
+% ------------------------------------------------------------
+\section{Gaussian Random Partition Graph}
+\label{appsec:grp}
+
+\begin{definition}[Gaussian Random Partition Graph]
+\label{def:grp}
+Cho số đỉnh $n$, kích thước cụm trung bình $s$, tham số hình dạng $v > 0$, và hai xác suất $p_{\mathrm{in}}, p_{\mathrm{out}}$. Lấy mẫu các kích thước cụm $n_1, n_2, \ldots$ độc lập từ phân phối $\mathcal{N}(s, s/v)$ cho đến khi $\sum_k n_k = n$, rồi sinh cạnh theo cơ chế SBM đối xứng với $p_{\mathrm{in}}, p_{\mathrm{out}}$.
+\end{definition}
+
+\begin{description}[topsep=4pt, itemsep=2pt, leftmargin=2.4cm, style=nextline]
+    \item[$\mathcal{D}_V$] Kích thước cụm độc lập theo Gauss, lấy đến khi $\sum_k n_k \geq n$:
+    \[
+        n_k \;\stackrel{\text{iid}}{\sim}\; \mathcal{N}(s, s/v).
+    \]
+    \item[$\mathcal{D}_E$] Giống SBM đối xứng:
+    \[
+        A_{uv} \mid z \;\sim\; \mathrm{Bernoulli}\bigl(P_{z(u), z(v)}\bigr), \quad u < v.
+    \]
+\end{description}
+
+Tham số $v$ lớn cho cụm gần đều, $v$ nhỏ cho cụm chênh lệch lớn. GRPG nằm giữa Planted Partition và LFR về mức độ không đồng đều.
+
+% ------------------------------------------------------------
+\section{LFR Benchmark}
+\label{appsec:lfr}
+
+\begin{definition}[LFR Benchmark \cite{lfr2008}]
+\label{def:lfr}
+Cho $n$, hai số mũ $\tau_1$ (phân phối bậc) và $\tau_2$ (phân phối kích thước cụm), bậc trung bình $\langle d \rangle$, giới hạn bậc, giới hạn kích thước cụm, và tham số trộn $\mu \in [0, 1]$. Lấy mẫu bậc $d_u$ theo $P(d) \propto d^{-\tau_1}$ và kích thước cụm $n_k$ theo $P(s) \propto s^{-\tau_2}$; gán mỗi đỉnh $u$ vào một cụm sao cho bậc nội cụm xấp xỉ $(1 - \mu) d_u$ và bậc liên cụm xấp xỉ $\mu d_u$; nối lại cạnh theo mô hình cấu hình để đạt cấu hình bậc đã định.
+\end{definition}
+
+\begin{description}[topsep=4pt, itemsep=2pt, leftmargin=2.4cm, style=nextline]
+    \item[$\mathcal{D}_V$] Bậc và kích thước cụm độc lập theo power-law:
+    \[
+        d_u \;\stackrel{\text{iid}}{\sim}\; P(d) \propto d^{-\tau_1}, \qquad n_k \;\stackrel{\text{iid}}{\sim}\; P(s) \propto s^{-\tau_2}.
+    \]
+    \item[$\mathcal{D}_E$] Mô hình cấu hình với ràng buộc bậc nội/liên cụm theo $\mu$:
+    \[
+        \textstyle\sum_{v: z(v) = z(u)} A_{uv} \approx (1 - \mu) d_u, \qquad
+        \textstyle\sum_{v: z(v) \neq z(u)} A_{uv} \approx \mu \, d_u.
+    \]
+\end{description}
+
+Tham số trộn $\mu$ điều khiển độ mạnh cấu trúc cộng đồng: $\mu \leq 0.3$ là chế độ dễ, $\mu \in [0.3, 0.5]$ là chế độ khó, $\mu > 0.5$ bất khả phân giải bằng các thuật toán dựa trên cạnh đơn lẻ.
+
+\begin{remark}[Tam giác trong các mô hình có cấu trúc cộng đồng]
+\label{rem:random-triangle}
+Cả bốn mô hình SBM, Planted Partition, GRPG và LFR đều sinh cạnh độc lập theo cặp (sau khi cố định bậc trong LFR), nên tam giác chỉ là hệ quả thống kê của mật độ cạnh, không phản ánh một cơ chế bậc cao riêng. Điều này trái với mạng xã hội thật, nơi triadic closure (Mục~\ref{subsec:cc}) tạo mật độ tam giác vượt xa kỳ vọng độc lập, là điểm khác biệt then chốt giải thích kết quả thực nghiệm trái ngược giữa đồ thị sinh ngẫu nhiên và đồ thị xã hội thật.
+\end{remark}

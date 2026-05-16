@@ -1,0 +1,215 @@
+\NeedsTeXFormat{LaTeX2e}
+\documentclass[13pt, a4paper, oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx,pstricks,listings,stackengine,tikz}
+%\usepackage[backend=biber,style=apa,sorting=ynt]{biblatex}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\addbibresource{../ref.bib}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{imakeidx}
+
+\usepackage{algorithmic}
+\usepackage{subcaption}
+
+\usepackage{xcolor}
+\usepackage{footnote}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+\usepackage[left=3.5cm, right= 2cm, top=2.5cm, bottom=3cm]{geometry}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[parfill]{parskip}
+\usepackage{lipsum}
+\usepackage{enumitem}
+
+\usepackage{indentfirst}
+\usepackage{amsfonts,}
+\usepackage{amsxtra,latexsym, amscd}
+
+\usepackage{ragged2e}
+\usepackage{caption}
+\usepackage[ruled,vlined]{algorithm2e}
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+    \hbox{}
+    \thispagestyle{plain}
+    \newpage
+    \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother \clearpage{\pagestyle{plain}\cleardoublepage}
+
+\usepackage{titlesec}
+\usepackage{boxedminipage,fancybox}
+\usepackage{graphicx}
+
+\graphicspath{{../figures/}}
+
+\font\tench=t5-lmb10 at 18pt%
+\titleformat{\chapter}[display]
+{\normalfont\large\filcenter\bfseries}
+{{{\chaptertitlename\,}\thechapter}} {1pc}{%\vspace{1pc}%
+{\tench}\MakeUppercase}
+
+\renewcommand{\theenumi}{\textbf{\arabic{enumi}}}
+\renewcommand{\labelenumi}{\theenumi )}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+\font\tieude=t5-lmb10 at 16pt
+\pagestyle{fancy}
+\usepackage{tocloft,calc}
+\usepackage{afterpage}
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{plain}%
+    \thispagestyle{empty}%
+    \newpage}
+
+\setlength{\parindent}{1cm}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\bf{}}
+\lhead{\bf{\emph{Khóa luận tốt nghiệp}}}
+\rhead{\bf{\emph{Lê Bình Minh}}}
+\cfoot{\thepage}
+\numberwithin{subsection}{section}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\usepackage{hyperref}
+\newtheorem{theorem}{Định lý}[chapter]
+\newtheorem{lemma}[theorem]{Bổ đề}
+\newtheorem{proposition}[theorem]{Mệnh đề}
+\newtheorem{corollary}[theorem]{Hệ quả}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Định nghĩa}
+\newtheorem{remark}[theorem]{Nhận xét}
+
+\makeatletter
+\providecommand{\theoremautorefname}{Định lý}
+\providecommand{\lemmaautorefname}{Bổ đề}
+\providecommand{\propositionautorefname}{Mệnh đề}
+\providecommand{\corollaryautorefname}{Hệ quả}
+\providecommand{\definitionautorefname}{Định nghĩa}
+\providecommand{\remarkautorefname}{Nhận xét}
+\renewcommand{\chapterautorefname}{Chương}
+\renewcommand{\sectionautorefname}{Mục}
+\renewcommand{\subsectionautorefname}{Mục}
+\makeatother
+
+\begin{document}
+\font\chuong=t5-lmb10 at14pt%
+\fontsize{14pt}{14pt}\selectfont% Chon cỡ font
+
+% =================== BÌA ===================
+\input{bia.tex}
+
+% =================== ACKNOWLEDGEMENTS ===================
+\thispagestyle{plain}
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\input{loi-cam-on}
+
+% =================== LIST OF ABBREVIATIONS ===================
+\chapter*{Danh mục các ký hiệu và chữ viết tắt}
+\baselineskip
+21pt
+\addcontentsline{toc}{chapter}{Danh mục các ký hiệu và chữ viết tắt}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|>{\arraybackslash}p{10cm}|c|}
+        \hline
+        \textbf{STT} & \centering\textbf{Tên đầy đủ} & \textbf{Ký hiệu/Viết tắt} \\ \hline
+        1 & Normalized Cut & NCut \\ \hline
+        2 & Normalized Mutual Information & NMI \\ \hline
+        3 & Clustering Coefficient (hệ số phân cụm) & CC \\ \hline
+        4 & Lancichinetti--Fortunato--Radicchi benchmark & LFR \\ \hline
+        5 & Stochastic Block Model & SBM \\ \hline
+        6 & Random Matrix Theory & RMT \\ \hline
+        7 & Ma trận kề của đồ thị $G$ & $A$ \\ \hline
+        8 & Ma trận motif (motif adjacency) & $W^{(M)}$ \\ \hline
+        9 & Ma trận hỗn hợp (motif-enhanced) & $W_\lambda$ \\ \hline
+        10 & Normalized Laplacian & $\mathcal{L}$ \\ \hline
+        11 & Modularity matrix & $B$ \\ \hline
+        12 & Tham số nội suy giữa $A$ và $W^{(M)}$ & $\lambda$ \\ \hline
+    \end{tabular}
+    \caption[]{Danh mục các ký hiệu và chữ viết tắt}
+\end{table}
+
+\newpage
+
+\cleardoublepage
+
+% =================== TABLE OF CONTENTS ===================
+\renewcommand{\contentsname}{Mục lục}
+\baselineskip 0.6cm
+\tableofcontents
+\thispagestyle{empty}
+
+% \listoffigtab
+
+\renewcommand{\listfigurename}{Danh mục hình vẽ}
+\renewcommand{\listtablename}{Danh mục bảng}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\cftfigpresnum}{Hình~}
+\renewcommand{\cfttabpresnum}{Bảng~}
+\setlength{\cftfignumwidth}{2cm}
+\setlength{\cfttabnumwidth}{2cm}
+
+\listoffigures
+\listoftables
+
+\clearpage
+\cleardoublepage
+
+% =================== MỞ ĐẦU ===================
+\input{mo-dau.tex}
+
+% =================== CÁC CHƯƠNG NỘI DUNG ===================
+\input{chuong1-co-so-ly-thuyet.tex}
+\input{chuong2-thuat-toan.tex}
+\input{chuong3-thuc-nghiem.tex}
+
+% =================== KẾT LUẬN ===================
+\input{ket-luan.tex}
+
+% =================== PHỤ LỤC ===================
+\appendix
+\input{phu-luc-chung-minh.tex}
+\input{phu-luc-mo-hinh-sinh.tex}
+
+% =================== TÀI LIỆU THAM KHẢO ===================
+\printbibliography[heading=bibintoc, title={Tài liệu tham khảo}]
+
+\end{document}

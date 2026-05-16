@@ -1,0 +1,551 @@
+% ============================================================
+%  CHƯƠNG 1: CƠ SỞ LÝ THUYẾT
+% ============================================================
+
+\chapter{Cơ sở lý thuyết}
+\label{chap:co-so}
+
+Chương này trình bày các kết quả nền tảng được dùng làm công cụ cho phần lý thuyết ở Chương~\ref{chap:thuat-toan}. Nội dung đi từ phát biểu bài toán phát hiện cộng đồng dưới dạng tối ưu, qua hệ số phân cụm và các dạng đồ thị, đến thuật toán phân cụm phổ kèm các định lý nền.
+
+Quy ước ký hiệu. Trong toàn khóa luận, $G = (V, E)$ là đồ thị vô hướng với $|V| = n$, $|E| = m$, ma trận kề $A$ đối xứng và không âm. Đỉnh trong $V$ được ký hiệu bằng các chữ cái $u, v, w$. Bậc của đỉnh $u$ là $d_u = \sum_{v \in V} A_{uv}$. Một phân hoạch của $V$ thành $K$ cụm được ký hiệu $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $V = \bigsqcup_k C_k$.
+
+% ============================================================
+\section{Phát biểu bài toán}
+\label{sec:problem}
+
+% ............................................................
+\subsection{Bài toán phát hiện cộng đồng}
+\label{subsec:general-problem}
+
+Cho một đồ thị vô hướng $G = (V, E)$ mô hình hoá một hệ thống quan hệ nào đó, bài toán phát hiện cộng đồng đặt ra yêu cầu rất tự nhiên: hãy chia tập đỉnh $V$ thành các nhóm sao cho mỗi nhóm tương ứng với một cộng đồng thực sự trong hệ thống đang xét, nghĩa là các đỉnh trong cùng một nhóm có liên kết chặt chẽ với nhau và liên kết ra ngoài nhóm thưa hơn. Hình~\ref{fig:partition-example} minh hoạ trực giác này trên một đồ thị $20$ đỉnh được chia thành bốn cụm, các cạnh nội cụm tập trung dày trong khi cạnh liên cụm chỉ chiếm tỷ lệ nhỏ.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\textwidth]{partition_example.pdf}
+    \caption[Ví dụ phân hoạch đồ thị $20$ đỉnh thành $4$ cụm.]{Ví dụ phân hoạch đồ thị $20$ đỉnh thành $4$ cụm. Cạnh liền nét là cạnh nội cụm, cạnh nét đứt là cạnh liên cụm.}
+    \label{fig:partition-example}
+\end{figure}
+
+Đặc điểm quan trọng nhất khiến bài toán này khó là khái niệm cộng đồng vốn không có một định nghĩa toán học duy nhất. Trong mạng xã hội, cộng đồng có thể là một nhóm bạn bè thân thiết; trong mạng sinh học, có thể là một phức hợp protein cùng chức năng; trong mạng trích dẫn, có thể là một chủ đề nghiên cứu. Mỗi ngữ cảnh ứng với một tiêu chí khác nhau về "thế nào là cộng đồng", và do đó không có một phân hoạch nào được công nhận là đúng tuyệt đối cho mọi đồ thị. Để có thể giải bài toán bằng thuật toán, người ta phải thao tác hoá khái niệm cộng đồng thông qua một hàm chất lượng
+\[
+    f: \mathcal{P}_K(V) \longrightarrow \mathbb{R},
+\]
+trong đó $\mathcal{P}_K(V)$ là tập tất cả các phân hoạch của $V$ thành đúng $K$ cụm không rỗng, và $f(\mathcal{C})$ đo mức độ "tốt" của một phân hoạch $\mathcal{C}$ theo một tiêu chí cụ thể. Bài toán phát hiện cộng đồng khi đó được quy về việc tìm phân hoạch tối ưu hoá $f$. Tuỳ cách chọn hàm $f$, bài toán có hai dạng. Khi $f$ đo mức độ tốt theo nghĩa cộng đồng, ta tìm cực đại $\mathcal{C}^* = \arg\max_{\mathcal{C}} f(\mathcal{C})$, mà đại diện điển hình là modularity. Khi $f$ đo chi phí cắt qua biên cụm, ta tìm cực tiểu $\mathcal{C}^* = \arg\min_{\mathcal{C}} f(\mathcal{C})$, mà đại diện điển hình là tổng conductance hoặc tổng normalized cut trên các cụm. Hai hàm chất lượng cụ thể này, cùng với tính chất của bài toán tối ưu tương ứng, sẽ được trình bày trong hai mục tiếp theo.
+
+Ngay cả khi đã cố định hàm $f$, bản chất tổ hợp của bài toán làm cho việc tìm cực trị toàn cục là rất tốn kém: lực lượng của $\mathcal{P}_K(V)$ tăng theo cấp số mũ với $n$ và được đếm bởi số Stirling loại hai $S(n, K)$, nên tối ưu trực tiếp bằng phương pháp duyệt là không khả thi với đồ thị quy mô lớn. Hơn nữa, hai dạng tối ưu sẽ xét cụ thể, cực đại modularity và cực tiểu normalized cut, đều thuộc lớp các bài toán NP-khó \cite{newman2006, shi2000}. Vì vậy, các thuật toán thực tế phải chấp nhận một trong hai con đường: hoặc dùng phương pháp xấp xỉ rời rạc dạng tham lam, hoặc nới lỏng bài toán tổ hợp thành một bài toán liên tục có cấu trúc đại số tuyến tính rồi giải bằng các công cụ phổ. Khoá luận đi theo hướng thứ hai.
+
+% ............................................................
+\subsection{Bài toán với modularity}
+\label{subsec:problem-modularity}
+
+\begin{definition}[Ma trận modularity]
+\label{def:modularity-matrix}
+Mô hình ngẫu nhiên cùng dãy bậc cho kỳ vọng cạnh giữa hai đỉnh $u$ và $v$ bằng $d_u d_v / (2m)$. Ma trận modularity được định nghĩa
+\[
+    B = A - \frac{d d^\top}{2m},
+\]
+trong đó $d \in \mathbb{R}^n$ là vector bậc của đồ thị.
+\end{definition}
+
+\begin{definition}[Modularity của phân hoạch \cite{newman2006}]
+\label{def:modularity}
+Cho phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $c_u$ ký hiệu cụm chứa đỉnh $u$. Modularity được định nghĩa
+\[
+    Q(\mathcal{C}) = \frac{1}{2m} \sum_{u, v} \!\left( A_{uv} - \frac{d_u d_v}{2m} \right)\! \delta(c_u, c_v).
+\]
+Đặt $S \in \{0,1\}^{n \times K}$ là ma trận chỉ thị cụm với $S_{uk} = 1 \iff u \in C_k$. Khi đó
+\[
+    Q = \frac{1}{2m} \mathrm{Tr}(S^\top B S).
+\]
+\end{definition}
+
+Ý nghĩa của $Q$ là chênh lệch giữa mật độ cạnh nội cụm thực tế và mật độ kỳ vọng. Giá trị $Q > 0$ nghĩa là phân hoạch tốt hơn ngẫu nhiên, $Q$ càng lớn càng phân hoạch tốt theo nghĩa cộng đồng.
+
+\clearpage
+
+\textbf{Bài toán tối ưu.} Bài toán phát hiện cộng đồng theo modularity được phát biểu như sau. Hàm mục tiêu là vết của ma trận $S^\top B S$, đại diện cho tổng modularity tích lũy trên các cụm:
+\begin{equation}
+\label{eq:modularity-objective}
+    \max_{S \in \mathbb{R}^{n \times K}} \; \mathrm{Tr}(S^\top B S).
+\end{equation}
+Ma trận $S$ chịu ba ràng buộc, mỗi ràng buộc thể hiện một tính chất bắt buộc của phân hoạch.
+
+Mỗi phần tử $S_{uk}$ là nhãn cho biết đỉnh $u$ có thuộc cụm $k$ hay không, do đó chỉ nhận giá trị nhị phân:
+\begin{equation}
+\label{eq:mod-binary}
+    S_{uk} \in \{0, 1\}, \qquad \forall\, u \in V,\ \forall\, k \in \{1, \ldots, K\}.
+\end{equation}
+
+Mỗi đỉnh thuộc đúng một cụm, tức là tổng các phần tử trên hàng tương ứng phải bằng $1$:
+\begin{equation}
+\label{eq:mod-row}
+    \sum_{k=1}^K S_{uk} = 1, \qquad \forall\, u \in V.
+\end{equation}
+
+Không cụm nào được rỗng, tức là tổng các phần tử trên cột tương ứng phải lớn hơn hoặc bằng $1$:
+\begin{equation}
+\label{eq:mod-col}
+    \sum_{u \in V} S_{uk} \geq 1, \qquad \forall\, k \in \{1, \ldots, K\}.
+\end{equation}
+
+Ba ràng buộc trên tương đương với điều kiện $\mathcal{C} \in \mathcal{P}_K(V)$.
+
+Bài toán \eqref{eq:modularity-objective} với các ràng buộc trên là NP-khó \cite{newman2006}. Phép nới lỏng phổ chuẩn thay các ràng buộc rời rạc bằng một ràng buộc trực giao đại số tuyến tính, biến bài toán tổ hợp thành bài toán liên tục giải được bằng phân tích trị riêng. Cơ sở của phép nới lỏng này là định lý Ky Fan, một tổng quát hóa của thương Rayleigh từ một vector lên $K$ vector trực giao.
+
+\begin{theorem}[Tổng quát hóa Ky Fan \cite{kyfan1949}]
+\label{thm:ky-fan}
+Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá trị riêng $\lambda_1(M) \leq \cdots \leq \lambda_n(M)$ và các vector riêng đơn vị tương ứng $v_1, \ldots, v_n$. Khi đó với mọi $k \leq n$:
+\[
+    \max_{X \in \mathbb{R}^{n \times k},\ X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_{n-i+1}(M),
+\]
+\[
+    \min_{X \in \mathbb{R}^{n \times k},\ X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_i(M).
+\]
+Nghiệm cực đại đạt tại $X^* = [v_n, v_{n-1}, \ldots, v_{n-k+1}]$ và nghiệm cực tiểu đạt tại $X^* = [v_1, v_2, \ldots, v_k]$.
+\end{theorem}
+
+Áp dụng định lý~\ref{thm:ky-fan} cho ma trận modularity $B$ với $k = K$, ta thay các ràng buộc rời rạc \eqref{eq:mod-binary}--\eqref{eq:mod-col} bằng ràng buộc trực giao $S^\top S = I_K$ và thu được bài toán liên tục
+\begin{equation}
+\label{eq:modularity-relaxed}
+    \max_{S \in \mathbb{R}^{n \times K},\ S^\top S = I_K} \mathrm{Tr}(S^\top B S).
+\end{equation}
+Nghiệm tối ưu là $S^* = [v_n, v_{n-1}, \ldots, v_{n-K+1}]$ gồm $K$ vector riêng của $B$ ứng với $K$ giá trị riêng lớn nhất, và giá trị tối ưu bằng tổng $K$ giá trị riêng lớn nhất đó. Bước rời rạc hóa từ $S^* \in \mathbb{R}^{n \times K}$ về một phân hoạch cụ thể được thực hiện bằng $k$-means trên các hàng của $S^*$, sẽ trình bày ở Mục~\ref{sec:spectral-clustering}.
+
+\begin{remark}[Resolution limit]
+\label{rem:resolution-limit}
+Modularity có một giới hạn nội tại liên quan đến kích thước cụm, được phát hiện và phân tích bởi Fortunato và Barthélemy năm 2007 \cite{fortunato2007}. Nguyên nhân nằm ở chính mô hình ngẫu nhiên null trong định nghĩa $B$: kỳ vọng cạnh $d_u d_v / (2m)$ được chuẩn hóa theo tổng cạnh toàn cục $m$, do đó một cụm có mật độ nội bộ tuyệt đối thấp vẫn bị xem là không khác biệt đáng kể với phần còn lại, ngay cả khi mật độ tương đối của nó cao hơn nhiều so với mặt bằng chung. Cụ thể, tồn tại một ngưỡng
+\[
+    \gamma(m) = \sqrt{\frac{m}{2}}
+\]
+sao cho mọi cụm có số cạnh nội bộ $\ell < \gamma(m)$ đều không được modularity đánh giá đúng là một cộng đồng tách rời, kể cả khi cấu trúc nội bộ của nó rất chặt. Hệ quả là khi cực đại hóa $Q$, các cụm nhỏ thỏa $\ell < \gamma(m)$ có xu hướng bị gộp vào cụm khác trong nghiệm tối ưu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{resolution_limit.pdf}
+    \caption[Resolution limit trên vòng $16$ tam giác $K_3$.]{Resolution limit trên vòng $16$ tam giác $K_3$. Phân hoạch tự nhiên (a) đúng với cấu trúc nhưng cho $Q$ thấp hơn phân hoạch gộp cặp (b).}
+    \label{fig:resolution-limit}
+\end{figure}
+
+Hình~\ref{fig:resolution-limit} minh họa hiện tượng này trên vòng $16$ tam giác $K_3$ nối với nhau bằng một cạnh giữa hai tam giác kề. Phân hoạch tự nhiên với mỗi tam giác là một cụm cho $Q = 0{,}6875$, trong khi phân hoạch gộp từng cặp tam giác kề nhau cho $Q = 0{,}7500$. Modularity ưu tiên cấu hình gộp dù cấu hình này rõ ràng kém hơn về mặt cấu trúc cộng đồng. Với $m = 64$ ta có $\gamma(m) \approx 5{,}66$, mỗi tam giác chỉ có $\ell = 3 < \gamma(m)$, đúng theo dự đoán của ngưỡng phân giải.
+\end{remark}
+
+% ............................................................
+\subsection{Bài toán với conductance}
+\label{subsec:problem-conductance}
+
+Chia tập đỉnh $V$ thành hai phần $V = S \cup \bar{S}$, trong đó $\emptyset \neq S \subsetneq V$ và $\bar{S} = V \setminus S$.
+
+\begin{definition}[Cut và volume]
+\label{def:cut-volume}
+Cho $S \subset V$. Cut của $(S, \bar{S})$ là tổng trọng số các cạnh có một đầu trong $S$ và đầu kia trong $\bar{S}$:
+\[
+    \mathrm{cut}(S, \bar{S}) = \sum_{u \in S,\, v \in \bar{S}} A_{uv}.
+\]
+Volume của $S$ là tổng bậc các đỉnh trong $S$:
+\[
+    \mathrm{vol}(S) = \sum_{u \in S} d_u.
+\]
+\end{definition}
+
+Chất lượng của nhát cắt $(S, \bar{S})$ được phản ánh trực tiếp bởi giá trị $\mathrm{cut}(S, \bar{S})$: giá trị càng nhỏ thì $S$ và $\bar{S}$ càng ít nối với nhau. Tuy nhiên dùng $\mathrm{cut}(S, \bar{S})$ làm tiêu chí có một nhược điểm cố hữu: các nhát cắt suy biến như $|S| = 1$ thường có giá trị $\mathrm{cut}$ rất nhỏ, tạo ra phân hoạch mất cân bằng. Để khắc phục, ta chuẩn hóa $\mathrm{cut}$ theo volume của mỗi phía, dẫn đến đại lượng conductance.
+
+\begin{definition}[Conductance \cite{chung1997}]
+\label{def:conductance}
+Conductance của tập $S$ là
+\[
+    \phi(S) = \frac{\mathrm{cut}(S, \bar{S})}{\min(\mathrm{vol}(S), \mathrm{vol}(\bar{S}))}.
+\]
+Conductance tối thiểu của đồ thị là $\phi^* = \min_{\emptyset \neq S \subsetneq V} \phi(S)$.
+\end{definition}
+
+Mẫu số $\min(\mathrm{vol}(S), \mathrm{vol}(\bar{S}))$ ngăn các nhát cắt mất cân bằng đạt giá trị tối ưu một cách giả tạo. Bài toán cực tiểu hóa $\phi$ trên tất cả các nhát cắt là NP-khó, do đó cần một cách diễn giải khác để có thể tiếp cận bằng công cụ giải tích.
+
+Quan sát then chốt là một nhát cắt $(S, \bar S)$ có thể biểu diễn bằng một hàm số gán giá trị cho từng đỉnh. Cụ thể, đặt $f: V \to \mathbb{R}$ là hàm chỉ thị của $S$,
+\[
+    f(u) = \begin{cases} 1 & \text{nếu } u \in S, \\ 0 & \text{nếu } u \in \bar{S}. \end{cases}
+\]
+Khi đó hai đại lượng cấu thành conductance đều biểu diễn được qua $f$. Số cạnh bị cắt bằng tổng bình phương sai phân của $f$ qua các cạnh:
+\[
+    \mathrm{cut}(S, \bar{S}) = \sum_{(u,v) \in E} \bigl( f(u) - f(v) \bigr)^2,
+\]
+vì $f(u) - f(v)$ bằng $\pm 1$ trên cạnh bị cắt và bằng $0$ trên cạnh không bị cắt. Tổng bình phương trên có thể hiểu là độ biến thiên của $f$ qua cấu trúc cạnh của đồ thị: $f$ thay đổi càng nhiều qua cạnh thì tổng càng lớn. Tương tự, volume của $S$ bằng tổng có trọng số bậc của các giá trị $f^2$:
+\[
+    \mathrm{vol}(S) = \sum_{u \in V} f(u)^2 \, d_u.
+\]
+
+Ý tưởng then chốt là tổng quát hóa: cho $f$ là hàm thực bất kỳ trên $V$, không nhất thiết nhị phân. Khi đó tỷ số
+\[
+    \mathcal{R}(f) = \frac{\sum_{(u,v) \in E} \bigl( f(u) - f(v) \bigr)^2}{\sum_{u \in V} f(u)^2 \, d_u}
+\]
+đo độ biến thiên của $f$ qua cạnh, chuẩn hóa theo độ lớn có trọng số của $f$. Khi $f$ là chỉ thị của $S$, ta có $\mathcal{R}(f) = \mathrm{cut}(S, \bar{S}) / \mathrm{vol}(S)$, gần với conductance về hình thức. Khi $f$ là hàm thực tổng quát, $\mathcal{R}(f)$ trở thành một bài toán liên tục có thể tối ưu bằng giải tích, đây chính là phép nới lỏng phổ của bài toán nhát cắt rời rạc. Tỷ số $\mathcal{R}(f)$ là dạng biến phân của thương Rayleigh trên đồ thị, được Chung phát biểu thành định nghĩa cơ bản trong lý thuyết phổ đồ thị \cite{chung1997}.
+
+\begin{definition}[Thương Rayleigh trên đồ thị]
+\label{def:rayleigh-graph}
+Cho đồ thị có ma trận kề $A$, ma trận bậc $D$ và Laplacian không chuẩn hóa $L = D - A$. Với hàm $f: V \to \mathbb{R}$, $f \not\equiv 0$, thương Rayleigh của $f$ là
+\[
+    \mathcal{R}(f) = \frac{f^\top L f}{f^\top D f}
+                  = \frac{\sum_{(u,v) \in E} \bigl( f(u) - f(v) \bigr)^2}{\sum_{u \in V} f(u)^2 \, d_u}.
+\]
+\end{definition}
+
+Đẳng thức $f^\top L f = \sum_{(u,v) \in E} (f(u) - f(v))^2$ là đồng nhất thức cơ bản của Laplacian, nối dạng đại số ma trận với dạng biến phân trên đồ thị.
+
+Đặt $g = D^{1/2} f$ và $\mathcal{L} = I - D^{-1/2} A D^{-1/2}$ là Laplacian chuẩn hóa, mẫu số trở thành $\|g\|^2$ và tử số trở thành $g^\top \mathcal{L} g$, do đó $\mathcal{R}(f) = R(\mathcal{L}, g)$ trong đó
+\[
+    R(M, x) = \frac{x^\top M x}{x^\top x}
+\]
+là thương Rayleigh đại số trên ma trận đối xứng $M$ tổng quát.
+
+Nhờ đồng nhất thức trên, mọi câu hỏi về cực trị của $\mathcal{R}(f)$ đều quy về câu hỏi về phổ của $\mathcal{L}$. Quan sát rằng hàm hằng $f \equiv c$ cho $\mathcal{R}(f) = 0$ vì không có biến thiên qua cạnh nào, ứng với giá trị riêng nhỏ nhất $\lambda_1 = 0$ của $\mathcal{L}$. Khi loại bỏ thành phần hằng, cực tiểu của $\mathcal{R}(f)$ cho ta giá trị riêng nhỏ thứ hai. Kết quả tổng quát hơn cho mọi giá trị riêng được phát biểu qua định lý Courant--Fischer.
+
+\begin{theorem}[Tính chất biến phân Courant--Fischer]
+\label{thm:courant-fischer}
+Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá trị riêng $\lambda_1(M) \leq \cdots \leq \lambda_n(M)$ và các vector riêng đơn vị tương ứng $v_1, \ldots, v_n$. Khi đó với mọi $k \in \{1, \ldots, n\}$:
+\[
+    \lambda_k(M) = \min_{\substack{U \subset \mathbb{R}^n \\ \dim U = k}} \max_{x \in U \setminus \{0\}} R(M, x)
+                 = \max_{x \perp v_1, \ldots, v_{k-1}} R(M, x).
+\]
+Đặc biệt, $\lambda_1(M) = \min_{x \neq 0} R(M, x)$ và $\lambda_n(M) = \max_{x \neq 0} R(M, x)$.
+\end{theorem}
+
+Áp dụng định lý~\ref{thm:courant-fischer} cho Laplacian chuẩn hóa $\mathcal{L}$ và phép biến đổi $g = D^{1/2} f$ ở trên, ta có
+\[
+    \lambda_2(\mathcal{L}) = \min_{f \perp_D \mathbf{1}} \mathcal{R}(f),
+\]
+trong đó $f \perp_D \mathbf{1}$ nghĩa là $\sum_u f(u) d_u = 0$. Đây là đáy của tỷ số biến thiên qua cạnh trên kích thước có trọng số khi đã loại bỏ thành phần hằng. Vì conductance được biểu diễn xấp xỉ qua $\mathcal{R}$ với hàm chỉ thị có trọng, $\lambda_2$ và $\phi^*$ phải có liên hệ định lượng với nhau. Liên hệ đó là nội dung của bất đẳng thức Cheeger.
+
+\begin{theorem}[Bất đẳng thức Cheeger \cite{chung1997}]
+\label{thm:cheeger}
+Cho đồ thị vô hướng có trọng số không âm với ma trận kề $A$ và ma trận bậc $D = \mathrm{diag}(d_1, \ldots, d_n)$. Đặt
+\[
+    \mathcal{L} = I - D^{-1/2} A D^{-1/2}
+\]
+là Laplacian chuẩn hóa của đồ thị. Khi đó $\mathcal{L}$ đối xứng nửa xác định dương với các giá trị riêng
+\[
+    0 = \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n \leq 2,
+\]
+và conductance tối thiểu $\phi^*$ thỏa mãn cận hai phía
+\[
+    \frac{\lambda_2}{2} \;\leq\; \phi^* \;\leq\; \sqrt{2 \lambda_2}.
+\]
+\end{theorem}
+
+Bất đẳng thức Cheeger kẹp $\phi^*$ giữa hai biểu thức của giá trị riêng $\lambda_2$, đại lượng còn được gọi là khoảng cách phổ của đồ thị. Cận dưới $\lambda_2 / 2 \leq \phi^*$ cho thấy không nhát cắt nào có conductance bé hơn $\lambda_2 / 2$, do đó $\lambda_2$ nhỏ là điều kiện cần để đồ thị có cộng đồng tách rõ. Cận trên $\phi^* \leq \sqrt{2 \lambda_2}$ là phần mang tính xây dựng: từ vector riêng ứng với $\lambda_2$, một thuật toán sweep cho phép tìm một nhát cắt cụ thể có conductance không vượt quá $\sqrt{2 \lambda_2}$. Hai cận này đảm bảo rằng cực tiểu hóa $\lambda_2$ trên các đồ thị có trọng số là một xấp xỉ chặt của bài toán cực tiểu hóa $\phi$.
+
+Một điểm đáng lưu ý: bất đẳng thức Cheeger được phát biểu cho mọi đồ thị có trọng số không âm và đối xứng, không yêu cầu thêm điều kiện về cấu trúc. Tính tổng quát này sẽ đóng vai trò then chốt khi xét các biến thể đồ thị có trọng số ở Chương~\ref{chap:thuat-toan}.
+
+\begin{definition}[Normalized Cut, Shi--Malik 2000 \cite{shi2000}]
+\label{def:ncut}
+Với phân hoạch hai cụm $\{S, \bar{S}\}$:
+\[
+    \mathrm{NCut}(S, \bar{S}) = \frac{\mathrm{cut}(S, \bar{S})}{\mathrm{vol}(S)} + \frac{\mathrm{cut}(S, \bar{S})}{\mathrm{vol}(\bar{S})}.
+\]
+Tổng quát hóa cho phân hoạch $K$ cụm:
+\[
+    \mathrm{NCut}(\mathcal{C}) = \sum_{k=1}^K \frac{\mathrm{cut}(C_k, \bar{C_k})}{\mathrm{vol}(C_k)}.
+\]
+\end{definition}
+
+NCut là một dạng chuẩn hóa theo volume nên không bị thiên lệch về cụm rất nhỏ. Liên hệ với conductance: $\mathrm{NCut}(S, \bar{S}) \approx 2 \phi(S)$ khi hai cụm có volume xấp xỉ nhau.
+
+\textbf{Bài toán tối ưu.} Bài toán phát hiện cộng đồng theo conductance hoặc theo normalized cut là
+\[
+    \mathcal{C}^*_{\mathrm{NCut}} = \arg\min_{\mathcal{C} \in \mathcal{P}_K(V)} \mathrm{NCut}(\mathcal{C}).
+\]
+Bài toán này là NP-khó \cite{shi2000}. Phép nới lỏng phổ tương ứng dẫn đến vector riêng nhỏ nhất của normalized Laplacian, được trình bày ở Mục~\ref{sec:spectral-clustering}.
+
+% ============================================================
+\section{Đồ thị Higher Order}
+\label{sec:higher-order}
+
+Mục~\ref{sec:problem} đã trình bày bài toán phát hiện cộng đồng dưới góc nhìn cạnh: chất lượng phân hoạch được đo qua $\mathrm{cut}$, $\phi$, $Q$, đều là các đại lượng dựa trên cấu trúc cạnh đơn lẻ. Tuy nhiên trong nhiều mạng thực, đặc biệt là mạng xã hội, cấu trúc bậc cao mang theo tín hiệu cộng đồng mạnh hơn cả cạnh đơn lẻ. Mục này hình thức hóa khái niệm đó thông qua \emph{motif} và \emph{đồ thị Higher Order}, đồng thời chứng tỏ rằng tam giác $K_3$ là motif then chốt cho lớp đồ thị xã hội thực tế thông qua hệ số phân cụm.
+
+% ............................................................
+\subsection{Motif}
+\label{subsec:motif}
+
+\begin{definition}[Motif và motif instance]
+\label{def:motif}
+Motif $M$ là một đồ thị con nhỏ, cố định, được dùng làm đơn vị cấu trúc để phân tích đồ thị lớn. Một instance của $M$ trong $G = (V, E)$ là một đồ thị con của $G$ đẳng cấu với $M$.
+\end{definition}
+
+Việc chọn motif cụ thể nào phụ thuộc vào loại đồ thị đang xét, vì mỗi lớp đồ thị có cấu trúc bậc cao đặc trưng riêng. Phần bàn luận chi tiết về cách chọn motif sẽ được trình bày ở Mục~\ref{subsec:cc} sau khi giới thiệu hệ số phân cụm.
+
+% ............................................................
+\subsection{Hệ số phân cụm và vai trò của tam giác trong mạng xã hội}
+\label{subsec:cc}
+
+Để chứng tỏ một motif cụ thể mang ý nghĩa cộng đồng thực sự trong một lớp đồ thị nào đó, ta cần một đại lượng đo mật độ motif trên đồ thị, độc lập với phân hoạch cụ thể. Với motif là tam giác, đại lượng đó là hệ số phân cụm.
+
+\begin{definition}[Hệ số phân cụm cục bộ]
+\label{def:local-cc}
+Hệ số phân cụm cục bộ của đỉnh $u$ là
+\[
+    cc(u) = \frac{2 \, T_u}{d_u (d_u - 1)},
+\]
+với $T_u$ là số tam giác chứa $u$ trong $G$. Quy ước $cc(u) := 0$ nếu $d_u \leq 1$.
+\end{definition}
+
+Ý tưởng: trong số $\binom{d_u}{2}$ cặp hàng xóm của $u$, có bao nhiêu cặp thực sự nối với nhau bằng một cạnh. Giá trị $cc(u)$ luôn nằm trong $[0, 1]$, và $cc(u) = 1$ khi tất cả hàng xóm của $u$ đôi một liên kết, tức $u$ cùng các hàng xóm tạo thành một clique. Trong đồ thị ngẫu nhiên Erdős--Rényi $G(n, p)$, hai đỉnh kề nhau bất kỳ độc lập với mọi cặp khác, nên kỳ vọng $cc(u) = p$, một giá trị nhỏ khi đồ thị thưa. Trái lại, các phép đo trên mạng xã hội thực tế cho thấy $cc(u)$ trung bình thường lớn hơn nhiều so với mật độ cạnh trung bình, một dấu hiệu trực tiếp của hiện tượng triadic closure.
+
+Đối với một phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$, hai đại lượng tổng hợp được dùng để đánh giá mức độ đóng kín tam giác trên các cụm.
+
+\begin{definition}[Hệ số phân cụm trên phân hoạch]
+\label{def:cc-cluster}
+Cho cụm $C_j$ trong phân hoạch $\mathcal{C}$, đặt
+\[
+    \mathrm{CC}(C_j) = \frac{1}{|C_j|} \sum_{u \in C_j} cc(u).
+\]
+Hai dạng tổng hợp trên toàn phân hoạch:
+\begin{align*}
+    \overline{\mathrm{CC}}(\mathcal{C})
+        &= \frac{1}{K} \sum_{j=1}^K \mathrm{CC}(C_j), \\[4pt]
+    \overline{\mathrm{CC}}_w(\mathcal{C})
+        &= \frac{\sum_{j=1}^K |C_j| \, \mathrm{CC}(C_j)}{\sum_{j=1}^K |C_j|}
+         = \frac{1}{n} \sum_{u \in V} cc(u).
+\end{align*}
+\end{definition}
+
+Đại lượng $\overline{\mathrm{CC}}(\mathcal{C})$ là trung bình cộng các $\mathrm{CC}(C_j)$ trên các cụm với trọng số đều, còn $\overline{\mathrm{CC}}_w(\mathcal{C})$ là trung bình có trọng số tỷ lệ với kích thước cụm.
+
+\textbf{Vì sao cần $\overline{\mathrm{CC}}_w$.} Đại lượng $\overline{\mathrm{CC}}(\mathcal{C})$ chỉ đo mật độ tam giác bên trong từng cụm và bỏ qua hoàn toàn kích thước của cụm. Hệ quả lý thuyết là một cụm chỉ gồm ba đỉnh nối thành tam giác $K_3$ luôn cho $\mathrm{CC}(C) = 1$, và đóng góp của cụm này vào $\overline{\mathrm{CC}}$ ngang bằng đóng góp của một cụm hàng trăm hay hàng nghìn đỉnh. Nói rộng hơn, mọi cụm bất kỳ đều đóng góp đồng đều một lượng $\tfrac{1}{K}$ vào $\overline{\mathrm{CC}}$, không phân biệt cụm đó chứa ba đỉnh hay phần lớn đồ thị. Một phân hoạch sinh ra nhiều cụm rất nhỏ với hệ số phân cụm cao do đó có thể đạt $\overline{\mathrm{CC}}$ rất gần $1$ mặc dù về mặt cấu trúc cộng đồng, các cụm cỡ ba đỉnh thường không có ý nghĩa.
+
+Đại lượng $\overline{\mathrm{CC}}_w(\mathcal{C})$ được thiết kế để khắc phục điểm yếu này bằng cách thay trọng số đều bằng trọng số tỉ lệ với $|C_j|$. Mỗi cụm khi đó đóng góp vào trung bình theo đúng số đỉnh nó chứa, nên cụm $K_3$ chỉ đóng góp ba đỉnh trên tổng $n$, không thể kéo trung bình lên cao chỉ vì có $\mathrm{CC} = 1$. Công thức rút gọn $\overline{\mathrm{CC}}_w(\mathcal{C}) = \frac{1}{n} \sum_{u \in V} cc(u)$ cho thấy đại lượng này thực chất là trung bình hệ số phân cụm cục bộ trên toàn bộ đỉnh, không phụ thuộc cách phân hoạch chia cụm. Vì lý do đó, $\overline{\mathrm{CC}}_w$ được dùng làm đại lượng đánh giá chính trong khoá luận; $\overline{\mathrm{CC}}$ được tính kèm để phát hiện hiện tượng phân hoạch tạo ra cụm rất nhỏ làm thiên lệch chỉ số.
+
+\textbf{Bằng chứng thống kê cho vai trò của tam giác.} Việc chọn tam giác $K_3$ làm motif không phải lựa chọn tùy ý mà được công nhận rộng rãi trong tài liệu phân tích mạng nhờ bằng chứng thống kê trên nhiều lớp mạng thực tế khác nhau. Watts và Strogatz \cite{watts1998} là những người đầu tiên chỉ ra rằng nhiều mạng thực, từ mạng diễn viên đồng diễn, mạng kết nối synapse trong hệ thần kinh của giun \emph{C. elegans} đến mạng lưới điện, có hệ số phân cụm trung bình lớn hơn rất nhiều so với mô hình ngẫu nhiên có cùng số đỉnh và cạnh. Kết quả này được Newman tổng hợp lại trong khảo sát \cite{newman2003structure} cho nhiều lớp mạng thực: mạng cộng tác khoa học, mạng email, mạng web, mạng xã hội. Hệ số phân cụm trung bình trên các mạng này nằm trong khoảng $0{,}1$--$0{,}8$, trong khi mật độ cạnh thường chỉ ở mức $10^{-3}$ trở xuống, lớn hơn dự đoán ngẫu nhiên từ một đến nhiều bậc.
+
+Nếu các cạnh được sinh độc lập với nhau như trong mô hình Erdős--Rényi, kỳ vọng của $cc(u)$ chính bằng mật độ cạnh, do đó khoảng cách giữa hai con số trên không thể giải thích bằng hiệu ứng ngẫu nhiên. Cơ chế tạo nên khoảng cách này là triadic closure, một quy luật xã hội đã được nghiên cứu từ sớm bởi Granovetter \cite{granovetter1973} và Holland--Leinhardt \cite{holland1971}: hai đỉnh chia sẻ hàng xóm có xu hướng kết nối với nhau cao hơn nhiều so với cặp đỉnh ngẫu nhiên. Mật độ tam giác cao hơn dự đoán ngẫu nhiên do đó là tín hiệu cộng đồng đáng tin cậy chứ không phải artefact thống kê.
+
+
+% ............................................................
+\subsection{Đồ thị Higher Order}
+\label{subsec:higher-order-graph}
+
+Ý tưởng đưa cấu trúc bậc cao vào bài toán phân cụm được hình thức hóa qua việc xây dựng một đồ thị mới trên cùng tập đỉnh của $G$, trong đó trọng số cạnh giữa hai đỉnh phản ánh số motif chứa cả hai. Đồ thị mới này được gọi là đồ thị Higher Order.
+
+\begin{definition}[Ma trận motif và đồ thị Higher Order]
+\label{def:motif-matrix}
+Cho đồ thị $G = (V, E)$ và motif $M$. Ma trận motif của $G$ ứng với $M$ là $W^{(M)} \in \mathbb{R}^{n \times n}$ với
+\[
+    W^{(M)}_{uv} = \bigl| \{\, \text{instance của } M \text{ chứa cả } u \text{ và } v \,\} \bigr|.
+\]
+Đồ thị Higher Order $G_M = (V, W^{(M)})$ là đồ thị có trọng số trên cùng tập đỉnh $V$, với ma trận trọng số $W^{(M)}$.
+\end{definition}
+
+Phép xây dựng nói trên có một diễn giải tự nhiên trên mạng xã hội: hai người cùng tham gia một tam giác bạn bè được kết nối qua hai con đường, một cạnh trực tiếp và một con đường gián tiếp qua người thứ ba. Mỗi tam giác mà cả hai cùng thuộc về làm tăng cường mức độ gần gũi của họ. Đồ thị Higher Order $G_M$ định lượng mức độ gần gũi đó bằng cách đặt trọng số cạnh giữa hai đỉnh đúng bằng số motif chứa cả hai.
+
+Hình~\ref{fig:higher-order-construction} minh họa phép xây dựng này trên một đồ thị mẫu nhỏ.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{higher_order_construction.pdf}
+    \caption[Xây dựng đồ thị Higher Order $G_M$ từ đồ thị gốc $G$ với $M = K_3$.]{Xây dựng đồ thị Higher Order $G_M$ từ đồ thị gốc $G$ với $M = K_3$. Ở (b), trọng số mỗi cạnh bằng số tam giác chứa cả hai đỉnh, các cạnh không thuộc tam giác nào trong $G$ bị loại bỏ, các đỉnh không thuộc tam giác nào trở thành cô lập (vẽ với viền đứt nét).}
+    \label{fig:higher-order-construction}
+\end{figure}
+
+\begin{proposition}
+\label{prop:gm-valid-weighted-graph}
+Ma trận $W^{(M)}$ đối xứng và không âm. Do đó $G_M$ là đồ thị có trọng số vô hướng hợp lệ, và mọi kết quả phổ phát biểu cho lớp đồ thị này, bao gồm bất đẳng thức Cheeger và các phép nới lỏng phổ của NCut hay modularity, áp dụng được cho $G_M$.
+\end{proposition}
+
+Tương tự đồ thị gốc, ta định nghĩa motif degree $d_u^{(M)} = \sum_{v \in V} W^{(M)}_{uv}$ và motif volume $\mathrm{vol}_M(S) = \sum_{u \in S} d_u^{(M)}$. Đại lượng cắt theo motif là
+\[
+    \mathrm{cut}_M(S, \bar{S}) = \bigl| \{\, \text{motif instance có ít nhất một đỉnh ở mỗi bên} \,\} \bigr|,
+\]
+và conductance motif tương ứng là
+\[
+    \phi_M(S) = \frac{\mathrm{cut}_M(S, \bar{S})}{\min(\mathrm{vol}_M(S), \mathrm{vol}_M(\bar{S}))}.
+\]
+
+\begin{theorem}[Higher-order Cheeger inequality \cite{benson2016}]
+\label{thm:higher-cheeger}
+Phân cụm phổ trên $W^{(M)}$ thu được nhát cắt có $\phi_M$ gần tối ưu, với cùng dạng cận như bất đẳng thức Cheeger cổ điển. Tính chất này là hệ quả trực tiếp của Mệnh đề~\ref{prop:gm-valid-weighted-graph} và bất đẳng thức Cheeger áp dụng cho $G_M$.
+\end{theorem}
+
+\begin{remark}[Hai hạn chế của $G_M$ thuần]
+\label{rem:gm-limit}
+\leavevmode
+\begin{enumerate}[topsep=4pt, itemsep=4pt, parsep=0pt]
+    \item $G_M$ có thể không liên thông: đỉnh không thuộc bất kỳ instance nào của $M$ sẽ bị cô lập trong $G_M$, dù trong $G$ gốc có thể có nhiều cạnh kề.
+    \item $G_M$ mất thông tin cạnh gốc: cạnh không thuộc instance nào của $M$ bị xóa hoàn toàn trong $G_M$, dù có thể mang thông tin cộng đồng quan trọng.
+\end{enumerate}
+\end{remark}
+
+Hai hạn chế trên có thể quan sát trực tiếp trên Hình~\ref{fig:higher-order-construction}. Chúng là động lực trực tiếp cho cách tiếp cận đề xuất ở Chương~\ref{chap:thuat-toan}.
+
+\textbf{Cố định motif $M = K_3$ cho phần còn lại của khóa luận.} Định nghĩa~\ref{def:motif-matrix} cho phép $M$ là một motif tùy ý, mở ra nhiều cấu trúc bậc cao khác nhau. Trên cơ sở bằng chứng thống kê đã trình bày ở Mục~\ref{subsec:cc}, cộng với các ưu điểm thuật toán, khóa luận cố định motif là tam giác trong toàn bộ phần còn lại với ba lý do:
+\leavevmode
+\begin{enumerate}[topsep=4pt, itemsep=4pt, parsep=0pt]
+    \item Tam giác xuất hiện trong mạng xã hội thực tế với mật độ vượt xa kỳ vọng ngẫu nhiên, được giải thích bởi triadic closure, do đó mang tín hiệu cộng đồng có ý nghĩa.
+    \item Số tam giác chứa từng đỉnh hoặc từng cạnh trong đồ thị thưa có thể đếm hiệu quả với độ phức tạp $O(m^{3/2})$, không trở thành bottleneck cho thuật toán quy mô lớn.
+    \item Tam giác đối xứng tự nhiên trên ba đỉnh, không yêu cầu xử lý hướng cạnh hay vai trò không đối xứng giữa các đỉnh, làm cho ma trận motif $W^{(M)}$ đơn giản nhất có thể trong lớp các motif kích thước lớn hơn hai.
+\end{enumerate}
+Việc khảo sát các motif khác như $K_4$ hay bi-fan là một hướng mở rộng tự nhiên, nhưng nằm ngoài phạm vi của khóa luận này.
+
+% ============================================================
+\section{Thuật toán phân cụm phổ}
+\label{sec:spectral-clustering}
+
+Trên các lớp đồ thị đã được định nghĩa, gồm đồ thị gốc $G$ và đồ thị Higher Order $G_M$, phân cụm phổ là một trong những thuật toán ứng dụng tốt nhất phép tọa độ hóa qua phổ của Laplacian, và đã được chứng minh là cách hiệu quả để tối ưu normalized cut trên đồ thị có trọng số không âm \cite{shi2000}.
+
+% ............................................................
+\subsection{Tọa độ hóa các đỉnh bằng phổ của toán tử Laplace}
+\label{subsec:spectral-embedding}
+
+Cho ma trận trọng số $W$ đối xứng không âm trên $V$, ma trận bậc $D = \mathrm{diag}(W \mathbf{1})$ và Laplacian chuẩn hóa $\mathcal{L} = I - D^{-1/2} W D^{-1/2}$. Theo Định lý~\ref{thm:cheeger}, $\mathcal{L}$ đối xứng nửa xác định dương với phổ $0 = \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n \leq 2$ và hệ vector riêng đơn vị $u_1, \ldots, u_n$ trực giao đôi một.
+
+\begin{definition}[Tọa độ phổ của đỉnh \cite{belkin2003}]
+\label{def:spectral-embedding}
+Đặt $U = [u_1, u_2, \ldots, u_K] \in \mathbb{R}^{n \times K}$ là ma trận có cột là $K$ vector riêng đầu của $\mathcal{L}$. Tọa độ phổ $K$ chiều của đỉnh là ánh xạ $\psi: V \to \mathbb{R}^K$ gán cho mỗi đỉnh $u$ hàng thứ $u$ của $U$:
+\[
+    \psi(u) = \bigl( u_1(u), u_2(u), \ldots, u_K(u) \bigr).
+\]
+\end{definition}
+
+Trực giác cho phép tọa độ hóa này được Chung \cite{chung1997} trình bày qua trường hợp $K = 2$. Vector riêng $u_2$ ứng với giá trị riêng nhỏ thứ hai của $\mathcal{L}$ chia tập đỉnh thành hai nhóm theo dấu của tọa độ: đỉnh có $u_2(u) > 0$ thuộc một cộng đồng, đỉnh có $u_2(u) < 0$ thuộc cộng đồng còn lại. Quan sát then chốt là các đỉnh trong cùng một cộng đồng có xu hướng nhận giá trị tương tự nhau trên $u_2$, vì $u_2$ tối thiểu hóa tổng bình phương sai phân qua các cạnh: hai đỉnh nối với nhau bằng một cạnh thường có giá trị $u_2$ gần nhau. Cộng đồng được hiểu là tập đỉnh nối nhau dày đặc, do đó các đỉnh bên trong một cộng đồng bị ràng buộc nhận giá trị $u_2$ gần nhau, còn hai cộng đồng khác nhau ngăn cách bởi ít cạnh hơn nên có thể nhận giá trị $u_2$ lệch dấu.
+
+Trường hợp $K$ cộng đồng được Shi và Malik \cite{shi2000} tổng quát hóa trực tiếp: thay vì một tọa độ duy nhất, mỗi đỉnh được mô tả bằng $K$ tọa độ ứng với $K$ vector riêng đầu. Hai đỉnh cùng cộng đồng có $K$ tọa độ tương tự nhau, do đó $\psi(u)$ và $\psi(v)$ gần nhau theo khoảng cách Euclidean. Hai đỉnh khác cộng đồng được phân biệt bởi ít nhất một trong $K$ vector riêng, nên $\psi(u)$ và $\psi(v)$ cách xa nhau. Bài toán tìm kiếm cộng đồng trong $G$ do đó trở thành bài toán phân cụm trong không gian Euclidean $\mathbb{R}^K$.
+
+% ............................................................
+\subsection{Thuật toán $K$-means}
+\label{subsec:kmeans}
+
+Thuật toán $K$-means được trình bày tổng quát cho tập $n$ điểm trong $\mathbb{R}^d$ với số chiều $d$ tùy ý. Thuật toán cực tiểu hóa tổng bình phương khoảng cách từ mỗi điểm đến tâm cụm chứa nó qua hai bước lặp xen kẽ: gán điểm về tâm gần nhất và cập nhật tâm thành trung bình của cụm.
+
+\begin{algorithm}[H]
+\caption{Thuật toán $K$-means}
+\label{alg:kmeans}
+\KwIn{Tập điểm $X = \{x_1, \ldots, x_n\} \subset \mathbb{R}^d$; số cụm $K$.}
+\KwOut{Phân hoạch $\{C_1, \ldots, C_K\}$ và tâm $\{\mu_1, \ldots, \mu_K\}$.}
+Khởi tạo $K$ tâm $\mu_1, \ldots, \mu_K$ là $K$ điểm ngẫu nhiên trong không gian\;
+\Repeat{phân hoạch không thay đổi}{
+    \textbf{Bước gán:} với mỗi $x_i$, đặt $C_{k}$ là cụm có tâm gần nhất, $k = \arg\min_j \|x_i - \mu_j\|$\;
+    \textbf{Bước cập nhật:} đặt $\mu_k \gets \frac{1}{|C_k|} \sum_{x \in C_k} x$ với mỗi $k$\;
+}
+\end{algorithm}
+
+Đặt hàm mục tiêu
+\[
+    J\bigl(\{C_k\}, \{\mu_k\}\bigr) = \sum_{k=1}^K \sum_{x \in C_k} \|x - \mu_k\|^2.
+\]
+
+\iffalse
+\begin{theorem}[Tính hội tụ của thuật toán $K$-means]
+\label{thm:kmeans-convergence}
+Dãy giá trị $J$ sinh bởi Thuật toán~\ref{alg:kmeans} đơn điệu không tăng và dừng sau hữu hạn bước tại một cực tiểu địa phương của $J$.
+\end{theorem}
+
+\begin{proof}
+Ký hiệu $\bigl(\{C_k^{(t)}\}, \{\mu_k^{(t)}\}\bigr)$ là trạng thái sau vòng lặp thứ $t$, với quy ước $\{\mu_k^{(0)}\}$ là tập tâm khởi tạo. Mỗi vòng lặp $t \to t+1$ gồm hai bước: bước gán sinh phân hoạch mới $\{C_k^{(t+1)}\}$ từ tâm $\{\mu_k^{(t)}\}$, sau đó bước cập nhật sinh tâm mới $\{\mu_k^{(t+1)}\}$ từ phân hoạch $\{C_k^{(t+1)}\}$. Ta chứng minh
+\[
+    J\bigl(\{C_k^{(t+1)}\}, \{\mu_k^{(t+1)}\}\bigr) \;\leq\; J\bigl(\{C_k^{(t+1)}\}, \{\mu_k^{(t)}\}\bigr) \;\leq\; J\bigl(\{C_k^{(t)}\}, \{\mu_k^{(t)}\}\bigr).
+\]
+
+\emph{Bất đẳng thức thứ hai (bước gán).} Với mỗi $x \in X$, ký hiệu $c^{(t)}(x) \in \{1, \ldots, K\}$ là chỉ số cụm chứa $x$ ở vòng lặp $t$. Bằng cách hoán đổi thứ tự lấy tổng, hàm mục tiêu viết lại dưới dạng tổng theo điểm:
+\[
+    J\bigl(\{C_k^{(t)}\}, \{\mu_k^{(t)}\}\bigr) \;=\; \sum_{k=1}^K \sum_{x \in C_k^{(t)}} \|x - \mu_k^{(t)}\|^2 \;=\; \sum_{x \in X} \|x - \mu_{c^{(t)}(x)}^{(t)}\|^2,
+\]
+và tương tự cho trạng thái $(t+1)$ với tâm vẫn là $\{\mu_k^{(t)}\}$:
+\[
+    J\bigl(\{C_k^{(t+1)}\}, \{\mu_k^{(t)}\}\bigr) \;=\; \sum_{x \in X} \|x - \mu_{c^{(t+1)}(x)}^{(t)}\|^2.
+\]
+Theo định nghĩa của bước gán,
+\[
+    c^{(t+1)}(x) \;=\; \arg\min_{k \in \{1, \ldots, K\}} \|x - \mu_k^{(t)}\|^2,
+\]
+nên với mọi $x \in X$, $\|x - \mu_{c^{(t+1)}(x)}^{(t)}\|^2 \leq \|x - \mu_{c^{(t)}(x)}^{(t)}\|^2$. Cộng theo $x$ thu được bất đẳng thức thứ hai.
+
+\emph{Bất đẳng thức thứ nhất (bước cập nhật).} Cố định phân hoạch $\{C_k^{(t+1)}\}$, hàm mục tiêu là tổng theo cụm của các hàm độc lập theo $\mu_k$:
+\[
+    J\bigl(\{C_k^{(t+1)}\}, \{\mu_k\}\bigr) \;=\; \sum_{k=1}^K h_k(\mu_k), \quad \text{với } h_k(\mu) := \sum_{x \in C_k^{(t+1)}} \|x - \mu\|^2.
+\]
+Cực tiểu hoá vế trái theo $\{\mu_k\}$ quy về cực tiểu hoá độc lập từng $h_k$. Đặt $\bar{x}_k = \frac{1}{|C_k^{(t+1)}|} \sum_{x \in C_k^{(t+1)}} x$ là trung bình cụm. Khai triển bình phương quanh $\bar{x}_k$ và viết $x - \mu = (x - \bar{x}_k) - (\mu - \bar{x}_k)$:
+\begin{align*}
+    h_k(\mu) &= \sum_{x \in C_k^{(t+1)}} \bigl\|(x - \bar{x}_k) - (\mu - \bar{x}_k)\bigr\|^2 \\
+             &= \sum_{x \in C_k^{(t+1)}} \|x - \bar{x}_k\|^2 - 2 \Bigl\langle \mu - \bar{x}_k,\, \sum_{x \in C_k^{(t+1)}} (x - \bar{x}_k) \Bigr\rangle \\
+             &\quad + |C_k^{(t+1)}| \, \|\mu - \bar{x}_k\|^2.
+\end{align*}
+Số hạng giữa triệt tiêu vì $\sum_{x \in C_k^{(t+1)}} (x - \bar{x}_k) = 0$ theo định nghĩa của $\bar{x}_k$, do đó
+\[
+    h_k(\mu) \;=\; \underbrace{\sum_{x \in C_k^{(t+1)}} \|x - \bar{x}_k\|^2}_{\text{hằng số theo } \mu} \;+\; |C_k^{(t+1)}| \, \|\mu - \bar{x}_k\|^2.
+\]
+Vế phải đạt cực tiểu duy nhất tại $\mu = \bar{x}_k$ vì $|C_k^{(t+1)}| > 0$ và $\|\mu - \bar{x}_k\|^2 \geq 0$ với dấu bằng khi và chỉ khi $\mu = \bar{x}_k$. Bước cập nhật đặt $\mu_k^{(t+1)} = \bar{x}_k$ cho mọi $k$, do đó $h_k(\mu_k^{(t+1)}) \leq h_k(\mu_k^{(t)})$. Cộng theo $k$ và áp dụng đẳng thức tổng theo cụm ở trên:
+\begin{align*}
+    J\bigl(\{C_k^{(t+1)}\}, \{\mu_k^{(t+1)}\}\bigr)
+        &= \sum_{k=1}^K h_k(\mu_k^{(t+1)}) \\
+        &\leq \sum_{k=1}^K h_k(\mu_k^{(t)})
+         = J\bigl(\{C_k^{(t+1)}\}, \{\mu_k^{(t)}\}\bigr),
+\end{align*}
+chính là bất đẳng thức thứ nhất.
+
+\emph{Dừng sau hữu hạn bước.} Hai bất đẳng thức trên kéo theo dãy $\{J^{(t)}\}$ với $J^{(t)} = J\bigl(\{C_k^{(t)}\}, \{\mu_k^{(t)}\}\bigr)$ đơn điệu không tăng và bị chặn dưới bởi $0$. Sau bước cập nhật, $\{\mu_k^{(t)}\}$ hoàn toàn xác định bởi $\{C_k^{(t)}\}$ (là trung bình các cụm), nên trạng thái $(\{C_k^{(t)}\}, \{\mu_k^{(t)}\})$ với $t \geq 1$ chỉ phụ thuộc vào phân hoạch $\{C_k^{(t)}\}$. Số phân hoạch của $X$ thành $K$ cụm hữu hạn, nên dãy $\{J^{(t)}\}$ chỉ nhận hữu hạn giá trị phân biệt. Giả sử dãy không dừng sau hữu hạn bước, nghĩa là tồn tại hai chỉ số $t_1 < t_2$ với $\{C_k^{(t_1)}\} = \{C_k^{(t_2)}\}$. Khi đó $J^{(t_1)} = J^{(t_2)}$ và do tính không tăng, $J^{(t)} = J^{(t_1)}$ với mọi $t \in [t_1, t_2]$. Mỗi vòng lặp $t \to t+1$ trong đoạn này không làm giảm $J$ và do đó cả hai bất đẳng thức trên đều là đẳng thức. Đẳng thức trong bước cập nhật buộc $\mu_k^{(t+1)} = \mu_k^{(t)}$ cho mọi $k$ (do cực tiểu duy nhất của $h_k$). Đẳng thức trong bước gán cùng với tính không đổi của tâm buộc $\{C_k^{(t+1)}\} = \{C_k^{(t)}\}$ với quy tắc phá tie nhất quán. Điều kiện dừng trong Thuật toán~\ref{alg:kmeans} (phân hoạch không đổi) được thoả mãn ngay tại bước $t_1$, mâu thuẫn với giả thiết dãy không dừng.
+
+\emph{Tính chất điểm dừng.} Trạng thái dừng $(\{C_k\}, \{\mu_k\})$ thoả hai điều kiện cực tiểu theo từng nhóm biến: $\{C_k\}$ là cực tiểu của $J(\cdot, \{\mu_k\})$ trên không gian phân hoạch (bước gán), và $\{\mu_k\}$ là cực tiểu của $J(\{C_k\}, \cdot)$ trên $\mathbb{R}^{d \times K}$ (bước cập nhật). Đây là điểm dừng theo phép giảm toạ độ, thường được gọi là cực tiểu địa phương của $J$ trong tài liệu chuẩn.
+\end{proof}
+
+\begin{corollary}
+\label{cor:kmeans-init}
+Nghiệm trả về bởi Thuật toán~\ref{alg:kmeans} phụ thuộc vào vị trí của $K$ tâm khởi tạo, và không có bảo đảm trùng với cực tiểu toàn cục của $J$.
+\end{corollary}
+
+Hệ quả~\ref{cor:kmeans-init} là hệ quả trực tiếp của Định lý~\ref{thm:kmeans-convergence}: thuật toán chỉ đảm bảo dừng tại cực tiểu địa phương, mà $J$ thường có nhiều cực tiểu địa phương khác nhau ứng với các phân hoạch khác nhau. Hai lần chạy với $K$ điểm ngẫu nhiên khác nhau có thể rơi vào hai bể hấp dẫn khác nhau, cho hai nghiệm khác nhau. Trong thực hành, thuật toán được chạy nhiều lần với các khởi tạo ngẫu nhiên độc lập, và kết quả có $J$ nhỏ nhất được giữ lại làm nghiệm.
+\fi
+
+Thuật toán $K$-means có thể được hiểu là một dạng phép giảm toạ độ trên hàm mục tiêu $J$: bước gán cực tiểu $J$ với $\{\mu_k\}$ cố định, bước cập nhật cực tiểu $J$ với $\{C_k\}$ cố định. Do đó $J$ không tăng qua mỗi vòng lặp, bị chặn dưới bởi $0$ và chỉ nhận hữu hạn giá trị vì số phân hoạch của $X$ thành $K$ cụm là hữu hạn, nên thuật toán dừng sau hữu hạn bước. Điểm dừng phụ thuộc vào tâm khởi tạo và không nhất thiết là cực tiểu toàn cục của $J$, nên trong thực hành thuật toán được chạy nhiều lần với khởi tạo ngẫu nhiên độc lập và lấy nghiệm có $J$ nhỏ nhất.
+
+% ............................................................
+\subsection{Thuật toán phân cụm phổ chuẩn hóa}
+\label{subsec:full-algorithm}
+
+Gộp hai bước trên ta được thuật toán phân cụm phổ chuẩn hóa, áp dụng cho ma trận trọng số đối xứng không âm bất kỳ.
+
+\begin{algorithm}[H]
+\caption{Phân cụm phổ chuẩn hóa cho $K$ cụm}
+\label{alg:spectral-clustering}
+\KwIn{Ma trận trọng số $W$ đối xứng không âm trên $n$ đỉnh; số cụm $K$.}
+\KwOut{Phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ của $V$.}
+$D \gets \mathrm{diag}(W \mathbf{1})$\;
+$\mathcal{L} \gets I - D^{-1/2} W D^{-1/2}$\;
+Tính $u_1, \ldots, u_K$: $K$ vector riêng nhỏ nhất của $\mathcal{L}$\;
+Đặt $U \gets [u_1, \ldots, u_K] \in \mathbb{R}^{n \times K}$\;
+Chuẩn hóa từng hàng của $U$ về độ dài đơn vị, thu được $\widetilde U$\;
+Đặt $\psi(u) \gets \widetilde U_{u, :}$ với mỗi đỉnh $u$\;
+Chạy Thuật toán~\ref{alg:kmeans} trên tập $\{\psi(u)\}_{u \in V}$ với $K$ cụm\;
+\Return phân hoạch tương ứng của $V$\;
+\end{algorithm}
+
+Độ phức tạp tính toán gồm hai phần. Bước phân tích phổ tính $K$ vector riêng đầu của $\mathcal{L}$ tốn $O(K n m)$ với phương pháp Lanczos thưa khi $W$ thưa, hoặc $O(n^3)$ với phân tích đầy đủ. Bước $k$-means tốn $O(t K n)$ với $t$ là số vòng lặp, thường nhỏ trong thực hành. Tổng độ phức tạp do đó bị chi phối bởi bước phân tích phổ.
+
+Trong khóa luận, Thuật toán~\ref{alg:spectral-clustering} được áp dụng với ba lựa chọn $W$ khác nhau: $W = A$ cho phân cụm phổ cổ điển trên đồ thị gốc, $W = W^{(M)}$ cho phân cụm trên đồ thị Higher Order, và $W = W_\lambda = A + \lambda W^{(M)}$ cho phương pháp đề xuất ở Chương~\ref{chap:thuat-toan}. Cả ba lựa chọn đều cho ma trận đối xứng không âm, do đó áp dụng được trực tiếp.
+
+% ............................................................
+\subsection{Đánh giá và tính đúng đắn}
+\label{subsec:correctness}
+
+Mục này trình bày tính đúng đắn của Thuật toán~\ref{alg:spectral-clustering} theo nghĩa: nghiệm thu được là một xấp xỉ định lượng của conductance tối ưu $\phi^*$. Khung chứng minh được Chung trình bày trong sách \cite{chung1997}, đi từ trường hợp $K = 2$ qua phép sweep trên vector Fiedler, sau đó tổng quát hóa lên $K$ cụm.
+
+\emph{Trường hợp $K = 2$.} Thuật toán~\ref{alg:spectral-clustering} với $K = 2$ thực chất tương đương với phép sweep trên vector Fiedler $u_2$: sắp xếp các đỉnh theo giá trị của $u_2$ và xét tất cả các nhát cắt prefix, chọn nhát cắt có conductance nhỏ nhất. Gọi $S^{\mathrm{sweep}}$ là nhát cắt thu được.
+
+\begin{theorem}[Cận sweep \cite{chung1997}]
+\label{thm:sweep-bound}
+Nhát cắt $S^{\mathrm{sweep}}$ thỏa
+\[
+    \phi(S^{\mathrm{sweep}}) \;\leq\; \sqrt{2 \lambda_2}.
+\]
+\end{theorem}
+
+Kết hợp Định lý~\ref{thm:sweep-bound} với cận dưới của bất đẳng thức Cheeger, $\lambda_2 / 2 \leq \phi^*$ (Định lý~\ref{thm:cheeger}), ta thu được
+\[
+    \phi^* \;\leq\; \phi(S^{\mathrm{sweep}}) \;\leq\; \sqrt{2 \lambda_2} \;\leq\; 2 \sqrt{\phi^*}.
+\]
+Bất đẳng thức kép này là kết quả mấu chốt: nghiệm $S^{\mathrm{sweep}}$ của thuật toán phổ luôn nằm trong khoảng hằng số nhân với $\sqrt{\phi^*}$ so với nghiệm tối ưu. Khi $\phi^*$ nhỏ, tức đồ thị có cộng đồng tách rõ, $\phi(S^{\mathrm{sweep}})$ cũng nhỏ và nghiệm phổ gần tối ưu.
+
+\emph{Trường hợp $K$ cụm.} Khi $K > 2$, định nghĩa hằng số Cheeger bậc cao $\rho_K(G) = \min_{\mathcal{C}} \max_k \phi(C_k)$, lấy tối thiểu trên các phân hoạch $\mathcal{C}$ thành $K$ cụm. Lee, Oveis Gharan và Trevisan tổng quát hóa bất đẳng thức Cheeger thành
+\[
+    \frac{\lambda_K}{2} \;\leq\; \rho_K(G) \;\leq\; O(K^2) \sqrt{\lambda_K},
+\]
+trong đó cận trên đạt được một cách xây dựng thông qua Thuật toán~\ref{alg:spectral-clustering}: phân hoạch thu được từ $K$ vector riêng đầu của $\mathcal{L}$ kết hợp với $k$-means trên tọa độ phổ có $\max_k \phi(C_k)$ không vượt quá $O(K^2) \sqrt{\lambda_K}$. Đây là dạng tổng quát của Định lý~\ref{thm:sweep-bound} cho $K$ cụm và đảm bảo Thuật toán~\ref{alg:spectral-clustering} là một thuật toán xấp xỉ tốt cho bài toán cực tiểu hóa conductance trên $K$ cụm.
+
+\emph{Áp dụng cho đồ thị Higher Order.} Mệnh đề~\ref{prop:gm-valid-weighted-graph} đảm bảo $G_M = (V, W^{(M)})$ là đồ thị có trọng số vô hướng hợp lệ, do đó toàn bộ khung lý luận trên áp dụng nguyên vẹn cho $G_M$ với conductance motif $\phi_M$ thay cho $\phi$. Hệ quả là Thuật toán~\ref{alg:spectral-clustering} với đầu vào $W = W^{(M)}$ cho phân hoạch có $\phi_M$ gần tối ưu, là điểm tựa cho phương pháp đề xuất ở Chương~\ref{chap:thuat-toan}.
+
+\cleardoublepage

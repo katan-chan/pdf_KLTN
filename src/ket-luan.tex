@@ -1,0 +1,42 @@
+% ============================================================
+%  KẾT LUẬN
+% ============================================================
+
+\chapter*{Kết luận}
+\addcontentsline{toc}{chapter}{Kết luận}
+
+\section*{Đóng góp của khóa luận}
+
+\begin{enumerate}
+    \item Đề xuất ma trận hỗn hợp $W_\lambda = A + \lambda W^{(M)}$ kết hợp thông tin cạnh và motif qua một tham số nội suy duy nhất. Chứng minh $W_\lambda$ luôn là ma trận trọng số đối xứng không âm hợp lệ (Mệnh đề~\ref{prop:wlambda-valid}), kế thừa bất đẳng thức Cheeger trên đồ thị có trọng số (Định lý~\ref{thm:wlambda-cheeger}) và tính đúng đắn của phép nới lỏng phổ NCut (Định lý~\ref{thm:wlambda-spectral-correctness}). Ma trận $W_\lambda$ khắc phục hạn chế của $W^{(M)}$ thuần khi đồ thị có cạnh không nằm trong motif nào (Mệnh đề~\ref{prop:wlambda-fixes-gm}).
+
+    \item Tiến hành thực nghiệm hệ thống với Thuật toán~\ref{alg:spectral-clustering} sử dụng đầu vào $W_\lambda$ trên bốn mô hình sinh ngẫu nhiên có cấu trúc cộng đồng (SBM, Planted Partition, GRPG, LFR) và mười đồ thị mạng xã hội thật.
+
+    \item Phát hiện thực nghiệm hai chế độ tối ưu của $\lambda^*$ phụ thuộc cơ chế sinh tam giác:
+    \begin{itemize}
+        \item Trên đồ thị sinh ngẫu nhiên, $\lambda^*$ tối ưu nằm trong khoảng $\{0{,}5, 1\}$. Tam giác là hệ quả thống kê của mật độ cạnh, không độc lập với cạnh, nên thêm trọng số motif lớn làm pha loãng cạnh và giảm chất lượng phân hoạch.
+        \item Trên đồ thị mạng xã hội thật, $\lambda^*$ dịch về phía $\{5, 10, W_M\}$ ở chín trên mười đồ thị. Triadic closure tạo tam giác mang tín hiệu cộng đồng độc lập với cạnh đơn lẻ, nên trọng số motif lớn có lợi.
+    \end{itemize}
+
+    \item Phát hiện quan hệ ngược giữa $\Delta Q$ và $Q(0)$ trên đồ thị thật: khi $Q(0)$ thấp, $W_\lambda$ cải thiện rõ rệt với $\Delta Q$ đạt $+0{,}08$ đến $+0{,}12$; khi $Q(0)$ đã cao, biên độ cải thiện khả dĩ vốn nhỏ nên $\Delta Q$ chỉ $+0{,}001$ đến $+0{,}03$, hầu như không thay đổi kết quả phân cụm. Xu hướng này quan sát được trên nhiều đồ thị thật, kể cả khi so sánh các giá trị $K$ khác nhau trên cùng một đồ thị.
+\end{enumerate}
+
+\section*{Hạn chế}
+
+\begin{itemize}
+    \item Chưa có công thức lý thuyết tiên đoán $\lambda^*$ từ các đại lượng cấu trúc của đồ thị như mật độ tam giác hay phân bố bậc.
+    \item Chỉ thực nghiệm với motif tam giác $K_3$; chưa khảo sát các motif bậc cao hơn như $K_4$ hay bi-fan.
+    \item Chưa phát biểu chặt chẽ điều kiện cấu trúc để đảm bảo tồn tại $\lambda^* > 0$ với $Q(\lambda^*) > Q(0)$.
+\end{itemize}
+
+\section*{Hướng phát triển}
+
+\begin{itemize}
+    \item Xây dựng khung chứng minh bất đẳng thức $Q_A(S_\lambda) \geq Q_A(S_0)$ dưới điều kiện cấu trúc trên $G$, kèm phát biểu chặt chẽ ý nghĩa của motif $K_3$ trên đồ thị.
+    \item Mở rộng ma trận trọng số sang dạng tổng quát $f(e, \lambda)$ cá nhân hóa theo cạnh: hệ số Jaccard, hệ số phân cụm cạnh, hoặc tham số $\lambda$ riêng cho từng đỉnh.
+    \item Định nghĩa modularity hỗn hợp $Q_\lambda$ sử dụng null model tương thích với $W_\lambda$, thay vì dùng $Q_A$ làm chỉ số đánh giá.
+    \item Mở rộng phương pháp sang đồ thị có hướng qua kỹ thuật tách đỉnh, giữ nguyên cấu trúc đối xứng cho ma trận trọng số.
+    \item So sánh với các motif khác ngoài $K_3$ để kiểm tra giả thuyết tam giác là đơn vị cộng đồng tự nhiên nhất trên mạng xã hội.
+\end{itemize}
+
+\cleardoublepage

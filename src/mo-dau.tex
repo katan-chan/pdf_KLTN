@@ -1,0 +1,32 @@
+% ============================================================
+%  MỞ ĐẦU
+% ============================================================
+
+\chapter*{Mở đầu}
+\addcontentsline{toc}{chapter}{Mở đầu}
+
+Trong các cấu trúc toán học được dùng để mô tả thế giới, đồ thị có lẽ là cấu trúc có sức biểu diễn lớn nhất khi chỉ với hai thành phần tối giản là đỉnh và cạnh, nó đã đủ để mô hình hoá hầu hết mọi hệ thống mà ở đó các thực thể có quan hệ với nhau, từ mạng máy tính, mạng giao thông đô thị, mạng tương tác protein, cho đến mạng trích dẫn khoa học hay mạng người dùng trên mạng xã hội. Bước sang thế kỷ 21, khi dữ liệu thu thập được vượt ra khỏi mọi quy mô có thể quan sát thủ công, lớp đối tượng mà ta phải đối mặt không còn là những đồ thị nhỏ vẽ ra trên giấy, mà là những đồ thị lớn với hàng tỷ đỉnh và hàng nghìn tỷ cạnh như Facebook, Twitter, mạng tri thức Wikipedia, mạng trích dẫn khoa học, mạng tương tác gen hay mạng giao dịch tài chính. Phân tích những đối tượng này không còn dừng ở mức trừu tượng toán học mà đã trở thành công cụ then chốt để hiểu các hệ thống thực mà ta đang sống cùng.
+
+Sức mạnh của đồ thị lớn nằm ở chỗ chính cấu trúc của nó đã mã hoá những thông tin mà ta không nhìn thấy được khi quan sát từng thực thể đơn lẻ. Hai người dùng tưởng chừng không liên quan trên mạng xã hội có thể cùng thuộc một nhóm sở thích chỉ vì cùng kết nối tới một tập bạn chung, hay hai protein có chức năng khác nhau trên giấy vẫn có thể cùng tham gia một con đường chuyển hoá nếu cấu trúc tương tác của chúng tương tự. Cấu trúc của đồ thị, vì thế, là một dạng tín hiệu, và phát hiện các cấu trúc ẩn trong đồ thị lớn chính là cách ta rút tri thức từ dữ liệu quan hệ.
+
+Trong số những cấu trúc cần phát hiện, cộng đồng là một trong những đối tượng quan trọng nhất, hiểu nôm na là một nhóm đỉnh có liên kết nội bộ chặt chẽ và liên kết ra ngoài thưa hơn, ứng với nhóm bạn bè hay nhóm sở thích trong mạng xã hội, với phức hợp protein cùng chức năng trong mạng sinh học, và với chủ đề nghiên cứu trong mạng trích dẫn. Bài toán phát hiện cộng đồng vì vậy được đặt ra một cách rất tự nhiên: cho một đồ thị $G$, hãy phân hoạch tập đỉnh thành các cụm sao cho mỗi cụm phản ánh đúng cấu trúc cộng đồng nội tại của đồ thị. Để đánh giá xem một phân hoạch như thế nào là tốt, người ta đã đưa ra nhiều chỉ số đánh giá nội tại, trong đó hai chỉ số phổ biến nhất là modularity và conductance, cả hai đều xuất phát từ trực giác chung rằng một phân hoạch tốt là phân hoạch mà mật độ cạnh nội cụm lớn hơn rõ rệt so với mật độ cạnh giữa các cụm. Định nghĩa hình thức và các tính chất cụ thể của hai chỉ số này sẽ được trình bày kỹ ở Chương~\ref{chap:co-so}.
+
+Tuy nhiên, đồ thị lớn không chỉ chứa thông tin ở mức cạnh đơn lẻ. Bên cạnh các cạnh, có những cấu trúc bậc cao là các đồ thị con xuất hiện với tần suất bất thường so với mô hình sinh cạnh ngẫu nhiên, mang theo những tín hiệu mà phân tích cạnh đôi khi không phát hiện được. Trong nhiều mạng thực, đặc biệt là mạng xã hội, tam giác $K_3$ là mẫu hình con được nghiên cứu rộng rãi nhất, bởi một quan sát rất quen thuộc: hai người cùng quen chung một người thứ ba có xu hướng quen biết nhau cao hơn so với hai người không có người quen chung. Tam giác vì thế không xuất hiện một cách ngẫu nhiên trên mạng xã hội mà là dấu vết trực tiếp của cơ chế hình thành cộng đồng, và lẽ tự nhiên là người ta muốn tận dụng tín hiệu này khi phân cụm.
+
+Hướng tiếp cận đưa cấu trúc bậc cao vào thuật toán phân cụm đã được Benson, Gleich và Leskovec đề xuất một cách hệ thống vào năm 2016 \cite{benson2016}, với ý tưởng rằng thay vì tối thiểu hoá số cạnh bị cắt qua biên cụm như cách làm cổ điển, ta tối thiểu hoá số motif bị cắt. Để hiện thực hoá ý tưởng đó, các tác giả xây dựng một đồ thị mới $G_M$ trên cùng tập đỉnh, trong đó trọng số cạnh giữa hai đỉnh bằng số tam giác đi qua cả hai, rồi áp dụng phân cụm phổ trên $G_M$ thay vì trên đồ thị gốc. Cách tiếp cận này cho kết quả tốt trên một số đồ thị, nhưng cũng nhanh chóng bộc lộ hai hạn chế khi áp dụng cho đồ thị lớn: một mặt, một đỉnh không thuộc bất kỳ tam giác nào sẽ trở thành cô lập trong $G_M$ dù trong đồ thị gốc có nhiều cạnh kề, mà trong các đồ thị thưa quy mô lớn, tỷ lệ đỉnh như vậy là không nhỏ; mặt khác, $G_M$ bỏ qua hoàn toàn thông tin cạnh gốc, dù cạnh vốn là đại lượng cơ bản nhất mô tả quan hệ giữa các đỉnh, và hệ quả là khi đánh giá phân hoạch thu được bằng modularity hay conductance trên cạnh, $G_M$ thường cho kết quả tệ hơn phân cụm phổ trên ma trận kề.
+
+Xuất phát từ quan sát rằng cạnh và motif đều mang tín hiệu cộng đồng nhưng ở những mức khác nhau, khoá luận đề xuất một ma trận hỗn hợp $W_\lambda = A + \lambda W^{(M)}$ với $\lambda \geq 0$ đóng vai trò tham số nội suy giữa hai nguồn thông tin. Khi $\lambda = 0$, thuật toán quy về phân cụm phổ cổ điển; khi $\lambda \to \infty$, nó tiệm cận về phương pháp motif thuần $G_M$, và những giá trị $\lambda$ hữu hạn ở giữa cho phép tận dụng đồng thời cả hai. Cấu trúc lai này một mặt khôi phục được tính liên thông của đồ thị thưa, vì các cạnh trong $A$ ngăn không cho đỉnh không thuộc tam giác trở nên cô lập, mặt khác vẫn cho phép thông tin motif đóng góp vào kết quả phân hoạch. Các tính chất phổ kế thừa, ý nghĩa của tham số $\lambda$ và bằng chứng thực nghiệm về vai trò của motif sẽ được phân tích chi tiết trong các chương tiếp theo của khoá luận.
+
+% [TODO: viết mục tiêu của khóa luận]
+
+% [TODO: viết đóng góp chính]
+
+Khóa luận được tổ chức thành ba chương chính, kèm phần Kết luận và Tài liệu tham khảo:
+\begin{itemize}
+    \item Chương~\ref{chap:co-so} trình bày các kết quả nền tảng: metric đánh giá phân hoạch, cấu trúc đồ thị motif, và thuật toán phân cụm phổ kèm các định lý nền.
+    \item Chương~\ref{chap:thuat-toan} trình bày đóng góp lý thuyết: ma trận hỗn hợp $W_\lambda$, các tính chất phổ kế thừa, diễn giải Pareto của tham số $\lambda$ và hai chế độ phụ thuộc cấu trúc đồ thị.
+    \item Chương~\ref{chap:thuc-nghiem} trình bày phần thực nghiệm trên đồ thị sinh ngẫu nhiên và đồ thị xã hội thật, kèm phân tích kết quả.
+    \item Kết luận tổng kết đóng góp, hạn chế và các hướng nghiên cứu tiếp theo.
+\end{itemize}
+
+\cleardoublepage

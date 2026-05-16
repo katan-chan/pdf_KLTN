@@ -1,0 +1,131 @@
+% ============================================================
+%  PHỤ LỤC A: CHỨNG MINH CÁC ĐỊNH LÝ TRONG KHÓA LUẬN
+% ============================================================
+
+\chapter{Chứng minh các định lý}
+\label{appx:chung-minh}
+
+Phụ lục này trình bày chứng minh các định lý nền được nêu trong Chương~\ref{chap:co-so}. Một số chứng minh được trình bày đầy đủ, một số chứng minh dài và phức tạp được trình bày dưới dạng phác thảo kèm tham chiếu nguồn chi tiết.
+
+% ------------------------------------------------------------
+\section{Định lý Courant--Fischer}
+\label{appx:courant-fischer}
+
+\textbf{Phát biểu.} Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá trị riêng $\lambda_1 \leq \cdots \leq \lambda_n$ và các vector riêng đơn vị tương ứng $v_1, \ldots, v_n$ tạo thành cơ sở trực chuẩn. Khi đó với mọi $k \in \{1, \ldots, n\}$:
+\[
+    \lambda_k = \min_{\substack{U \subset \mathbb{R}^n \\ \dim U = k}} \max_{x \in U \setminus \{0\}} R(M, x)
+             = \max_{x \perp v_1, \ldots, v_{k-1}} R(M, x).
+\]
+
+\begin{proof}
+Vì $M$ đối xứng, theo định lý phổ tồn tại cơ sở trực chuẩn $\{v_1, \ldots, v_n\}$ của $\mathbb{R}^n$ gồm các vector riêng. Mọi $x \neq 0$ viết được duy nhất dưới dạng $x = \sum_{i=1}^n c_i v_i$ với $c_i = v_i^\top x$. Khi đó
+\[
+    x^\top M x = \sum_{i=1}^n \lambda_i c_i^2,
+    \qquad
+    x^\top x = \sum_{i=1}^n c_i^2,
+\]
+nên $R(M, x) = \frac{\sum_i \lambda_i c_i^2}{\sum_i c_i^2}$ là trung bình có trọng số (không âm) của các giá trị riêng $\lambda_i$.
+
+\emph{Đẳng thức thứ hai.} Lấy $x \perp v_1, \ldots, v_{k-1}$, tức $c_1 = \cdots = c_{k-1} = 0$. Khi đó
+\[
+    R(M, x) = \frac{\sum_{i \geq k} \lambda_i c_i^2}{\sum_{i \geq k} c_i^2} \geq \lambda_k,
+\]
+vì $\lambda_i \geq \lambda_k$ với mọi $i \geq k$. Đẳng thức xảy ra khi $x = v_k$, do đó
+\[
+    \max_{x \perp v_1, \ldots, v_{k-1}} R(M, x) = \lambda_k.
+\]
+
+\emph{Đẳng thức thứ nhất (min-max).} Với mọi không gian con $U \subset \mathbb{R}^n$ có $\dim U = k$, vì $\dim \mathrm{span}\{v_k, \ldots, v_n\} = n - k + 1$ và $\dim U + (n - k + 1) > n$, hai không gian này phải giao nhau ngoài vector $0$. Lấy $x \in U \cap \mathrm{span}\{v_k, \ldots, v_n\}$ với $x \neq 0$, ta có $c_1 = \cdots = c_{k-1} = 0$ nên
+\[
+    R(M, x) = \frac{\sum_{i \geq k} \lambda_i c_i^2}{\sum_{i \geq k} c_i^2} \geq \lambda_k.
+\]
+Suy ra $\max_{x \in U \setminus \{0\}} R(M, x) \geq \lambda_k$ với mọi $U$ có $\dim U = k$. Mặt khác, lấy $U = \mathrm{span}\{v_1, \ldots, v_k\}$ thì với mọi $x \in U \setminus \{0\}$, $R(M, x) \leq \lambda_k$, đạt được dấu bằng tại $x = v_k$. Do đó cận dưới đạt được, dẫn tới đẳng thức.
+\end{proof}
+
+% ------------------------------------------------------------
+\section{Định lý Ky Fan}
+\label{appx:ky-fan}
+
+\textbf{Phát biểu.} Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá trị riêng $\lambda_1 \leq \cdots \leq \lambda_n$. Khi đó với mọi $k \leq n$:
+\[
+    \max_{X \in \mathbb{R}^{n \times k},\ X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_{n-i+1},
+\]
+\[
+    \min_{X \in \mathbb{R}^{n \times k},\ X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_i.
+\]
+
+\begin{proof}
+\emph{Dạng cực tiểu.} Đặt $X = [x_1, \ldots, x_k]$ với $X^\top X = I_k$, tức $\{x_1, \ldots, x_k\}$ là hệ trực chuẩn. Khi đó
+\[
+    \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k x_i^\top M x_i.
+\]
+
+Mở rộng $\{x_1, \ldots, x_k\}$ thành cơ sở trực chuẩn $\{x_1, \ldots, x_n\}$ của $\mathbb{R}^n$. Đặt $Q = [x_1, \ldots, x_n]$ là ma trận trực giao và $\widetilde{M} = Q^\top M Q$. Khi đó $\widetilde{M}$ đồng dạng với $M$ qua phép biến đổi trực giao nên có cùng phổ $\{\lambda_1, \ldots, \lambda_n\}$. Hơn nữa $x_i^\top M x_i = \widetilde{M}_{ii}$, do đó
+\[
+    \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \widetilde{M}_{ii}.
+\]
+
+Theo bổ đề Schur--Horn, vector các phần tử đường chéo của một ma trận đối xứng bị trội (majorize) bởi vector các giá trị riêng của nó. Cụ thể, với mọi hoán vị các phần tử đường chéo, tổng $k$ phần tử đường chéo đầu thỏa
+\[
+    \sum_{i=1}^k \widetilde{M}_{ii} \geq \sum_{i=1}^k \lambda_i,
+\]
+với dấu bằng đạt được khi $\{x_1, \ldots, x_k\}$ là $k$ vector riêng đầu của $M$. Do đó
+\[
+    \min_{X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_i,
+\]
+nghiệm đạt tại $X^* = [v_1, \ldots, v_k]$.
+
+\emph{Dạng cực đại.} Áp dụng kết quả vừa chứng minh cho ma trận $-M$. Phổ của $-M$ thu được bằng cách đảo dấu phổ của $M$ rồi sắp xếp tăng dần:
+\[
+    \lambda_i(-M) = -\lambda_{n - i + 1}(M), \quad i = 1, \ldots, n,
+\]
+do $\lambda_n(M) \geq \cdots \geq \lambda_1(M)$ kéo theo $-\lambda_n(M) \leq \cdots \leq -\lambda_1(M)$. Bởi $-M$ cũng đối xứng, dạng cực tiểu áp dụng được:
+\[
+    \min_{X^\top X = I_k} \mathrm{Tr}\bigl(X^\top (-M) X\bigr)
+    = \sum_{i=1}^k \lambda_i(-M)
+    = -\sum_{i=1}^k \lambda_{n - i + 1}(M).
+\]
+Mặt khác $\mathrm{Tr}(X^\top (-M) X) = -\mathrm{Tr}(X^\top M X)$, do đó
+\[
+    \min_{X^\top X = I_k} \bigl(-\mathrm{Tr}(X^\top M X)\bigr)
+    = -\max_{X^\top X = I_k} \mathrm{Tr}(X^\top M X).
+\]
+Kết hợp hai đẳng thức trên và đổi dấu:
+\[
+    \max_{X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_{n - i + 1}(M),
+\]
+nghiệm đạt tại $X^* = [v_n, v_{n-1}, \ldots, v_{n - k + 1}]$, là $k$ vector riêng ứng với các giá trị riêng lớn nhất của $M$.
+\end{proof}
+
+% ------------------------------------------------------------
+\section{Bất đẳng thức Cheeger}
+\label{appx:cheeger}
+
+\textbf{Phát biểu.} Cho đồ thị vô hướng có trọng số không âm với Laplacian chuẩn hóa $\mathcal{L} = I - D^{-1/2} A D^{-1/2}$ có các giá trị riêng $0 = \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n \leq 2$. Khi đó
+\[
+    \frac{\lambda_2}{2} \leq \phi^* \leq \sqrt{2 \lambda_2}.
+\]
+
+\begin{proof}[Phác thảo chứng minh]
+Chứng minh đầy đủ thuộc tài liệu chuẩn về phổ đồ thị, xem chương 2 của Chung \cite{chung1997}. Ở đây ta phác thảo các bước chính.
+
+\emph{Cận dưới $\lambda_2 / 2 \leq \phi^*$.} Với mọi tập $S \neq \emptyset, V$, đặt vector chỉ thị có trọng
+\[
+    f_u = \begin{cases}
+        \sqrt{\mathrm{vol}(\bar S) / \mathrm{vol}(S)} & \text{nếu } u \in S, \\
+        -\sqrt{\mathrm{vol}(S) / \mathrm{vol}(\bar S)} & \text{nếu } u \in \bar S.
+    \end{cases}
+\]
+Khi đó $f$ trực giao với vector $D^{1/2} \mathbf{1}$ ứng với giá trị riêng $\lambda_1 = 0$ của $\mathcal{L}$. Tính toán cho thấy
+\[
+    R(\mathcal{L}, D^{1/2} f) = \frac{2 \mathrm{cut}(S, \bar S)}{\min(\mathrm{vol}(S), \mathrm{vol}(\bar S))} \cdot \alpha(S),
+\]
+với $\alpha(S) \in [\tfrac{1}{2}, 1]$ là một hệ số chuẩn hóa. Theo Định lý Courant--Fischer (Định lý~\ref{thm:courant-fischer}), $\lambda_2 \leq R(\mathcal{L}, D^{1/2} f)$ với mọi $f \perp D^{1/2} \mathbf{1}$, dẫn tới $\lambda_2 \leq 2 \phi(S)$. Lấy $\inf$ trên $S$ thu được $\lambda_2 / 2 \leq \phi^*$.
+
+\emph{Cận trên $\phi^* \leq \sqrt{2 \lambda_2}$.} Lấy $v_2$ là vector riêng ứng với $\lambda_2$, đặt $f = D^{-1/2} v_2$. Sắp xếp các đỉnh theo thứ tự tăng của $f_u$ và xét các nhát cắt sweep $S_t = \{u : f_u \leq t\}$ với $t$ chạy qua các giá trị $f_u$. Bằng phân tích chi tiết, tồn tại $t$ sao cho
+\[
+    \phi(S_t) \leq \sqrt{2 \lambda_2}.
+\]
+Đây là phần khó nhất của chứng minh, sử dụng bất đẳng thức Cauchy--Schwarz và đồng nhất thức về cut và volume trên các nhát cắt sweep. Chi tiết xem \cite[Định lý 2.2]{chung1997}.
+\end{proof}
+

@@ -1,0 +1,200 @@
+% ============================================================
+%  CHƯƠNG 2: ĐỒ THỊ HỖN HỢP G_lambda VÀ THUẬT TOÁN ĐỀ XUẤT
+% ============================================================
+
+\chapter{Đồ thị hỗn hợp $G_\lambda$ và thuật toán đề xuất}
+\label{chap:thuat-toan}
+
+% ============================================================
+\section{Đồ thị hỗn hợp $G_\lambda$}
+\label{sec:wlambda-def}
+
+% ............................................................
+\subsection{Ý tưởng}
+\label{subsec:wlambda-idea}
+
+Nhận xét~\ref{rem:gm-limit} đã chỉ ra hai hạn chế của đồ thị Higher Order $G_M$ thuần khi dùng $W^{(M)}$ làm đầu vào duy nhất cho phân cụm phổ. Thứ nhất, $G_M$ có thể không liên thông: mọi đỉnh không thuộc bất kỳ instance nào của $M$ đều cô lập trong $G_M$ dù trong $G$ gốc có thể có nhiều cạnh kề. Thứ hai, $G_M$ mất thông tin cạnh gốc: cạnh không thuộc instance nào của $M$ bị xóa hoàn toàn, kể cả khi có thể mang tín hiệu cộng đồng.
+
+Hai hạn chế này đều xuất phát từ việc loại bỏ hoàn toàn $A$ khỏi đầu vào của thuật toán. Một cách khắc phục tự nhiên là không loại bỏ $A$, mà cộng nó với $W^{(M)}$ qua một tham số nội suy $\lambda \geq 0$. Khi $\lambda = 0$, ma trận đầu vào trùng với $A$, ta thu được phân cụm phổ cổ điển. Khi $\lambda \to \infty$ (sau chuẩn hóa), ma trận đầu vào tỷ lệ với $W^{(M)}$, ta thu được phân cụm trên $G_M$ thuần. Mọi giá trị $\lambda > 0$ hữu hạn cho một đồ thị có trọng số giữ lại cả thông tin cạnh gốc lẫn thông tin cấu trúc bậc cao.
+
+% ............................................................
+\subsection{Định nghĩa}
+\label{subsec:wlambda-def}
+
+\begin{definition}[Ma trận hỗn hợp và đồ thị hỗn hợp]
+\label{def:wlambda}
+Cho đồ thị $G = (V, E)$ với ma trận kề $A$, motif $M = K_3$ và ma trận motif $W^{(M)}$ định nghĩa ở Mục~\ref{subsec:higher-order-graph}. Với tham số $\lambda \geq 0$, ma trận hỗn hợp được định nghĩa
+\[
+    W_\lambda = A + \lambda W^{(M)}.
+\]
+Đồ thị hỗn hợp $G_\lambda = (V, W_\lambda)$ là đồ thị có trọng số trên cùng tập đỉnh $V$, với ma trận trọng số $W_\lambda$.
+\end{definition}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{mixed_graph_construction.pdf}
+    \caption[Xây dựng đồ thị hỗn hợp $G_\lambda$ từ $G$ và $G_M$.]{Xây dựng đồ thị hỗn hợp $G_\lambda$ từ $G$ và $G_M$ với $\lambda = 1$, $M = K_3$.}
+    \label{fig:mixed-graph-construction}
+\end{figure}
+
+% ============================================================
+\section{Tính chất phổ và hệ quả của thuật toán}
+\label{sec:wlambda-properties}
+
+% ............................................................
+\subsection{$G_\lambda$ là đồ thị có trọng số hợp lệ}
+
+\begin{proposition}
+\label{prop:wlambda-valid}
+Với mọi $\lambda \geq 0$, ma trận $W_\lambda$ đối xứng và không âm. Do đó $G_\lambda = (V, W_\lambda)$ là đồ thị có trọng số vô hướng hợp lệ.
+\end{proposition}
+
+\begin{proof}
+$A$ và $W^{(M)}$ đều đối xứng (Mệnh đề~\ref{prop:gm-valid-weighted-graph} cho $W^{(M)}$, định nghĩa cho $A$) và có các phần tử không âm. Vì $\lambda \geq 0$, tổng có trọng số $A + \lambda W^{(M)}$ giữ tính đối xứng và không âm.
+\end{proof}
+
+Mệnh đề~\ref{prop:wlambda-valid} là điểm tựa cho toàn bộ phần còn lại của chương: vì $W_\lambda$ thuộc lớp ma trận trọng số đối xứng không âm, mọi định lý phổ phát biểu trong Chương~\ref{chap:co-so} cho lớp này áp dụng nguyên dạng cho $G_\lambda$.
+
+% ............................................................
+\subsection{Conductance trên $G_\lambda$}
+
+Tương tự conductance trên $G$ và conductance motif trên $G_M$, ta định nghĩa conductance trên $G_\lambda$ bằng cách thay $A$ bởi $W_\lambda$ trong Định nghĩa~\ref{def:cut-volume} và Định nghĩa~\ref{def:conductance}.
+
+\begin{definition}[Conductance trên $G_\lambda$]
+\label{def:wlambda-conductance}
+Với $S \subset V$, đặt
+\[
+    \mathrm{cut}_\lambda(S, \bar S) = \sum_{u \in S,\, v \in \bar S} (W_\lambda)_{uv}, \qquad
+    \mathrm{vol}_\lambda(S) = \sum_{u \in S} (W_\lambda \mathbf{1})_u.
+\]
+Conductance trên $G_\lambda$ là
+\[
+    \phi_\lambda(S) = \frac{\mathrm{cut}_\lambda(S, \bar S)}{\min(\mathrm{vol}_\lambda(S), \mathrm{vol}_\lambda(\bar S))},
+\]
+và $\phi_\lambda^* = \min_{\emptyset \neq S \subsetneq V} \phi_\lambda(S)$.
+\end{definition}
+
+Một quan sát đơn giản nhưng then chốt: conductance trên $G_\lambda$ là tổ hợp tuyến tính của conductance trên $G$ và conductance motif trên $G_M$.
+
+\begin{proposition}[Phân tích cộng tính của $\mathrm{cut}_\lambda$]
+\label{prop:cut-decomposition}
+Với mọi $S \subset V$,
+\[
+    \mathrm{cut}_\lambda(S, \bar S) = \mathrm{cut}(S, \bar S) + \lambda \, \mathrm{cut}_M(S, \bar S), \qquad
+    \mathrm{vol}_\lambda(S) = \mathrm{vol}(S) + \lambda \, \mathrm{vol}_M(S).
+\]
+\end{proposition}
+
+\begin{proof}
+Hệ quả trực tiếp của $W_\lambda = A + \lambda W^{(M)}$ và tính tuyến tính của tổng theo các phần tử ma trận.
+\end{proof}
+
+% ............................................................
+\subsection{Bất đẳng thức Cheeger trên $G_\lambda$}
+
+\begin{theorem}[Cheeger trên $G_\lambda$]
+\label{thm:wlambda-cheeger}
+Đặt $D_\lambda = \mathrm{diag}(W_\lambda \mathbf{1})$ và $\mathcal{L}_\lambda = I - D_\lambda^{-1/2} W_\lambda D_\lambda^{-1/2}$ là Laplacian chuẩn hóa của $G_\lambda$. Khi đó $\mathcal{L}_\lambda$ đối xứng nửa xác định dương với phổ
+\[
+    0 = \lambda_1(\mathcal{L}_\lambda) \leq \lambda_2(\mathcal{L}_\lambda) \leq \cdots \leq \lambda_n(\mathcal{L}_\lambda) \leq 2,
+\]
+và conductance tối thiểu $\phi_\lambda^*$ thỏa
+\[
+    \frac{\lambda_2(\mathcal{L}_\lambda)}{2} \;\leq\; \phi_\lambda^* \;\leq\; \sqrt{2 \lambda_2(\mathcal{L}_\lambda)}.
+\]
+\end{theorem}
+
+\begin{proof}
+Theo Mệnh đề~\ref{prop:wlambda-valid}, $W_\lambda$ là ma trận đối xứng và không âm, do đó $G_\lambda = (V, W_\lambda)$ thuộc đúng lớp đồ thị mà Định lý~\ref{thm:cheeger} đã được phát biểu. Việc cần làm là chỉ ra mọi đại lượng và mọi lập luận trong chứng minh nguyên thuỷ đều chuyển nguyên dạng sang $G_\lambda$.
+
+Các đại lượng phổ trên $G_\lambda$ được đặt theo đúng công thức như trên $G$, chỉ thay ma trận trọng số $A$ bởi $W_\lambda$. Ma trận bậc $D_\lambda = \mathrm{diag}(W_\lambda \mathbf{1})$ có phần tử đường chéo $(D_\lambda)_{uu} = d_u + \lambda d_u^{(M)}$ dương trên mọi đỉnh có $d_u \geq 1$ (Mệnh đề~\ref{prop:wlambda-fixes-gm}), nên $D_\lambda^{-1/2}$ định nghĩa tốt và Laplacian chuẩn hoá
+\[
+    \mathcal{L}_\lambda \;=\; I - D_\lambda^{-1/2} W_\lambda D_\lambda^{-1/2}
+\]
+là ma trận đối xứng nửa xác định dương với phổ nằm trong $[0, 2]$. Tương tự, conductance $\phi_\lambda$ trên $G_\lambda$ (Định nghĩa~\ref{def:wlambda-conductance}) mang cấu trúc đại số đồng nhất với conductance $\phi$ trên $G$, chỉ thay $\mathrm{cut}$ bởi $\mathrm{cut}_\lambda$ và $\mathrm{vol}$ bởi $\mathrm{vol}_\lambda$.
+
+Chứng minh của Định lý~\ref{thm:cheeger} không dùng giả thiết nào ngoài tính đối xứng và tính không âm của ma trận trọng số, vốn đã được kế thừa cho $W_\lambda$. Cụ thể, cận dưới $\lambda_2 / 2 \leq \phi^*$ trên $G$ được rút ra bằng cách áp dụng bất đẳng thức biến phân Courant--Fischer (Định lý~\ref{thm:courant-fischer}) cho vector chỉ thị có trọng của một nhát cắt bất kỳ; cùng lập luận này áp dụng cho $\mathcal{L}_\lambda$ vì vector chỉ thị có trọng vẫn định nghĩa tốt với $D_\lambda$ dương trên các đỉnh liên thông, và biến phân Courant--Fischer thì đúng cho mọi ma trận đối xứng. Cận trên $\phi^* \leq \sqrt{2 \lambda_2}$ trên $G$ rút ra bằng phép cắt sweep trên vector riêng thứ hai; trên $G_\lambda$, ánh xạ $D_\lambda^{-1/2} v_2(\mathcal{L}_\lambda)$ vẫn là một hàm thực trên $V$ nên sweep được định nghĩa tốt và sinh một họ hữu hạn nhát cắt $S_t$ để so sánh.
+
+Do đó hai cận của Định lý~\ref{thm:cheeger} chuyển nguyên dạng sang $G_\lambda$:
+\[
+    \frac{\lambda_2(\mathcal{L}_\lambda)}{2} \;\leq\; \phi_\lambda^* \;\leq\; \sqrt{2 \lambda_2(\mathcal{L}_\lambda)}. \qedhere
+\]
+\end{proof}
+
+% ............................................................
+\subsection{Tính đúng đắn của phân cụm phổ trên $G_\lambda$}
+
+\begin{theorem}[Bảo đảm xấp xỉ conductance]
+\label{thm:wlambda-spectral-correctness}
+Áp dụng Thuật toán~\ref{alg:spectral-clustering} với đầu vào $W = W_\lambda$ và $K = 2$, gọi $S^{\mathrm{sweep}}_\lambda$ là nhát cắt thu được. Khi đó
+\[
+    \phi_\lambda^* \;\leq\; \phi_\lambda(S^{\mathrm{sweep}}_\lambda) \;\leq\; \sqrt{2 \lambda_2(\mathcal{L}_\lambda)} \;\leq\; 2 \sqrt{\phi_\lambda^*}.
+\]
+Tổng quát hóa cho $K$ cụm: phân hoạch $\{C_k\}$ thu được từ Thuật toán~\ref{alg:spectral-clustering} thỏa
+\[
+    \max_k \phi_\lambda(C_k) \;\leq\; O(K^2) \sqrt{\lambda_K(\mathcal{L}_\lambda)},
+\]
+theo bất đẳng thức Cheeger bậc cao.
+\end{theorem}
+
+\begin{proof}
+\emph{Trường hợp $K = 2$.} Thuật toán~\ref{alg:spectral-clustering} chạy trên đầu vào $W = W_\lambda$ tính phổ của $\mathcal{L}_\lambda$, lấy vector riêng $v_2(\mathcal{L}_\lambda)$ ứng với $\lambda_2(\mathcal{L}_\lambda)$, và xét các nhát cắt sweep trên $D_\lambda^{-1/2} v_2(\mathcal{L}_\lambda)$. Định lý~\ref{thm:sweep-bound} áp dụng cho $G_\lambda$ (hợp lệ nhờ Mệnh đề~\ref{prop:wlambda-valid}) cho cận
+\[
+    \phi_\lambda\bigl(S^{\mathrm{sweep}}_\lambda\bigr) \;\leq\; \sqrt{2 \lambda_2(\mathcal{L}_\lambda)}.
+\]
+Theo định nghĩa của conductance tối thiểu, $\phi_\lambda^* \leq \phi_\lambda(S^{\mathrm{sweep}}_\lambda)$. Mặt khác, cận dưới Cheeger $\lambda_2(\mathcal{L}_\lambda) / 2 \leq \phi_\lambda^*$ (Định lý~\ref{thm:wlambda-cheeger}) viết lại thành $\lambda_2(\mathcal{L}_\lambda) \leq 2 \phi_\lambda^*$, từ đó
+\[
+    \sqrt{2 \lambda_2(\mathcal{L}_\lambda)} \;\leq\; \sqrt{4 \phi_\lambda^*} \;=\; 2 \sqrt{\phi_\lambda^*}.
+\]
+Ghép ba bất đẳng thức:
+\[
+    \phi_\lambda^* \;\leq\; \phi_\lambda(S^{\mathrm{sweep}}_\lambda) \;\leq\; \sqrt{2 \lambda_2(\mathcal{L}_\lambda)} \;\leq\; 2 \sqrt{\phi_\lambda^*}.
+\]
+
+\emph{Trường hợp $K$ cụm.} Bất đẳng thức Cheeger bậc cao của Lee, Oveis Gharan và Trevisan (trình bày trong Mục~\ref{subsec:correctness} cho đồ thị có trọng số tổng quát) cho phép, với phân hoạch $\{C_k\}$ thu được từ phân cụm phổ trên $K$ vector riêng đầu của $\mathcal{L}_\lambda$:
+\[
+    \max_k \phi_\lambda(C_k) \;\leq\; O(K^2) \sqrt{\lambda_K(\mathcal{L}_\lambda)}.
+\]
+Việc áp dụng bất đẳng thức này cho $\mathcal{L}_\lambda$ hợp lệ vì $\mathcal{L}_\lambda$ là Laplacian chuẩn hoá của đồ thị có trọng số đối xứng không âm (Mệnh đề~\ref{prop:wlambda-valid}), và lập luận chứng minh trong tài liệu gốc chỉ dùng các tính chất phổ của Laplacian không phụ thuộc dạng riêng của ma trận trọng số.
+\end{proof}
+
+Định lý~\ref{thm:wlambda-spectral-correctness} nói rằng phân cụm phổ trên $G_\lambda$ tìm phân hoạch có conductance gần tối ưu theo metric $\phi_\lambda$ tương ứng. Đây là sự kế thừa trực tiếp của các bảo đảm trên đồ thị có trọng số tổng quát: việc đưa thêm thành phần $\lambda W^{(M)}$ vào ma trận đầu vào không làm mất đi bất kỳ bảo đảm nào đã có cho phân cụm phổ cổ điển.
+
+% ............................................................
+\subsection{Cải thiện so với đồ thị Higher Order}
+\label{subsec:improvement-vs-gm}
+
+So với phân cụm phổ trên $G_M$ thuần, phân cụm phổ trên $G_\lambda$ với $\lambda > 0$ có hai cải thiện trực tiếp, hệ quả của việc cộng thêm $A$ vào ma trận đầu vào.
+
+\begin{proposition}[Khắc phục hạn chế của $G_M$]
+\label{prop:wlambda-fixes-gm}
+Với mọi $\lambda > 0$:
+\begin{enumerate}[topsep=4pt, itemsep=4pt, parsep=0pt]
+    \item Bảo toàn liên thông qua $A$. Nếu đỉnh $u$ liên thông với phần còn lại của $V$ trong $G$ thì $u$ cũng liên thông trong $G_\lambda$. Cụ thể, mọi đỉnh có $d_u \geq 1$ trong $G$ đều có $(D_\lambda)_{uu} \geq 1 > 0$, do đó không bị cô lập trong $G_\lambda$ kể cả khi $d_u^{(M)} = 0$.
+    \item Bảo toàn thông tin cạnh gốc. Mọi cạnh $(u, v) \in E$ đều có $(W_\lambda)_{uv} \geq A_{uv} \geq 1$, nên không bị xóa trong $G_\lambda$ kể cả khi không thuộc instance nào của $M$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\emph{Phần (1).} Theo định nghĩa của $D_\lambda$,
+\[
+    (D_\lambda)_{uu} = \sum_{v \in V} (W_\lambda)_{uv} = \sum_{v \in V} \bigl(A_{uv} + \lambda W^{(M)}_{uv}\bigr) = d_u + \lambda \, d_u^{(M)},
+\]
+trong đó $d_u = \sum_v A_{uv}$ là bậc trong $G$ và $d_u^{(M)} = \sum_v W^{(M)}_{uv}$ là bậc trọng số trong $G_M$. Vì $W^{(M)} \geq 0$ và $\lambda \geq 0$, số hạng $\lambda d_u^{(M)} \geq 0$. Do đó $(D_\lambda)_{uu} \geq d_u$. Khi $u$ liên thông với phần còn lại của $V$ trong $G$, tức $d_u \geq 1$, ta có $(D_\lambda)_{uu} \geq 1 > 0$. Hệ quả, $u$ không cô lập trong $G_\lambda$ kể cả khi $d_u^{(M)} = 0$, trái với tình huống trong $G_M$ thuần.
+
+\emph{Phần (2).} Trực tiếp từ $W_\lambda = A + \lambda W^{(M)}$:
+\[
+    (W_\lambda)_{uv} = A_{uv} + \lambda W^{(M)}_{uv} \;\geq\; A_{uv},
+\]
+vì $\lambda W^{(M)}_{uv} \geq 0$. Khi $(u, v) \in E$, $A_{uv} \geq 1$, nên $(W_\lambda)_{uv} \geq 1$. Cạnh $(u, v)$ do đó được bảo toàn trong $G_\lambda$ với trọng số ít nhất bằng trọng số gốc, không bị xoá kể cả khi $(u, v)$ không thuộc instance nào của $M$ (trường hợp $W^{(M)}_{uv} = 0$).
+\end{proof}
+
+Hai khẳng định trong Mệnh đề~\ref{prop:wlambda-fixes-gm} đối ứng với hai hạn chế của $G_M$ phát biểu trong Nhận xét~\ref{rem:gm-limit}, và có thể quan sát trực tiếp trên Hình~\ref{fig:mixed-graph-construction}: các đỉnh $6, 7$ vốn cô lập trong $G_M$ trở lại liên thông trong $G_\lambda$, và các cạnh $5{-}6$, $6{-}7$ vốn bị xóa trong $G_M$ được bảo toàn trong $G_\lambda$ với trọng số $1$.
+
+% ============================================================
+\section{Hệ quả về các chỉ số $\overline{\mathrm{CC}}_w$ và $Q$}
+\label{sec:wlambda-cc-q}
+
+\emph{(Phần này dành cho các định lý chứng minh hệ quả của việc dùng $G_\lambda$ thay cho $G_M$ thuần đối với các chỉ số $\overline{\mathrm{CC}}_w$ và $Q$. Sẽ được hoàn thiện ở phiên bản sau.)}
+
+\cleardoublepage
