@@ -193,9 +193,9 @@ Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá tr�
 
 Áp dụng định lý~\ref{thm:courant-fischer} cho Laplacian chuẩn hóa $\mathcal{L}$ và phép biến đổi $g = D^{1/2} f$ ở trên, ta có
 \[
-    \lambda_2(\mathcal{L}) = \min_{f \perp_D \mathbf{1}} \mathcal{R}(f),
+    \lambda_2(\mathcal{L}) = \min_{f \perp d} \mathcal{R}(f),
 \]
-trong đó $f \perp_D \mathbf{1}$ nghĩa là $\sum_u f(u) d_u = 0$. Đây là đáy của tỷ số biến thiên qua cạnh trên kích thước có trọng số khi đã loại bỏ thành phần hằng. Vì conductance được biểu diễn xấp xỉ qua $\mathcal{R}$ với hàm chỉ thị có trọng, $\lambda_2$ và $\phi^*$ phải có liên hệ định lượng với nhau. Liên hệ đó là nội dung của bất đẳng thức Cheeger.
+trong đó $f \perp d$ nghĩa là $\sum_u f(u) d_u = 0$, tức $f$ trực giao với vector bậc $d = D\mathbf{1}$. Đây là đáy của tỷ số biến thiên qua cạnh trên kích thước có trọng số khi đã loại bỏ thành phần hằng. Vì conductance được biểu diễn xấp xỉ qua $\mathcal{R}$ với hàm chỉ thị có trọng, $\lambda_2$ và $\phi^*$ phải có liên hệ định lượng với nhau. Liên hệ đó là nội dung của bất đẳng thức Cheeger.
 
 \begin{theorem}[Bất đẳng thức Cheeger \cite{chung1997}]
 \label{thm:cheeger}
@@ -258,46 +258,65 @@ Việc chọn motif cụ thể nào phụ thuộc vào loại đồ thị đang 
 \subsection{Hệ số phân cụm và vai trò của tam giác trong mạng xã hội}
 \label{subsec:cc}
 
-Để chứng tỏ một motif cụ thể mang ý nghĩa cộng đồng thực sự trong một lớp đồ thị nào đó, ta cần một đại lượng đo mật độ motif trên đồ thị, độc lập với phân hoạch cụ thể. Với motif là tam giác, đại lượng đó là hệ số phân cụm.
+Để chứng tỏ một motif cụ thể mang ý nghĩa cộng đồng thực sự trong một lớp đồ thị nào đó, ta cần một đại lượng đo mật độ motif trên đồ thị, độc lập với phân hoạch cụ thể. Với motif là tam giác, đại lượng đó là hệ số phân cụm. 
 
-\begin{definition}[Hệ số phân cụm cục bộ]
+Về mặt trực giác, hệ số phân cụm đặc trưng cho xác suất mà một bộ ba đỉnh đã có liên kết bộ phận thực sự khép lại thành một tam giác, và vì vậy phản ánh mức độ chặt chẽ trong cấu trúc kết nối của đồ thị: hệ số phân cụm càng cao, các đỉnh càng có xu hướng đan vào nhau thành các tam giác, một dấu hiệu cho thấy đồ thị mang cấu trúc cộng đồng đậm đặc hơn.
+
+\begin{definition}[Hệ số phân cụm tại đỉnh]
 \label{def:local-cc}
-Hệ số phân cụm cục bộ của đỉnh $u$ là
+Hệ số phân cụm tại đỉnh $u$ là
 \[
     cc(u) = \frac{2 \, T_u}{d_u (d_u - 1)},
 \]
 với $T_u$ là số tam giác chứa $u$ trong $G$. Quy ước $cc(u) := 0$ nếu $d_u \leq 1$.
 \end{definition}
 
-Ý tưởng: trong số $\binom{d_u}{2}$ cặp hàng xóm của $u$, có bao nhiêu cặp thực sự nối với nhau bằng một cạnh. Giá trị $cc(u)$ luôn nằm trong $[0, 1]$, và $cc(u) = 1$ khi tất cả hàng xóm của $u$ đôi một liên kết, tức $u$ cùng các hàng xóm tạo thành một clique. Trong đồ thị ngẫu nhiên Erdős--Rényi $G(n, p)$, hai đỉnh kề nhau bất kỳ độc lập với mọi cặp khác, nên kỳ vọng $cc(u) = p$, một giá trị nhỏ khi đồ thị thưa. Trái lại, các phép đo trên mạng xã hội thực tế cho thấy $cc(u)$ trung bình thường lớn hơn nhiều so với mật độ cạnh trung bình, một dấu hiệu trực tiếp của hiện tượng triadic closure.
+\begin{definition}[Hệ số phân cụm toàn cục]
+\label{def:global-cc}
+Một \emph{tam giác mở} tại đỉnh $v$ là một bộ ba có thứ tự $(u, v, w)$ với $u, w$ là hai hàng xóm phân biệt của $v$. Số tam giác mở của $G$ là
+\[
+    P_2 = \sum_{v \in V} d_v (d_v - 1).
+\]
+Hệ số phân cụm toàn cục của $G$ là
+\[
+    cc_{\mathrm{global}}(G) = \frac{6 T}{P_2} = \frac{6 T}{\sum_{v} d_v (d_v - 1)},
+\]
+với $T$ là tổng số tam giác trong $G$. Quy ước $cc_{\mathrm{global}}(G) := 0$ nếu $P_2 = 0$.
+\end{definition}
+
+Hệ số $cc_{\mathrm{global}}$ nhận giá trị trong $[0, 1]$ và đo xác suất một tam giác mở chọn ngẫu nhiên thực sự đóng thành tam giác. Khác với trung bình của $cc(u)$ trên các đỉnh, $cc_{\mathrm{global}}$ tính trọng số theo bậc đỉnh, do đó phản ánh đúng mật độ tam giác ở mức đồ thị mà không bị thiên lệch bởi các đỉnh bậc thấp. Trong khoá luận, $cc_{\mathrm{global}}$ được dùng làm tham chiếu để so sánh với hệ số phân cụm trên từng phân hoạch.
 
 Đối với một phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$, hai đại lượng tổng hợp được dùng để đánh giá mức độ đóng kín tam giác trên các cụm.
 
 \begin{definition}[Hệ số phân cụm trên phân hoạch]
 \label{def:cc-cluster}
-Cho cụm $C_j$ trong phân hoạch $\mathcal{C}$, đặt
+Cho cụm $C_j$ trong phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$, đặt
 \[
     \mathrm{CC}(C_j) = \frac{1}{|C_j|} \sum_{u \in C_j} cc(u).
 \]
-Hai dạng tổng hợp trên toàn phân hoạch:
-\begin{align*}
-    \overline{\mathrm{CC}}(\mathcal{C})
-        &= \frac{1}{K} \sum_{j=1}^K \mathrm{CC}(C_j), \\[4pt]
-    \overline{\mathrm{CC}}_w(\mathcal{C})
-        &= \frac{\sum_{j=1}^K |C_j| \, \mathrm{CC}(C_j)}{\sum_{j=1}^K |C_j|}
-         = \frac{1}{n} \sum_{u \in V} cc(u).
-\end{align*}
+Trung bình của các giá trị này trên các cụm với trọng số đều là
+\[
+    \overline{\mathrm{CC}}(\mathcal{C}) = \frac{1}{K} \sum_{j=1}^K \mathrm{CC}(C_j).
+\]
 \end{definition}
 
-Đại lượng $\overline{\mathrm{CC}}(\mathcal{C})$ là trung bình cộng các $\mathrm{CC}(C_j)$ trên các cụm với trọng số đều, còn $\overline{\mathrm{CC}}_w(\mathcal{C})$ là trung bình có trọng số tỷ lệ với kích thước cụm.
+Đại lượng $\overline{\mathrm{CC}}(\mathcal{C})$ phản ánh mật độ tam giác trung bình bên trong mỗi cụm, nhưng bộc lộ một điểm yếu khi kích thước các cụm chênh lệch nhiều. Vì $\overline{\mathrm{CC}}$ gán đồng đều một lượng $\tfrac{1}{K}$ cho mọi cụm, một cụm chỉ gồm ba đỉnh nối thành $K_3$ luôn cho $\mathrm{CC} = 1$ và đóng góp ngang bằng một cụm hàng trăm hay hàng nghìn đỉnh. Hệ quả là một phân hoạch sinh ra nhiều cụm rất nhỏ với hệ số phân cụm cao có thể đạt $\overline{\mathrm{CC}}$ gần $1$ mặc dù về mặt cấu trúc cộng đồng, các cụm cỡ ba đỉnh thường không mang ý nghĩa thực sự. Để khắc phục điểm yếu này, thay vì gán trọng số đều cho các cụm, ta gán trọng số tỉ lệ với kích thước cụm, dẫn tới đại lượng sau đây.
 
-\textbf{Vì sao cần $\overline{\mathrm{CC}}_w$.} Đại lượng $\overline{\mathrm{CC}}(\mathcal{C})$ chỉ đo mật độ tam giác bên trong từng cụm và bỏ qua hoàn toàn kích thước của cụm. Hệ quả lý thuyết là một cụm chỉ gồm ba đỉnh nối thành tam giác $K_3$ luôn cho $\mathrm{CC}(C) = 1$, và đóng góp của cụm này vào $\overline{\mathrm{CC}}$ ngang bằng đóng góp của một cụm hàng trăm hay hàng nghìn đỉnh. Nói rộng hơn, mọi cụm bất kỳ đều đóng góp đồng đều một lượng $\tfrac{1}{K}$ vào $\overline{\mathrm{CC}}$, không phân biệt cụm đó chứa ba đỉnh hay phần lớn đồ thị. Một phân hoạch sinh ra nhiều cụm rất nhỏ với hệ số phân cụm cao do đó có thể đạt $\overline{\mathrm{CC}}$ rất gần $1$ mặc dù về mặt cấu trúc cộng đồng, các cụm cỡ ba đỉnh thường không có ý nghĩa.
+\begin{definition}[Hệ số phân cụm có trọng số]
+\label{def:cc-weighted}
+Hệ số phân cụm có trọng số của phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ là trung bình có trọng số tỉ lệ với kích thước cụm:
+\[
+    \overline{\mathrm{CC}}_w(\mathcal{C})
+        = \frac{\sum_{j=1}^K |C_j| \, \mathrm{CC}(C_j)}{\sum_{j=1}^K |C_j|}
+        = \frac{1}{n} \sum_{u \in V} cc(u).
+\]
+\end{definition}
 
-Đại lượng $\overline{\mathrm{CC}}_w(\mathcal{C})$ được thiết kế để khắc phục điểm yếu này bằng cách thay trọng số đều bằng trọng số tỉ lệ với $|C_j|$. Mỗi cụm khi đó đóng góp vào trung bình theo đúng số đỉnh nó chứa, nên cụm $K_3$ chỉ đóng góp ba đỉnh trên tổng $n$, không thể kéo trung bình lên cao chỉ vì có $\mathrm{CC} = 1$. Công thức rút gọn $\overline{\mathrm{CC}}_w(\mathcal{C}) = \frac{1}{n} \sum_{u \in V} cc(u)$ cho thấy đại lượng này thực chất là trung bình hệ số phân cụm cục bộ trên toàn bộ đỉnh, không phụ thuộc cách phân hoạch chia cụm. Vì lý do đó, $\overline{\mathrm{CC}}_w$ được dùng làm đại lượng đánh giá chính trong khoá luận; $\overline{\mathrm{CC}}$ được tính kèm để phát hiện hiện tượng phân hoạch tạo ra cụm rất nhỏ làm thiên lệch chỉ số.
+Trong $\overline{\mathrm{CC}}_w$, mỗi cụm đóng góp theo đúng số đỉnh nó chứa, nên cụm $K_3$ chỉ đóng góp ba đỉnh trên tổng $n$, không thể kéo trung bình lên cao chỉ vì có $\mathrm{CC} = 1$. Công thức rút gọn $\overline{\mathrm{CC}}_w(\mathcal{C}) = \tfrac{1}{n}\sum_{u} cc(u)$ cho thấy đại lượng này thực chất là trung bình hệ số phân cụm tại đỉnh trên toàn bộ đồ thị, không phụ thuộc cách phân hoạch chia cụm. Vì lý do đó, $\overline{\mathrm{CC}}_w$ được dùng làm đại lượng đánh giá chính trong khoá luận; $\overline{\mathrm{CC}}$ được tính kèm để phát hiện hiện tượng phân hoạch tạo ra cụm rất nhỏ làm thiên lệch chỉ số.
 
-\textbf{Bằng chứng thống kê cho vai trò của tam giác.} Việc chọn tam giác $K_3$ làm motif không phải lựa chọn tùy ý mà được công nhận rộng rãi trong tài liệu phân tích mạng nhờ bằng chứng thống kê trên nhiều lớp mạng thực tế khác nhau. Watts và Strogatz \cite{watts1998} là những người đầu tiên chỉ ra rằng nhiều mạng thực, từ mạng diễn viên đồng diễn, mạng kết nối synapse trong hệ thần kinh của giun \emph{C. elegans} đến mạng lưới điện, có hệ số phân cụm trung bình lớn hơn rất nhiều so với mô hình ngẫu nhiên có cùng số đỉnh và cạnh. Kết quả này được Newman tổng hợp lại trong khảo sát \cite{newman2003structure} cho nhiều lớp mạng thực: mạng cộng tác khoa học, mạng email, mạng web, mạng xã hội. Hệ số phân cụm trung bình trên các mạng này nằm trong khoảng $0{,}1$--$0{,}8$, trong khi mật độ cạnh thường chỉ ở mức $10^{-3}$ trở xuống, lớn hơn dự đoán ngẫu nhiên từ một đến nhiều bậc.
+\textbf{Bằng chứng thống kê cho vai trò của tam giác.} Việc chọn tam giác $K_3$ làm motif không phải lựa chọn tùy ý mà được công nhận rộng rãi trong tài liệu phân tích mạng nhờ bằng chứng thống kê trên nhiều lớp mạng thực tế khác nhau. Watts và Strogatz \cite{watts1998} là những người đầu tiên chỉ ra rằng nhiều mạng thực, từ mạng diễn viên đồng diễn, mạng kết nối synapse trong hệ thần kinh của giun \emph{C. elegans} đến mạng lưới điện, có hệ số phân cụm trung bình lớn hơn rất nhiều so với mô hình ngẫu nhiên có cùng số đỉnh và cạnh. Kết quả này được Newman tổng hợp lại trong khảo sát \cite{newman2003structure} cho nhiều lớp mạng thực: mạng cộng tác khoa học, mạng email, mạng web, mạng xã hội. Hệ số phân cụm trung bình trên các mạng này nằm trong khoảng $0{,}1$--$0{,}8$, trong khi mật độ cạnh thường chỉ ở mức $10^{-3}$ trở xuống. Hai đại lượng này có thể so sánh trực tiếp vì cùng thang đo: $cc(u)$ là xác suất có điều kiện rằng hai hàng xóm của $u$ nối với nhau, còn mật độ cạnh là xác suất hai đỉnh bất kỳ nối với nhau. Trên đồ thị ngẫu nhiên Erdős--Rényi $G(n, p)$ với các cạnh độc lập, hai xác suất này bằng nhau và đều bằng $p$. Trên các mạng thực kể trên, $cc$ lớn hơn mật độ cạnh từ một đến nhiều bậc.
 
-Nếu các cạnh được sinh độc lập với nhau như trong mô hình Erdős--Rényi, kỳ vọng của $cc(u)$ chính bằng mật độ cạnh, do đó khoảng cách giữa hai con số trên không thể giải thích bằng hiệu ứng ngẫu nhiên. Cơ chế tạo nên khoảng cách này là triadic closure, một quy luật xã hội đã được nghiên cứu từ sớm bởi Granovetter \cite{granovetter1973} và Holland--Leinhardt \cite{holland1971}: hai đỉnh chia sẻ hàng xóm có xu hướng kết nối với nhau cao hơn nhiều so với cặp đỉnh ngẫu nhiên. Mật độ tam giác cao hơn dự đoán ngẫu nhiên do đó là tín hiệu cộng đồng đáng tin cậy chứ không phải artefact thống kê.
+Nếu các cạnh được sinh độc lập với nhau như trong mô hình Erdős--Rényi, kỳ vọng của $cc(u)$ chính bằng mật độ cạnh, do đó khoảng cách giữa hai con số trên không thể giải thích bằng hiệu ứng ngẫu nhiên. Cơ chế tạo nên khoảng cách này là triadic closure, một quy luật xã hội đã được nghiên cứu từ sớm bởi Granovetter \cite{granovetter1973} và Holland--Leinhardt \cite{holland1971}: hai đỉnh chia sẻ hàng xóm có xu hướng kết nối với nhau cao hơn nhiều so với cặp đỉnh ngẫu nhiên. Mật độ tam giác cao hơn dự đoán ngẫu nhiên do đó là tín hiệu cộng đồng đáng tin cậy chứ không phải nhiễu ngẫu nhiên.
 
 
 % ............................................................

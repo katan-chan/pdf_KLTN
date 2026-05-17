@@ -170,17 +170,13 @@ So với phân cụm phổ trên $G_M$ thuần, phân cụm phổ trên $G_\lamb
 \label{prop:wlambda-fixes-gm}
 Với mọi $\lambda > 0$:
 \begin{enumerate}[topsep=4pt, itemsep=4pt, parsep=0pt]
-    \item Bảo toàn liên thông qua $A$. Nếu đỉnh $u$ liên thông với phần còn lại của $V$ trong $G$ thì $u$ cũng liên thông trong $G_\lambda$. Cụ thể, mọi đỉnh có $d_u \geq 1$ trong $G$ đều có $(D_\lambda)_{uu} \geq 1 > 0$, do đó không bị cô lập trong $G_\lambda$ kể cả khi $d_u^{(M)} = 0$.
+    \item Bảo toàn tính liên thông. Nếu $G$ liên thông thì $G_\lambda$ cũng liên thông.
     \item Bảo toàn thông tin cạnh gốc. Mọi cạnh $(u, v) \in E$ đều có $(W_\lambda)_{uv} \geq A_{uv} \geq 1$, nên không bị xóa trong $G_\lambda$ kể cả khi không thuộc instance nào của $M$.
 \end{enumerate}
 \end{proposition}
 
 \begin{proof}
-\emph{Phần (1).} Theo định nghĩa của $D_\lambda$,
-\[
-    (D_\lambda)_{uu} = \sum_{v \in V} (W_\lambda)_{uv} = \sum_{v \in V} \bigl(A_{uv} + \lambda W^{(M)}_{uv}\bigr) = d_u + \lambda \, d_u^{(M)},
-\]
-trong đó $d_u = \sum_v A_{uv}$ là bậc trong $G$ và $d_u^{(M)} = \sum_v W^{(M)}_{uv}$ là bậc trọng số trong $G_M$. Vì $W^{(M)} \geq 0$ và $\lambda \geq 0$, số hạng $\lambda d_u^{(M)} \geq 0$. Do đó $(D_\lambda)_{uu} \geq d_u$. Khi $u$ liên thông với phần còn lại của $V$ trong $G$, tức $d_u \geq 1$, ta có $(D_\lambda)_{uu} \geq 1 > 0$. Hệ quả, $u$ không cô lập trong $G_\lambda$ kể cả khi $d_u^{(M)} = 0$, trái với tình huống trong $G_M$ thuần.
+\emph{Phần (1).} Vì $W^{(M)} \geq 0$ và $\lambda \geq 0$, ta có $(W_\lambda)_{uv} = A_{uv} + \lambda W^{(M)}_{uv} \geq A_{uv}$ với mọi $u, v$. Do đó mọi cạnh của $G$ đều là cạnh của $G_\lambda$ (với trọng số dương ít nhất bằng trong $G$). Nếu $G$ liên thông thì giữa hai đỉnh bất kỳ tồn tại đường đi trong $G$, và đường đi đó cũng là đường đi trong $G_\lambda$, nên $G_\lambda$ liên thông. Trái lại, trong $G_M$ thuần một đỉnh không thuộc tam giác nào sẽ có $d_u^{(M)} = 0$ và trở thành cô lập, làm $G_M$ có thể mất liên thông kể cả khi $G$ liên thông.
 
 \emph{Phần (2).} Trực tiếp từ $W_\lambda = A + \lambda W^{(M)}$:
 \[
