@@ -294,6 +294,16 @@ GRPG-200-$p_{\mathrm{out}}0{,}03$   & 0{,}3593 & \textbf{0{,}3606} & 0{,}3572 & 
 
 \textbf{Nhận xét.} Mức tăng tuyệt đối của $\overline{\mathrm{CC}}_w$ vượt trội so với SBM và Planted, phản ánh khả năng thuật toán cô lập các vùng tam giác đậm đặc khi phân bố kích thước cụm đa dạng. Khoảng cách rõ rệt giữa $\overline{\mathrm{CC}}$ và $\overline{\mathrm{CC}}_w$ tại $W_M$ là đặc trưng của GRPG: phân bố Gaussian sinh ra một số cụm kích thước nhỏ với hệ số phân cụm cao trên đơn vị đỉnh, làm thiên lệch trung bình không trọng số lên cao. Đây là minh hoạ thực nghiệm rõ nhất cho lý do khoá luận chọn $\overline{\mathrm{CC}}_w$ làm chỉ số chính (Định nghĩa~\ref{def:cc-cluster}): trên các đồ thị có kích thước cụm đa dạng, $\overline{\mathrm{CC}}$ có thể đánh giá quá lạc quan do hiệu ứng cụm nhỏ. Mặc dù vậy, pattern cốt lõi vẫn được giữ — cực đại của $\overline{\mathrm{CC}}_w$ không trùng cực đại của modularity, khẳng định tách biệt giữa hai mục tiêu trên lớp đồ thị sinh ngẫu nhiên đối xứng.
 
+% ............................................................
+\subsection*{Tổng kết kết quả trên đồ thị sinh ngẫu nhiên}
+\label{subsec:summary-synthetic}
+
+Bốn mô hình sinh ngẫu nhiên cho một bức tranh nhất quán. $\lambda^*$ tối ưu nằm trong vùng nhỏ $\{0{,}5,\ 1\}$ trên Planted, SBM và GRPG, chỉ dịch lên đến $5$ trên các bộ LFR có cộng đồng tách yếu ($\mu \geq 0{,}35$). $\Delta Q$ luôn dương trên cả $35$ bộ test, nhưng biên độ cải thiện phụ thuộc trực tiếp vào độ tách cộng đồng của bộ sinh: trên các bộ test khó, $\Delta Q$ vượt $+0{,}3$; trên các bộ tách rõ, $\Delta Q$ gần như bằng $0$.
+
+Cơ chế đứng sau hiện tượng này thống nhất giữa bốn mô hình: tam giác trên các đồ thị sinh ngẫu nhiên là hệ quả thống kê của mật độ cạnh chứ không độc lập với cạnh. Khi mật độ nội cụm $p_{\mathrm{in}}$ cao, số tam giác kỳ vọng trong cụm tỉ lệ với $p_{\mathrm{in}}^3$ và đã được phản ánh ngầm trong ma trận kề $A$. Do đó việc cộng thêm trọng số motif lớn không bổ sung tín hiệu mới mà chỉ pha loãng cấu trúc cạnh, khiến $\lambda^*$ tối ưu nằm ở vùng nhỏ. Trên hệ số phân cụm, $\overline{\mathrm{CC}}_w$ tăng đều với $\lambda$ và phản ánh đúng mức độ đóng kín tam giác trong cụm, trong khi $\overline{\mathrm{CC}}$ có thể bị đẩy lên cao tại $\lambda = W_M$ do các cụm nhỏ với hệ số phân cụm gần $1$ — một biểu hiện sớm của hiện tượng phân mảnh cụm sẽ thấy rõ hơn trên đồ thị thật. Phần kế tiếp xét xem các kết luận trên có còn đúng khi tam giác xuất hiện không phải do thống kê cạnh mà do một cơ chế xã hội độc lập.
+
+\clearpage
+
 % ============================================================
 \section{Đồ thị mạng xã hội thật}
 \label{sec:results-real}
@@ -661,12 +671,20 @@ Tại $K = 200$, $\overline{\mathrm{CC}}_w(0) = 0{,}4091$ đã vượt $cc_{\mat
 
 \textbf{Kết luận.} musae\_facebook khác biệt với họ musae Twitch ở chỗ quan hệ giữa các trang chủ đề mang tính phân loại hơn là quan hệ xã hội ba bên. Modularity ban đầu đã cao nhờ cấu trúc chủ đề rõ ràng, trọng số motif chỉ tạo ra cải thiện cận biên. Chênh lớn giữa $\overline{\mathrm{CC}}$ và $\overline{\mathrm{CC}}_w$ phản ánh nhiều cụm nhỏ ứng với các chủ đề ngách.
 
+% ............................................................
+\subsection*{Tổng kết kết quả trên đồ thị thật}
+\label{subsec:summary-real}
+
 \textbf{Quan sát chung.} Trên cả mười đồ thị, mức cải thiện $\Delta Q$ tỉ lệ nghịch với $Q(0)$, thể hiện hai chế độ rõ rệt:
 \begin{itemize}
     \item Khi $Q(0)$ thấp (musae\_DE, musae\_ES, các phân hoạch $K$ lớn của lastfm\_asia và facebook\_combined), ma trận hỗn hợp cải thiện rõ rệt, $\Delta Q$ tới $+0{,}08$ -- $+0{,}12$.
     \item Khi $Q(0)$ đã cao (CA-CondMat, CA-HepTh, musae\_facebook, các phân hoạch $K$ nhỏ của CA-GrQc và facebook\_combined), $\Delta Q$ chỉ $+0{,}001$ -- $+0{,}03$, hầu như không thay đổi kết quả phân cụm.
 \end{itemize}
 $\Delta Q$ luôn dương trên cả mười đồ thị, nên ma trận hỗn hợp không bao giờ làm giảm chất lượng. Giá trị $\lambda^*$ tối ưu nằm trong khoảng $\{5,\ 10,\ W_M\}$ ở chín trên mười đồ thị, lớn hơn hẳn so với đồ thị sinh ngẫu nhiên ở Mục~\ref{sec:results-synthetic} (chủ yếu là $0{,}5$). Hai đồ thị mạng Twitch (musae\_DE và musae\_ES) cho $\Delta Q$ cao nhất với $\lambda^* \in \{W_M, 1\}$, là dấu hiệu của triadic closure mạnh nhất trong tập dữ liệu.
+
+\textbf{Phụ thuộc theo $K$.} Trên cùng một đồ thị, biên độ cải thiện của $W_\lambda$ tăng đều theo $K$. Khi $K$ nhỏ, các cụm rộng và phân hoạch trên $A$ đã chứa phần lớn tam giác; trọng số motif khi đó không bổ sung thông tin và $\overline{\mathrm{CC}}_w$ gần như không thay đổi giữa $\lambda = 0$ và $\lambda^*$. Khi $K$ lớn, số tam giác bị cắt qua biên cụm tăng lên, và chính phần tam giác liên cụm này mới là tín hiệu mà $W_\lambda$ khai thác để gom các đỉnh chung tam giác về cùng cụm. Hiện tượng thấy rõ trên facebook\_combined ($\Delta Q$ từ $+0{,}006$ tại $K=50$ lên $+0{,}082$ tại $K=500$), CA-HepTh ($+0{,}001 \to +0{,}052$) và CA-GrQc ($+0{,}003 \to +0{,}048$). Nói ngắn gọn, motif chỉ phát huy vai trò khi yêu cầu phân hoạch chi tiết vượt khả năng của $A$ thuần.
+
+\textbf{$G_\lambda$ so với $G_M$ thuần.} So sánh hai cực $\lambda^*$ hữu hạn và $\lambda = W_M$ cho thấy chúng tối ưu hai chỉ số khác nhau. $G_M$ cho $\overline{\mathrm{CC}}$ cao hơn rõ rệt trên đại đa số đồ thị (lastfm\_asia $0{,}27 \to 0{,}60$, CA-HepTh $0{,}53 \to 0{,}70$, musae\_facebook $0{,}45 \to 0{,}64$), nhưng đổi lại $Q$ thấp hơn nhiều: trên 9/10 đồ thị, $Q(W_M) < Q(\lambda^*)$ với khoảng cách có thể tới $0{,}10$--$0{,}15$. Nguyên nhân được giải thích ngay bởi Mệnh đề~\ref{prop:wlambda-fixes-gm} và thấy rõ qua $\overline{\mathrm{CC}}_w$: bỏ hoàn toàn $A$ khiến các đỉnh không thuộc tam giác bị cô lập trong $G_M$ và rơi vào cụm rất nhỏ, đẩy $\overline{\mathrm{CC}}$ lên cao do hiệu ứng cụm nhỏ chứ không do chất lượng phân hoạch thực sự cao hơn. $G_\lambda$ ở $\lambda$ hữu hạn giữ lại $A$ làm khung liên thông, hy sinh một phần $\overline{\mathrm{CC}}$ để đổi lấy $Q$ và phân hoạch không bị phân mảnh.
 
 \textbf{Xác nhận thực nghiệm về vai trò của $\overline{\mathrm{CC}}_w$.} Khoảng cách quan sát được giữa $\overline{\mathrm{CC}}$ và $\overline{\mathrm{CC}}_w$ trên đồ thị thật xác nhận động cơ thiết kế đã trình bày ở Định nghĩa~\ref{def:cc-cluster}. Tại $K = 50$ trên lastfm\_asia, $\overline{\mathrm{CC}}(\lambda^\dagger) = 0{,}6044$ trong khi $\overline{\mathrm{CC}}_w(\lambda^\dagger) = 0{,}3146$, chênh tới $0{,}29$; trên CA-GrQc chênh $0{,}14$; trên CA-HepTh chênh $0{,}15$. Chênh lệch tích cực này hoàn toàn do các cụm rất nhỏ với hệ số phân cụm gần $1$ kéo $\overline{\mathrm{CC}}$ lên cao, dù chúng đóng góp ít vào tổng số đỉnh được phân cụm. Do đó trên dữ liệu thật, $\overline{\mathrm{CC}}$ có xu hướng đánh giá quá lạc quan; $\overline{\mathrm{CC}}_w$ cho con số thận trọng hơn và phản ánh đúng chất lượng phân hoạch.
 

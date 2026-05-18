@@ -113,7 +113,7 @@ Các đại lượng phổ trên $G_\lambda$ được đặt theo đúng công t
 \]
 là ma trận đối xứng nửa xác định dương với phổ nằm trong $[0, 2]$. Tương tự, conductance $\phi_\lambda$ trên $G_\lambda$ (Định nghĩa~\ref{def:wlambda-conductance}) mang cấu trúc đại số đồng nhất với conductance $\phi$ trên $G$, chỉ thay $\mathrm{cut}$ bởi $\mathrm{cut}_\lambda$ và $\mathrm{vol}$ bởi $\mathrm{vol}_\lambda$.
 
-Chứng minh của Định lý~\ref{thm:cheeger} không dùng giả thiết nào ngoài tính đối xứng và tính không âm của ma trận trọng số, vốn đã được kế thừa cho $W_\lambda$. Cụ thể, cận dưới $\lambda_2 / 2 \leq \phi^*$ trên $G$ được rút ra bằng cách áp dụng bất đẳng thức biến phân Courant--Fischer (Định lý~\ref{thm:courant-fischer}) cho vector chỉ thị có trọng của một nhát cắt bất kỳ; cùng lập luận này áp dụng cho $\mathcal{L}_\lambda$ vì vector chỉ thị có trọng vẫn định nghĩa tốt với $D_\lambda$ dương trên các đỉnh liên thông, và biến phân Courant--Fischer thì đúng cho mọi ma trận đối xứng. Cận trên $\phi^* \leq \sqrt{2 \lambda_2}$ trên $G$ rút ra bằng phép cắt sweep trên vector riêng thứ hai; trên $G_\lambda$, ánh xạ $D_\lambda^{-1/2} v_2(\mathcal{L}_\lambda)$ vẫn là một hàm thực trên $V$ nên sweep được định nghĩa tốt và sinh một họ hữu hạn nhát cắt $S_t$ để so sánh.
+Chứng minh của Định lý~\ref{thm:cheeger} không dùng giả thiết nào ngoài tính đối xứng và tính không âm của ma trận trọng số, vốn đã được kế thừa cho $W_\lambda$. Cụ thể, cận dưới $\lambda_2 / 2 \leq \phi^*$ trên $G$ được rút ra bằng cách áp dụng bất đẳng thức biến phân Courant--Fischer (Định lý~\ref{thm:courant-fischer}) cho vector chỉ thị có trọng của một nhát cắt bất kỳ; cùng lập luận này áp dụng cho $\mathcal{L}_\lambda$ vì vector chỉ thị có trọng vẫn định nghĩa tốt với $D_\lambda$ dương trên các đỉnh liên thông vàbiến phân Courant--Fischer thì đúng cho mọi ma trận đối xứng. Cận trên $\phi^* \leq \sqrt{2 \lambda_2}$ trên $G$ rút ra bằng phép cắt sweep trên vector riêng thứ hai; trên $G_\lambda$, ánh xạ $D_\lambda^{-1/2} v_2(\mathcal{L}_\lambda)$ vẫn là một hàm thực trên $V$ nên sweep được định nghĩa tốt và sinh một họ hữu hạn nhát cắt $S_t$ để so sánh.
 
 Do đó hai cận của Định lý~\ref{thm:cheeger} chuyển nguyên dạng sang $G_\lambda$:
 \[
@@ -138,7 +138,7 @@ theo bất đẳng thức Cheeger bậc cao.
 \end{theorem}
 
 \begin{proof}
-\emph{Trường hợp $K = 2$.} Thuật toán~\ref{alg:spectral-clustering} chạy trên đầu vào $W = W_\lambda$ tính phổ của $\mathcal{L}_\lambda$, lấy vector riêng $v_2(\mathcal{L}_\lambda)$ ứng với $\lambda_2(\mathcal{L}_\lambda)$, và xét các nhát cắt sweep trên $D_\lambda^{-1/2} v_2(\mathcal{L}_\lambda)$. Định lý~\ref{thm:sweep-bound} áp dụng cho $G_\lambda$ (hợp lệ nhờ Mệnh đề~\ref{prop:wlambda-valid}) cho cận
+\emph{Trường hợp $K = 2$.} Thuật toán~\ref{alg:spectral-clustering} chạy trên đầu vào $W = W_\lambda$ tính phổ của $\mathcal{L}_\lambda$, lấy vector riêng $v_2(\mathcal{L}_\lambda)$ ứng với $\lambda_2(\mathcal{L}_\lambda)$ và xét các nhát cắt sweep trên $D_\lambda^{-1/2} v_2(\mathcal{L}_\lambda)$. Định lý~\ref{thm:sweep-bound} áp dụng cho $G_\lambda$ (hợp lệ nhờ Mệnh đề~\ref{prop:wlambda-valid}) cho cận
 \[
     \phi_\lambda\bigl(S^{\mathrm{sweep}}_\lambda\bigr) \;\leq\; \sqrt{2 \lambda_2(\mathcal{L}_\lambda)}.
 \]
@@ -155,7 +155,7 @@ Ghép ba bất đẳng thức:
 \[
     \max_k \phi_\lambda(C_k) \;\leq\; O(K^2) \sqrt{\lambda_K(\mathcal{L}_\lambda)}.
 \]
-Việc áp dụng bất đẳng thức này cho $\mathcal{L}_\lambda$ hợp lệ vì $\mathcal{L}_\lambda$ là Laplacian chuẩn hoá của đồ thị có trọng số đối xứng không âm (Mệnh đề~\ref{prop:wlambda-valid}), và lập luận chứng minh trong tài liệu gốc chỉ dùng các tính chất phổ của Laplacian không phụ thuộc dạng riêng của ma trận trọng số.
+Việc áp dụng bất đẳng thức này cho $\mathcal{L}_\lambda$ hợp lệ vì $\mathcal{L}_\lambda$ là Laplacian chuẩn hoá của đồ thị có trọng số đối xứng không âm (Mệnh đề~\ref{prop:wlambda-valid}) và lập luận chứng minh trong tài liệu gốc chỉ dùng các tính chất phổ của Laplacian không phụ thuộc dạng riêng của ma trận trọng số.
 \end{proof}
 
 Định lý~\ref{thm:wlambda-spectral-correctness} nói rằng phân cụm phổ trên $G_\lambda$ tìm phân hoạch có conductance gần tối ưu theo metric $\phi_\lambda$ tương ứng. Đây là sự kế thừa trực tiếp của các bảo đảm trên đồ thị có trọng số tổng quát: việc đưa thêm thành phần $\lambda W^{(M)}$ vào ma trận đầu vào không làm mất đi bất kỳ bảo đảm nào đã có cho phân cụm phổ cổ điển.
@@ -176,7 +176,8 @@ Với mọi $\lambda > 0$:
 \end{proposition}
 
 \begin{proof}
-\emph{Phần (1).} Vì $W^{(M)} \geq 0$ và $\lambda \geq 0$, ta có $(W_\lambda)_{uv} = A_{uv} + \lambda W^{(M)}_{uv} \geq A_{uv}$ với mọi $u, v$. Do đó mọi cạnh của $G$ đều là cạnh của $G_\lambda$ (với trọng số dương ít nhất bằng trong $G$). Nếu $G$ liên thông thì giữa hai đỉnh bất kỳ tồn tại đường đi trong $G$, và đường đi đó cũng là đường đi trong $G_\lambda$, nên $G_\lambda$ liên thông. Trái lại, trong $G_M$ thuần một đỉnh không thuộc tam giác nào sẽ có $d_u^{(M)} = 0$ và trở thành cô lập, làm $G_M$ có thể mất liên thông kể cả khi $G$ liên thông.
+
+\emph{Phần (1).} Vì $W^{(M)} \geq 0$ và $\lambda \geq 0$, ta có $(W_\lambda)_{uv} = A_{uv} + \lambda W^{(M)}_{uv} \geq A_{uv}$ với mọi $u, v$. Do đó mọi cạnh của $G$ đều là cạnh của $G_\lambda$ (với trọng số dương ít nhất bằng trong $G$). Nếu $G$ liên thông thì giữa hai đỉnh bất kỳ tồn tại đường đi trong $G$ vàđường đi đó cũng là đường đi trong $G_\lambda$, nên $G_\lambda$ liên thông. Trái lại, trong $G_M$ thuần một đỉnh không thuộc tam giác nào sẽ có $d_u^{(M)} = 0$ và trở thành cô lập, làm $G_M$ có thể mất liên thông kể cả khi $G$ liên thông.
 
 \emph{Phần (2).} Trực tiếp từ $W_\lambda = A + \lambda W^{(M)}$:
 \[
@@ -185,12 +186,533 @@ Với mọi $\lambda > 0$:
 vì $\lambda W^{(M)}_{uv} \geq 0$. Khi $(u, v) \in E$, $A_{uv} \geq 1$, nên $(W_\lambda)_{uv} \geq 1$. Cạnh $(u, v)$ do đó được bảo toàn trong $G_\lambda$ với trọng số ít nhất bằng trọng số gốc, không bị xoá kể cả khi $(u, v)$ không thuộc instance nào của $M$ (trường hợp $W^{(M)}_{uv} = 0$).
 \end{proof}
 
-Hai khẳng định trong Mệnh đề~\ref{prop:wlambda-fixes-gm} đối ứng với hai hạn chế của $G_M$ phát biểu trong Nhận xét~\ref{rem:gm-limit}, và có thể quan sát trực tiếp trên Hình~\ref{fig:mixed-graph-construction}: các đỉnh $6, 7$ vốn cô lập trong $G_M$ trở lại liên thông trong $G_\lambda$, và các cạnh $5{-}6$, $6{-}7$ vốn bị xóa trong $G_M$ được bảo toàn trong $G_\lambda$ với trọng số $1$.
+Hai khẳng định trong Mệnh đề~\ref{prop:wlambda-fixes-gm} đối ứng với hai hạn chế của $G_M$ phát biểu trong Nhận xét~\ref{rem:gm-limit} và có thể quan sát trực tiếp trên Hình~\ref{fig:mixed-graph-construction}: các đỉnh $6, 7$ vốn cô lập trong $G_M$ trở lại liên thông trong $G_\lambda$ và các cạnh $5{-}6$, $6{-}7$ vốn bị xóa trong $G_M$ được bảo toàn trong $G_\lambda$ với trọng số $1$.
 
 % ============================================================
-\section{Hệ quả về các chỉ số $\overline{\mathrm{CC}}_w$ và $Q$}
-\label{sec:wlambda-cc-q}
+\section{Phân tích tỉ lệ phân cụm sai trên mô hình SupSBM}
+\label{sec:wlambda-supsbm}
 
-\emph{(Phần này dành cho các định lý chứng minh hệ quả của việc dùng $G_\lambda$ thay cho $G_M$ thuần đối với các chỉ số $\overline{\mathrm{CC}}_w$ và $Q$. Sẽ được hoàn thiện ở phiên bản sau.)}
+Phép xây dựng $W_\lambda = A + \lambda W^{(M)}$ ở Mục~\ref{sec:wlambda-def} đứng độc lập với cách đồ thị được sinh ra. Để đánh giá thuật toán một cách định lượng, ta cần một lớp mô hình sinh đồ thị sao cho mỗi đại lượng phổ liên quan có thể tính trong kỳ vọng và sai số quanh kỳ vọng có thể chặn. Mô hình thoả mãn cả hai điều kiện này là Superimposed Stochastic Block Model do Paul, Milenkovic và Chen \cite{paul2023hosc} đề xuất, sinh đồng thời cấu trúc cạnh và cấu trúc tam giác trên cùng cấu trúc cộng đồng. Trên mô hình này, ta phân tích tỉ lệ phân cụm sai của Thuật toán~\ref{alg:spectral-clustering} với đầu vào $W_\lambda$, ký hiệu là $R_\lambda$, theo công thức Davis--Kahan kèm hệ quả chọn $\lambda$ tối ưu và đối chiếu với hai cực $\lambda = 0$ (phân cụm phổ trên $A$ thuần) và $\lambda \to \infty$ (phân cụm phổ trên $G_M$ thuần).
 
-\cleardoublepage
+% ............................................................
+\subsection{Mô hình Superimposed SBM}
+\label{subsec:supsbm}
+
+\textbf{Mục tiêu của mô hình.} Superimposed SBM \cite{paul2023hosc} lấy nền tảng từ mô hình SBM (định nghĩa hình thức xem Phụ lục~\ref{appx:random-models}). SBM đơn thuần sinh mỗi cạnh độc lập với xác suất dựa trên cộng đồng đã phân sẵn của hai đỉnh đầu mút, do đó số tam giác trên SBM hoàn toàn là hệ quả thống kê của mật độ cạnh. Superimposed SBM mở rộng mô hình này bằng cách coi tam giác là một cấu trúc có giá trị riêng, được sinh trực tiếp từ một bộ tham số đầu vào độc lập với bộ tham số sinh cạnh.
+
+\textbf{Tham số đầu vào.} Mô hình nhận sáu tham số: số đỉnh $n$, số cộng đồng $K$, phép gán cộng đồng $\bar e: \{1, \ldots, n\} \to \{1, \ldots, K\}$ vàbốn hằng số tín hiệu cộng đồng $a_e, b_e, a_t, b_t$ không phụ thuộc $n$, đặc trưng cho mật độ cạnh và mật độ tam giác trong và ngoài cộng đồng. Dưới giả thiết cộng đồng cân bằng kích thước $n/K$, bốn hằng số có diễn giải qua kỳ vọng tại mỗi đỉnh: $a_e/K$ và $(K-1) b_e/K$ lần lượt xấp xỉ kỳ vọng số cạnh nội cộng đồng và liên cộng đồng tại mỗi đỉnh trong $G_E$; tương tự, $a_t/(2K^2)$ và $b_t/2$ xấp xỉ kỳ vọng số tam giác nội cộng đồng và liên cộng đồng đi qua mỗi đỉnh trong $G_T$. Yêu cầu $a_e > b_e$ và $a_t > b_t$ thể hiện cộng đồng là vùng dày cạnh và dày tam giác hơn so với phần còn lại.
+
+\textbf{Định nghĩa mô hình.} Đồ thị quan sát $G_s$ được sinh qua hai tầng độc lập trên cùng tập đỉnh và cùng phép gán cộng đồng $\bar e$.
+
+\emph{Tầng cạnh.} Đồ thị cạnh $G_E$ sinh theo cơ chế SBM. Với mỗi cặp đỉnh phân biệt $u, v$, chỉ thị cạnh $E_{uv}$ là biến Bernoulli độc lập với tham số
+\[
+    \pi^e_{uv} = \begin{cases}
+        a_e/n & \text{nếu } \bar e_u = \bar e_v, \\
+        b_e/n & \text{nếu } \bar e_u \neq \bar e_v.
+    \end{cases}
+\]
+Cạnh $uv$ tồn tại trong $G_E$ khi và chỉ khi $E_{uv} = 1$.
+
+\emph{Tầng tam giác.} Đồ thị tam giác $G_T$ sinh độc lập với $G_E$ theo cơ chế siêu cạnh ba đỉnh. Với mỗi bộ ba đỉnh phân biệt $u, v, w$, chỉ thị tam giác $T_{uvw}$ là biến Bernoulli độc lập với tham số
+\[
+    \pi^t_{uvw} = \begin{cases}
+        a_t/n^2 & \text{nếu } \bar e_u = \bar e_v = \bar e_w, \\
+        b_t/n^2 & \text{nếu ngược lại}.
+    \end{cases}
+\]
+Mỗi $T_{uvw} = 1$ tương ứng với một tam giác trên ba đỉnh $u, v, w$ trong $G_T$. Khi đó $A_T[u, v] = A_T[v, w] = A_T[u, w] = 1$.
+
+\emph{Chồng hai tầng.} Đồ thị quan sát thu được bằng phép hợp $G_s = G_E \cup G_T$, hiểu trên mức ma trận kề là phép OR theo từng phần tử:
+\[
+    A_s[u, v] = A_E[u, v] \lor A_T[u, v] \qquad \forall\, u \neq v,
+\]
+trong đó $A_E$ là ma trận kề của $G_E$ và $A_T$ là ma trận kề của $G_T$ sau khi gộp các cạnh trùng. Hình~\ref{fig:supsbm-superposition} minh hoạ phép chồng này trên một đồ thị nhỏ.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{supsbm_superposition.pdf}
+    \caption[Phép chồng hai tầng của mô hình SupSBM.]{Minh hoạ phép chồng hai tầng của mô hình SupSBM trên đồ thị $n = 7$ đỉnh. (a) đồ thị tam giác $G_T$ trước khi gộp cạnh trùng (multi-edge); (b) $G_T$ sau khi gộp thành đồ thị nhị phân; (c) đồ thị cạnh $G_E$; (d) đồ thị quan sát $G_s = G_E \cup G_T$.}
+    \label{fig:supsbm-superposition}
+\end{figure}
+
+Trên đồ thị quan sát $G_s$, thuật toán phân cụm phổ \cite{shi2000} tính hai ma trận: ma trận kề $A_s$ chỉ thị các cạnh quan sát được và ma trận tam giác $A_T$ đếm số tam giác đi qua mỗi cặp đỉnh trong $G_s$, theo Định nghĩa~\ref{def:motif-matrix}. Cả hai ma trận đều ngẫu nhiên do $G_s$ ngẫu nhiên.
+
+Paul, Milenkovic và Chen \cite{paul2023hosc} đã phân tích tỉ lệ phân cụm sai của thuật toán Higher Order Spectral Clustering \cite{benson2016}, tương ứng với phân cụm phổ trên $A_T$ thuần, trên mô hình SupSBM và thu được một cận trên phụ thuộc bốn tham số $a_e, b_e, a_t, b_t$. Khoá luận sử dụng cùng kỹ thuật để phân tích thuật toán dùng đầu vào $W_\lambda = A_s + \lambda A_T$, qua đó thu được một cận trên phụ thuộc thêm tham số $\lambda$. So sánh hai cận trên cùng mô hình cho phép trả lời các câu hỏi cụ thể: với cùng cấu hình tham số $a_e, b_e, a_t, b_t$, giá trị $\lambda$ nào tối ưu vàtại $\lambda$ tối ưu thì cận của khoá luận có chặt hơn cận của Higher Order Spectral Clustering hay không.
+
+% ............................................................
+\subsection{Tỉ lệ phân cụm sai và cận tổng quát}
+\label{subsec:misclustering-recipe}
+
+\begin{definition}[Tỉ lệ phân cụm sai]
+\label{def:misclustering}
+Cho nhãn cộng đồng thật $\bar e = (\bar e_1, \ldots, \bar e_n)$ theo mô hình SupSBM và nhãn cộng đồng ước lượng $\hat e = (\hat e_1, \ldots, \hat e_n)$ do một thuật toán phân cụm xuất ra, tỉ lệ phân cụm sai được định nghĩa
+\[
+    R(\hat e) = \inf_{\Pi \in S_K} \frac{1}{n} \sum_{i=1}^n \mathbf{1}\{\bar e_i \neq \Pi(\hat e_i)\},
+\]
+trong đó $S_K$ là tập tất cả hoán vị của $\{1, \ldots, K\}$.
+\end{definition}
+
+Phép lấy infimum trên hoán vị xử lý tính bất biến nhãn của bài toán phát hiện cộng đồng: chỉ có cấu trúc cụm có ý nghĩa, không phải tên gọi cụm cụ thể. Trong các mục sau, ký hiệu $R_\lambda := R(\hat e_\lambda)$ với $\hat e_\lambda$ là nhãn do Thuật toán~\ref{alg:spectral-clustering} xuất ra khi dùng đầu vào $W_\lambda$.
+
+Việc cận tỉ lệ phân cụm sai của phân cụm phổ trên SBM là kết quả chuẩn trong tài liệu thống kê. Khoá luận sử dụng trực tiếp dạng do Lei và Rinaldo chứng minh.
+
+\begin{theorem}[Cận tỉ lệ phân cụm sai \cite{lei2015}]
+\label{thm:lei-rinaldo}
+Cho $\widehat M$ là ma trận đối xứng ngẫu nhiên trên $n$ đỉnh, có ma trận kỳ vọng $\mathbb{E}[\widehat M]$ thoả $\mathrm{rank}(\mathbb{E}[\widehat M]) \leq K$. Khi đó tỉ lệ phân cụm sai của Thuật toán~\ref{alg:spectral-clustering} chạy trên đầu vào $\widehat M$ thoả
+\begin{equation}
+\label{eq:dk-recipe}
+    R(\hat e) \;\lesssim\; \frac{\|\widehat M - \mathbb{E}[\widehat M]\|_2^2}{\lambda_{\min}^+(\mathbb{E}[\widehat M])^2},
+\end{equation}
+trong đó $\|M\|_2 = \max_i |\lambda_i(M)|$ là chuẩn phổ và $\lambda_{\min}^+(\mathbb{E}[\widehat M])$ là giá trị riêng dương nhỏ nhất của ma trận kỳ vọng.
+\end{theorem}
+
+Điều kiện $\mathrm{rank}(\mathbb{E}[\widehat M]) \leq K$ ở Định lý~\ref{thm:lei-rinaldo} không phải giả thiết áp đặt từ ngoài, mà là hệ quả của cấu trúc cộng đồng. Vì $\widehat M$ là ma trận quan sát từ một mô hình có $K$ cộng đồng, hai đỉnh $u, u'$ thuộc cùng một cộng đồng có kỳ vọng các phần tử $\mathbb{E}[\widehat M][u, w]$ và $\mathbb{E}[\widehat M][u', w]$ trùng nhau với mọi đỉnh $w$, do xác suất tạo cạnh và tạo tam giác đối với chúng là như nhau. Hai hàng $u$ và $u'$ của $\mathbb{E}[\widehat M]$ do đó giống hệt, mỗi cộng đồng góp đúng một hàng phân biệt và$\mathrm{rank}(\mathbb{E}[\widehat M]) \leq K$.
+
+Chứng minh nguyên thuỷ của Định lý~\ref{thm:lei-rinaldo} kết hợp cận Davis--Kahan cho vector riêng và phân tích K-means xấp xỉ trên hàng của ma trận vector riêng, chi tiết xem \cite[Định lý 3.1]{lei2015}. Paul, Milenkovic và Chen \cite{paul2023hosc} áp dụng định lý này vào mô hình SupSBM. Khoá luận làm điều tương tự cho ma trận hỗn hợp $W_\lambda$.
+
+Áp dụng~\eqref{eq:dk-recipe} cho $\widehat M = W_\lambda$:
+\begin{equation}
+\label{eq:dk-wlambda}
+    R_\lambda \;\lesssim\; \frac{\|W_\lambda - \mathbb{E}[W_\lambda]\|_2^2}{\lambda_{\min}^+(\mathbb{E}[W_\lambda])^2}.
+\end{equation}
+
+\begin{theorem}[Tỉ lệ phân cụm sai của phân cụm phổ trên $G_\lambda$]
+\label{thm:misclustering-rate}
+Giả sử mô hình SupSBM cân bằng với cộng đồng cỡ $n/K$ và bốn tham số $a_e, b_e, a_t, b_t$ thoả giả thiết thưa của \cite{paul2023hosc}. Với xác suất $1 - o(1)$, tỉ lệ phân cụm sai của Thuật toán~\ref{alg:spectral-clustering} chạy trên đầu vào $W_\lambda = A_s + \lambda A_T$ thoả
+\begin{equation}
+\label{eq:R-lambda-bound}
+    R_\lambda \;\lesssim\; \frac{\left(\sqrt{a_e} + \lambda \sqrt{a_t}\right)^2}{\left[\dfrac{a_e - b_e}{K} + (1 + \lambda) \dfrac{a_t - b_t}{K^2}\right]^2}.
+\end{equation}
+\end{theorem}
+
+Để chứng minh định lý này, ta biến đổi mẫu số và tử số của vế phải~\eqref{eq:dk-wlambda} dựa trên định nghĩa $W_\lambda = A_s + \lambda A_T$. Mẫu số biến đổi qua tính tuyến tính của kỳ vọng:
+\begin{align*}
+    \mathbb{E}[W_\lambda]
+        &= \mathbb{E}[A_s + \lambda A_T] \\
+        &= \mathbb{E}[A_s] + \lambda \, \mathbb{E}[A_T].
+\end{align*}
+Tử số biến đổi qua bất đẳng thức tam giác đối với chuẩn phổ:
+\begin{align*}
+    \|W_\lambda - \mathbb{E}[W_\lambda]\|_2
+        &= \|(A_s + \lambda A_T) - (\mathbb{E}[A_s] + \lambda \mathbb{E}[A_T])\|_2 \\
+        &= \|(A_s - \mathbb{E}[A_s]) + \lambda (A_T - \mathbb{E}[A_T])\|_2 \\
+        &\leq \|A_s - \mathbb{E}[A_s]\|_2 + \lambda \, \|A_T - \mathbb{E}[A_T]\|_2.
+\end{align*}
+
+Hai đại lượng của ma trận tam giác $A_T$ đã được Paul, Milenkovic và Chen \cite{paul2023hosc} tính trong paper, khoá luận chỉ trích lại. Hai đại lượng của ma trận cạnh $A_s$ tính ở đây: do $A_s$ là phép hợp nhị phân của cạnh từ $G_E$ và cạnh sinh từ tam giác $G_T$. Phần thuần từ $A_E$ là SBM cổ điển, dùng kết quả của Rohe, Chatterjee, Yu \cite{rohe2011} và Lei, Rinaldo \cite{lei2015}. Phần kỳ vọng cạnh được tạo ra trong $G_T$ được tính trực tiếp bằng cách lấy xác suất ít nhất một tam giác trong $G_T$ đi qua hai đỉnh đang xét. Tổng hợp các kết quả cho ra cận~\eqref{eq:R-lambda-bound} ở định lý.
+
+% ............................................................
+\subsection{Tính kỳ vọng ma trận cạnh trên SupSBM}
+\label{subsec:expectation-edge}
+
+Theo định nghĩa của Paul, Milenkovic và Chen \cite{paul2023hosc}, ma trận kề bậc hai của mỗi tầng được đặt
+\[
+    A_{E^2}[u, v] = E_{uv}, \qquad A_{T^2}[u, v] = \sum_{w \neq u, v} T_{uvw}.
+\]
+Ở đây $A_{E^2}$ là ma trận kề nhị phân của $G_E$. Ma trận $A_{T^2}[u, v]$ đếm số tam giác trong $G_T$ đi qua cặp đỉnh $(u, v)$, có thể lớn hơn $1$ khi có nhiều tam giác chia chung cặp $(u, v)$. Ta cũng đặt ma trận kề nhị phân của cạnh quan sát sinh ra từ tam giác:
+\[
+    A_{ET}[u, v] = \begin{cases}
+        1 & \text{nếu tồn tại } w \neq u, v \text{ sao cho } T_{uvw} = 1, \\
+        0 & \text{nếu trái lại},
+    \end{cases}
+\]
+tức $A_{ET}[u, v] = \mathbf{1}\{A_{T^2}[u, v] \geq 1\}$. Khi đó $A_{ET} \leq A_{T^2}$ theo từng phần tử và phần trùng lặp ghi nhận bởi $D = A_{T^2} - A_{ET} \geq 0$.
+
+Ma trận cạnh quan sát phân rã thành hai tầng $A_s = A_{E^2} + A_{ET}$: tầng cạnh trực tiếp từ $G_E$ và tầng cạnh sinh từ tam giác $G_T$ (lấy theo dạng nhị phân, không trùng). Trong mục này khoá luận tính chặn chuẩn phổ và phổ của $A_s$ qua $A_{E^2}$ và $A_{ET}$ riêng rẽ. Đối với ma trận tam giác $A_T$, khoá luận dùng lại kết quả đã được Paul, Milenkovic và Chen \cite{paul2023hosc} chứng minh, được trích lại ở Mục~\ref{subsec:expectation-AT-paper}.
+
+\begin{lemma}[Phổ của $CBC^\top$]
+\label{lem:spectrum-CBCt}
+Cho $C \in \{0, 1\}^{n \times K}$ với $C_{uk} = \mathbf{1}\{\bar e_u = k\}$ và cộng đồng cân bằng kích thước $n/K$ và $B \in \mathbb{R}^{K \times K}$ thoả mãn
+\[
+    B = \alpha I_K + \beta \mathbf{1}_K \mathbf{1}_K^\top.
+\]
+Khi đó $B$ có giá trị riêng $\alpha + K \beta$ và $\alpha$ (bội $K-1$). Hệ quả, ma trận $C B C^\top$ có hai giá trị riêng khác không $\frac{n}{K} (\alpha + K \beta)$ và $\frac{n}{K} \alpha$ (bội $K-1$).
+\end{lemma}
+
+\begin{proof}
+Phổ của $B$ rút ra trực tiếp từ tác động lên $\mathbf{1}_K$ và lên phần bù trực giao. 
+
+Với $v = \mathbf{1}_K$,
+\[
+    B \mathbf{1}_K = \alpha \mathbf{1}_K + \beta \mathbf{1}_K (\mathbf{1}_K^\top \mathbf{1}_K) = (\alpha + K \beta) \mathbf{1}_K.
+\]
+
+Với mọi $v \in \mathbb{R}^K$ thoả $\mathbf{1}_K^\top v = 0$,
+\[
+    B v = \alpha v + \beta \mathbf{1}_K (\mathbf{1}_K^\top v) = \alpha v.
+\]
+Không gian $\{v : \mathbf{1}_K^\top v = 0\}$ có chiều $K-1$ nên $\alpha$ là giá trị riêng bội $K-1$.
+
+Để chuyển sang $CBC^\top$, dùng tính cân bằng $C^\top C = (n/K) I_K$: với mọi vector riêng $v$ của $B$ có giá trị riêng $\mu$,
+\[
+    (C B C^\top)(C v) = C B (C^\top C) v = \frac{n}{K} \mu \, (C v).
+\]
+Mặt khác $CBC^\top$ có hạng tối đa $K$ vì chứa thừa số $C \in \mathbb{R}^{n \times K}$, nên các giá trị riêng khác không của $CBC^\top$ chính là $(n/K) \mu$ với $\mu$ chạy trên phổ của $B$. 
+
+Thay $\mu = \alpha + K\beta$ và $\mu = \alpha$ cho hai giá trị riêng ở phát biểu.
+\end{proof}
+
+\begin{lemma}[{Spectral gap của $\mathbb{E}[A_{E^2}]$}]
+\label{lem:gap-AE}
+Trên mô hình SupSBM cân bằng với $a_e > b_e$,
+\[
+    \lambda_{\min}^+(\mathbb{E}[A_{E^2}]) = \frac{a_e - b_e}{K}.
+\]
+\end{lemma}
+
+\begin{proof}
+Theo định nghĩa mô hình, $A_{E^2}[u, v] = E_{uv}$ là biến Bernoulli với tham số
+\[
+    \pi^e_{uv} = \begin{cases}
+        a_e/n & \text{nếu } \bar e_u = \bar e_v, \\[2pt]
+        b_e/n & \text{nếu } \bar e_u \neq \bar e_v.
+    \end{cases}
+\]
+Đặt $B_{E^2} \in \mathbb{R}^{K \times K}$ với
+\[
+    B_{E^2}[k, \ell] = \begin{cases}
+        a_e/n & \text{nếu } k = \ell, \\[2pt]
+        b_e/n & \text{nếu } k \neq \ell.
+    \end{cases}
+\]
+Khi đó
+\begin{align*}
+    \mathbb{E}[A_{E^2}]
+        &= C B_{E^2} C^\top - \frac{a_e}{n} I_n \\
+        &\approx C B_{E^2} C^\top,
+\end{align*}
+trong đó dòng cuối bỏ đường chéo bậc $O(1/n)$, không ảnh hưởng đến hai giá trị riêng chính. Viết $B_{E^2}$ về dạng hai mức
+\[
+    B_{E^2} = \alpha I_K + \beta \mathbf{1}_K \mathbf{1}_K^\top, \qquad \alpha = \dfrac{a_e - b_e}{n}, \quad \beta = \dfrac{b_e}{n},
+\]
+rồi áp dụng Bổ đề~\ref{lem:spectrum-CBCt} với cặp $(\alpha, \beta)$ trên, hai giá trị riêng khác không của $\mathbb{E}[A_{E^2}]$ là
+\begin{align*}
+    \frac{n}{K} (\alpha + K \beta) &= \frac{a_e - b_e}{K} + b_e &&= \frac{a_e + (K-1) b_e}{K} && (\text{bội } 1), \\
+    \frac{n}{K} \alpha             &                            &&= \frac{a_e - b_e}{K}        && (\text{bội } K-1).
+\end{align*}
+Giả thiết $a_e > b_e$ cho cả hai giá trị riêng dương và giá trị nhỏ hơn cho
+\[
+    \lambda_{\min}^+(\mathbb{E}[A_{E^2}]) = \dfrac{a_e - b_e}{K}.
+\]
+\end{proof}
+
+\begin{lemma}[{Bound chuẩn phổ phần dao động của $A_{E^2}$}]
+\label{lem:bound-AE}
+Trên mô hình SupSBM cân bằng, với xác suất $1 - o(1)$,
+\[
+    \|A_{E^2} - \mathbb{E}[A_{E^2}]\|_2 \;\lesssim\; \sqrt{a_e}.
+\]
+\end{lemma}
+
+$A_{E^2}$ là ma trận kề của mô hình SBM cổ điển với tham số $(a_e/n, b_e/n)$. Cận chuẩn phổ phần dao động đã được Lei và Rinaldo \cite{lei2015} chứng minh cho SBM; khoá luận trích dùng trực tiếp.
+
+\begin{lemma}[{Spectral gap của $\mathbb{E}[A_{ET}]$}]
+\label{lem:gap-AET}
+Trên mô hình SupSBM cân bằng với $a_t > b_t$,
+\[
+    \lambda_{\min}^+(\mathbb{E}[A_{ET}]) = \frac{a_t - b_t}{K^2} + o(1).
+\]
+\end{lemma}
+
+\begin{proof}
+Phân rã $A_{ET} = A_{T^2} - D$ với $D := A_{T^2} - A_{ET}$. Vì $A_{T^2}[u, v] = \sum_{w \neq u, v} T_{uvw}$ là tổng các chỉ thị Bernoulli độc lập, tính tuyến tính của kỳ vọng cho ngay
+\[
+    \mathbb{E}[A_{T^2}[u, v]] = \sum_{w \neq u, v} \pi^t_{uvw} =: \mu_{uv}.
+\]
+Giá trị $\pi^t_{uvw}$ phụ thuộc cộng đồng của bộ ba $\{u, v, w\}$ nên ta tính $\mu_{uv}$ qua tách tổng thành hai trường hợp theo cộng đồng của cặp $\{u, v\}$.
+
+\emph{Trường hợp 1: $\bar e_u = \bar e_v = k$.} Tách tổng theo việc $w$ có cùng cộng đồng với $\{u, v\}$ hay không:
+\begin{align}
+    \mu_{uv}
+        &= \sum_{w \in C_k \setminus \{u, v\}} \pi^t_{uvw} + \sum_{w \notin C_k} \pi^t_{uvw} \notag \\
+        &= \left(\frac{n}{K} - 2\right) \cdot \frac{a_t}{n^2} + \left(n - \frac{n}{K}\right) \cdot \frac{b_t}{n^2} \notag \\
+        &= \frac{1}{n} \cdot \frac{a_t + (K-1) b_t}{K} + O(1/n^2). \label{eq:AT2-case-same}
+\end{align}
+Tổng thứ nhất ứng với bộ ba cùng cộng đồng nên $\pi^t = a_t/n^2$ và có $n/K - 2$ đỉnh $w$ trong $C_k \setminus \{u, v\}$. Tổng thứ hai ứng với bộ ba có $w$ khác cụm nên $\pi^t = b_t/n^2$ và có $n - n/K$ đỉnh $w$ ngoài $C_k$.
+
+\emph{Trường hợp 2: $\bar e_u \neq \bar e_v$.} Đặt $k_1 = \bar e_u$, $k_2 = \bar e_v$. Tách tổng theo việc $w$ thuộc $C_{k_1} \cup C_{k_2}$ hay không:
+\begin{align}
+    \mu_{uv}
+        &= \sum_{w \in (C_{k_1} \cup C_{k_2}) \setminus \{u, v\}} \pi^t_{uvw} + \sum_{w \notin C_{k_1} \cup C_{k_2}} \pi^t_{uvw} \notag \\
+        &= \left(\frac{2 n}{K} - 2\right) \cdot \frac{b_t}{n^2} + \left(n - \frac{2 n}{K}\right) \cdot \frac{b_t}{n^2} \notag \\
+        &= (n - 2) \cdot \frac{b_t}{n^2}
+        = \frac{b_t}{n} + O(1/n^2). \label{eq:AT2-case-diff}
+\end{align}
+Ở cả hai nhóm, bộ ba $\{u, v, w\}$ đều không cùng cộng đồng (vì đã có $\bar e_u \neq \bar e_v$) nên $\pi^t_{uvw} = b_t/n^2$ đồng nhất.
+
+Gộp hai trường hợp~\eqref{eq:AT2-case-same}, \eqref{eq:AT2-case-diff},
+\[
+    \mu_{uv} = \begin{cases}
+        \dfrac{1}{n} \cdot \dfrac{a_t + (K-1) b_t}{K} + O(1/n^2) & \text{nếu } \bar e_u = \bar e_v, \\[8pt]
+        \dfrac{b_t}{n} + O(1/n^2) & \text{nếu } \bar e_u \neq \bar e_v.
+    \end{cases}
+\]
+
+Tiếp theo tính $\mathbb{E}[D[u, v]]$, ứng với trùng lặp tam giác. Phần tử $D[u, v]$ chỉ khác $0$ khi có từ hai tam giác $G_T$ trở lên qua $(u, v)$. Vì $D = A_{T^2} - A_{ET}$,
+\[
+    \mathbb{E}[D[u, v]] = \mathbb{E}[A_{T^2}[u, v]] - \mathbb{E}[A_{ET}[u, v]] = \mu_{uv} - \left[1 - \prod_{w \neq u, v} (1 - \pi^t_{uvw})\right].
+\]
+Khai triển tích $\prod_w (1 - \pi^t_{uvw})$ ta được:
+\[
+    1 - \prod_{w \neq u, v} (1 - \pi^t_{uvw}) = \sum_w \pi^t_{uvw} - \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'} + \sum_{w < w' < w''} \pi^t_{uvw} \pi^t_{uvw'} \pi^t_{uvw''} - \cdots
+\]
+Đại lượng đầu là $\mu_{uv}$. Tổng các bậc ba trở lên bị chặn bởi
+\[
+    \sum_{w < w' < w''} \pi^t_{uvw} \pi^t_{uvw'} \pi^t_{uvw''} \leq \frac{1}{6}\Big(\sum_w \pi^t_{uvw}\Big)^3 = \frac{\mu_{uv}^3}{6} = O(\mu_{uv}^3).
+\]
+Thay vào,
+\[
+    \mathbb{E}[D[u, v]] = \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'} + O(\mu_{uv}^3).
+\]
+Khai triển bình phương của tổng,
+\[
+    \Big(\sum_w \pi^t_{uvw}\Big)^2 = \sum_w (\pi^t_{uvw})^2 + 2 \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'},
+\]
+do đó
+\[
+    \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'} = \frac{1}{2}\left[\Big(\sum_w \pi^t_{uvw}\Big)^2 - \sum_w (\pi^t_{uvw})^2\right] = \frac{1}{2} \mu_{uv}^2 - \frac{1}{2} \sum_w (\pi^t_{uvw})^2.
+\]
+kết hợp
+\[
+    \sum_w (\pi^t_{uvw})^2 = O(n \cdot 1/n^4) = O(1/n^3) = o(\mu_{uv}^2),
+\]
+ta được
+\[
+    \mathbb{E}[D[u, v]] = \frac{1 + o(1)}{2} \mu_{uv}^2 = O(1/n^2),
+\]
+trong đó dùng $\mu_{uv} = O(1/n)$.
+
+Gộp lại, $\mathbb{E}[A_{ET}[u, v]] = \mathbb{E}[A_{T^2}[u, v]] - \mathbb{E}[D[u, v]] = \mu_{uv} + O(1/n^2)$, tức
+\[
+    \mathbb{E}[A_{ET}[u, v]] = \begin{cases}
+        \dfrac{1}{n} \cdot \dfrac{a_t + (K-1) b_t}{K} + O(1/n^2) & \text{nếu } \bar e_u = \bar e_v, \\[8pt]
+        \dfrac{b_t}{n} + O(1/n^2) & \text{nếu } \bar e_u \neq \bar e_v.
+    \end{cases}
+\]
+
+Dùng lại ma trận chỉ thị $C$ và đặt $B_{ET} \in \mathbb{R}^{K \times K}$ với
+\[
+    B_{ET}[k, \ell] = \begin{cases}
+        \dfrac{a_t + (K-1) b_t}{K n} & \text{nếu } k = \ell, \\[8pt]
+        \dfrac{b_t}{n} & \text{nếu } k \neq \ell.
+    \end{cases}
+\]
+Khi đó $\mathbb{E}[A_{ET}] \approx C B_{ET} C^\top$ ở bậc dẫn đầu, sai số chuẩn phổ $O(1/n)$ không ảnh hưởng $\lambda_{\min}^+$. Viết $B_{ET}$ về dạng hai mức
+\[
+    B_{ET} = \alpha_T I_K + \beta_T \mathbf{1}_K \mathbf{1}_K^\top, \qquad \alpha_T = \dfrac{a_t - b_t}{K n}, \quad \beta_T = \dfrac{b_t}{n},
+\]
+rồi áp dụng Bổ đề~\ref{lem:spectrum-CBCt} cho hai giá trị riêng khác không là $\tfrac{a_t + (K^2 - 1) b_t}{K^2}$ (bội $1$) và $\tfrac{a_t - b_t}{K^2}$ (bội $K-1$). Giả thiết $a_t > b_t$ cho cả hai dương, và giá trị nhỏ hơn cho gap.
+\end{proof}
+
+\begin{lemma}[{Bound chuẩn phổ phần dao động của $A_{ET}$}]
+\label{lem:bound-AET}
+Trên mô hình SupSBM cân bằng, ở giả thiết thưa $a_t \gtrsim \log n$, với xác suất $1 - o(1)$,
+\[
+    \|A_{ET} - \mathbb{E}[A_{ET}]\|_2 \;\lesssim\; \sqrt{a_t}.
+\]
+\end{lemma}
+
+\begin{proof}
+$A_{ET}$ là ma trận kề của các cạnh quan sát được trong $G_T$. Cùng một chỉ thị $T_{uvw}$ ảnh hưởng đến cả ba phần tử $A_{ET}[u, v]$, $A_{ET}[u, w]$, $A_{ET}[v, w]$, nên các phần tử của $A_{ET}$ không độc lập theo cặp $(u, v)$. Để tận dụng đánh giá của Paul, Milenkovic và Chen \cite{paul2023hosc} cho ma trận đếm $A_{T^2}$, ta phân rã
+\[
+    A_{ET} = A_{T^2} - D, \qquad D = A_{T^2} - A_{ET}.
+\]
+Bất đẳng thức tam giác cho
+\[
+    \|A_{ET} - \mathbb{E}[A_{ET}]\|_2
+        \leq \|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 + \|D - \mathbb{E}[D]\|_2.
+\]
+
+Đại lượng đầu có bound
+\[
+    \|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 \lesssim \sqrt{a_t}
+\]
+với xác suất $1 - o(1)$, trích trực tiếp từ kết quả của Paul, Milenkovic và Chen \cite{paul2023hosc} cho $A_{T^2}$.
+
+Còn lại $\|D - \mathbb{E}[D]\|_2$. Dùng $\|M\|_2 \leq \|M\|_F$ cho ma trận tuỳ ý,
+\[
+    \|D - \mathbb{E}[D]\|_2 \leq \|D - \mathbb{E}[D]\|_F.
+\]
+Lấy kỳ vọng bình phương và đổi tổng,
+\[
+    \mathbb{E}\big[\|D - \mathbb{E}[D]\|_F^2\big] = \sum_{u, v} \mathrm{Var}(D[u, v]).
+\]
+Vậy chỉ cần chặn phương sai từng phần tử.
+
+Đặt $X_{uv} := A_{T^2}[u, v] = \sum_w T_{uvw}$. Theo định nghĩa,
+\[
+    D[u, v] = \begin{cases}
+        X_{uv} - 1 & \text{nếu } X_{uv} \geq 2, \\
+        0 & \text{nếu trái lại}.
+    \end{cases}
+\]
+Khi $X_{uv} \geq 2$, $(X_{uv} - 1)^2 \leq X_{uv}(X_{uv} - 1)$, do đó $D[u, v]^2 \leq X_{uv}(X_{uv} - 1)$ ở mọi giá trị của $X_{uv}$. Vì các $T_{uvw}$ độc lập theo $w$,
+\[
+    \mathbb{E}[X_{uv}(X_{uv} - 1)] = \sum_{w \neq w'} \pi^t_{uvw} \pi^t_{uvw'} \leq \Big(\sum_w \pi^t_{uvw}\Big)^2 = \mu_{uv}^2.
+\]
+Kết hợp,
+\[
+    \mathrm{Var}(D[u, v]) \leq \mathbb{E}[D[u, v]^2] \leq \mu_{uv}^2 = O(1/n^2).
+\]
+
+Tổng theo $n^2$ cặp $(u, v)$,
+\[
+    \mathbb{E}\big[\|D - \mathbb{E}[D]\|_F^2\big] = \sum_{u, v} \mathrm{Var}(D[u, v]) \leq n^2 \cdot O(1/n^2) = O(1).
+\]
+Đặt $Y := \|D - \mathbb{E}[D]\|_F^2$. Áp dụng bất đẳng thức Markov cho biến ngẫu nhiên không âm $Y$: với mỗi $M > 0$,
+\[
+    \Pr(Y > M) \leq \frac{\mathbb{E}[Y]}{M} = \frac{O(1)}{M}.
+\]
+Chọn $M = \log n$, xác suất ở vế phải tiến đến $0$. Do đó với xác suất $1 - o(1)$,
+\[
+    \|D - \mathbb{E}[D]\|_F = O(\sqrt{\log n}) = o(\sqrt{a_t}),
+\]
+trong đó dùng giả thiết $a_t \gtrsim \log n$. Dùng tiếp $\|M\|_2 \leq \|M\|_F$,
+\[
+    \|D - \mathbb{E}[D]\|_2 = o(\sqrt{a_t}).
+\]
+
+Kết hợp với $\|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 \lesssim \sqrt{a_t}$,
+\[
+    \|A_{ET} - \mathbb{E}[A_{ET}]\|_2 \leq \|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 + \|D - \mathbb{E}[D]\|_2 \lesssim \sqrt{a_t}
+\]
+với xác suất $1 - o(1)$.
+\end{proof}
+
+% ............................................................
+\subsection{Gộp kỳ vọng hai tầng cạnh}
+\label{subsec:apply-bound}
+
+Ký hiệu $A_E = A_{E^2} + A_{ET}$ là ma trận cạnh tổng hợp của hai tầng. Tính tuyến tính của kỳ vọng cho
+\[
+    \mathbb{E}[A_E] = \mathbb{E}[A_{E^2}] + \mathbb{E}[A_{ET}].
+\]
+Áp dụng Bổ đề~\ref{lem:gap-AE} và Bổ đề~\ref{lem:gap-AET},
+\[
+    \mathbb{E}[A_E] \approx C B_{E^2} C^\top + C B_{ET} C^\top = C (B_{E^2} + B_{ET}) C^\top.
+\]
+
+Cả $\mathbb{E}[A_{E^2}]$ và $\mathbb{E}[A_{ET}]$ đều có hệ vector riêng dạng $Cv$ với $v = \mathbf{1}_K$ (giá trị riêng lớn) và $v$ trực giao với $\mathbf{1}_K$ (giá trị riêng nhỏ). Vì cùng hệ vector riêng, giá trị riêng cộng tính trực tiếp:
+\begin{align*}
+    \lambda_{\min}^+(\mathbb{E}[A_E])
+        &= \lambda_{\min}^+(\mathbb{E}[A_{E^2}]) + \lambda_{\min}^+(\mathbb{E}[A_{ET}]) \\
+        &= \frac{a_e - b_e}{K} + \frac{a_t - b_t}{K^2}.
+\end{align*}
+
+% ............................................................
+\subsection{Kỳ vọng ma trận tam giác $A_T$}
+\label{subsec:expectation-AT-paper}
+
+Paul, Milenkovic và Chen \cite{paul2023hosc} đã phân tích phổ của ma trận tam giác $A_T$ trên mô hình SupSBM cân bằng. Khoá luận trích lại kết quả để áp dụng vào cận tỉ lệ phân cụm sai.
+
+Mỗi tam giác trong đồ thị quan sát $G_s = G_E \cup G_T$ được hoàn thành bởi tổ hợp ba cạnh, trong đó mỗi cạnh có hai nguồn khả dĩ: cạnh thuần $E$ từ tầng cạnh, hoặc cạnh sinh từ một tam giác trong tầng tam giác $T$. Bốn tổ hợp tạo ra bốn loại tam giác $E^3, T^3, T^2 E, T E^2$ minh hoạ ở Hình~\ref{fig:imposed-triangles}. Paul, Milenkovic và Chen \cite{paul2023hosc} tính lần lượt kỳ vọng số tam giác qua $\{i, j\}$ trong bốn loại trên dưới giả thiết thưa, cộng bốn đóng góp cho cấu trúc block hai mức của $\mathbb{E}[A_T]$ trên cộng đồng. Từ đó suy ra hai kết quả sau.
+
+\begin{lemma}[{Spectral gap của $\mathbb{E}[A_T]$ \cite{paul2023hosc}}]
+\label{lem:gap-AT}
+Trên mô hình SupSBM cân bằng với $a_t > b_t$,
+\[
+    \lambda_{\min}^+(\mathbb{E}[A_T]) = \frac{a_t - b_t}{K^2} + o(1).
+\]
+\end{lemma}
+
+\begin{lemma}[{Bound chuẩn phổ phần dao động của $A_T$ \cite{paul2023hosc}}]
+\label{lem:bound-AT}
+Trên mô hình SupSBM cân bằng, với xác suất $1 - o(1)$,
+\[
+    \|A_T - \mathbb{E}[A_T]\|_2 \lesssim \sqrt{a_t}.
+\]
+\end{lemma}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imposed_triangles.pdf}
+    \caption[Bốn loại tam giác sinh từ phép chồng cạnh và tam giác trong SupSBM.]{Bốn loại tam giác sinh ra trên đỉnh $\{i, j, k\}$ qua phép chồng tầng cạnh $G_E$ và tầng tam giác $G_T$: (a) $E^3$ ba cạnh từ $G_E$; (b) $T^3$ ba cạnh sinh từ tam giác trong $G_T$ với các đỉnh phụ $k_1, k_2, k_3$; (c) $T^2 E$ hai cạnh sinh từ tam giác $G_T$ và một cạnh từ $G_E$; (d) $T E^2$ một cạnh sinh từ tam giác $G_T$ và hai cạnh từ $G_E$.}
+    \label{fig:imposed-triangles}
+\end{figure}
+
+% ............................................................
+\subsection{Chứng minh Định lý~\ref{thm:misclustering-rate}}
+\label{subsec:proof-misclustering}
+
+Ta có đủ thành phần để hoàn tất chứng minh. Theo định nghĩa $W_\lambda = A_E + \lambda A_T$, áp dụng cận tỉ lệ phân cụm sai~\eqref{eq:dk-wlambda} cho $\widehat M = W_\lambda$:
+\[
+    R_\lambda \;\lesssim\; \frac{\|W_\lambda - \mathbb{E}[W_\lambda]\|_2^2}{\lambda_{\min}^+(\mathbb{E}[W_\lambda])^2}.
+\]
+Phân tích lần lượt mẫu số và tử số.
+
+\emph{Mẫu số.} Vì $\mathbb{E}[A_E]$ và $\mathbb{E}[A_T]$ chia sẻ cùng hệ vector riêng (cấu trúc cộng đồng), giá trị riêng cộng tính:
+\begin{align*}
+    \lambda_{\min}^+(\mathbb{E}[W_\lambda])
+        &= \lambda_{\min}^+(\mathbb{E}[A_E]) + \lambda \cdot \lambda_{\min}^+(\mathbb{E}[A_T]) \\
+        &= \left[\frac{a_e - b_e}{K} + \frac{a_t - b_t}{K^2}\right] + \lambda \cdot \frac{a_t - b_t}{K^2} + o(1) \\
+        &= \frac{a_e - b_e}{K} + (1 + \lambda) \cdot \frac{a_t - b_t}{K^2} + o(1),
+\end{align*}
+trong đó dòng thứ hai dùng Mục~\ref{subsec:apply-bound}, Bổ đề~\ref{lem:gap-AT} và Bổ đề~\ref{lem:bound-AT}.
+
+\emph{Tử số.} Bất đẳng thức tam giác cho
+\[
+    \|W_\lambda - \mathbb{E}[W_\lambda]\|_2 \leq \|A_E - \mathbb{E}[A_E]\|_2 + \lambda \, \|A_T - \mathbb{E}[A_T]\|_2.
+\]
+Đại lượng $\|A_E - \mathbb{E}[A_E]\|_2$ là chuẩn phổ phần dao động của ma trận cạnh thuần $A_{E^2}$ cộng đóng góp bậc thấp từ cạnh sinh trong $G_T$ là $A_{ET}$; kết quả tập trung phổ của Lei và Rinaldo \cite{lei2015} cho phần thuần và bậc của $A_{ET}$ cho tổng $\|A_E - \mathbb{E}[A_E]\|_2 \lesssim \sqrt{a_e}$. Đại lượng $\|A_T - \mathbb{E}[A_T]\|_2 \lesssim \sqrt{a_t}$ trích từ Bổ đề~\ref{lem:bound-AT}. Do đó với xác suất $1 - o(1)$,
+\[
+    \|W_\lambda - \mathbb{E}[W_\lambda]\|_2 \;\lesssim\; \sqrt{a_e} + \lambda \sqrt{a_t}.
+\]
+
+\emph{Gộp tử số và mẫu số.} Thay hai cận trên vào~\eqref{eq:dk-wlambda} cho cận cuối
+\[
+    R_\lambda \;\lesssim\; \frac{\left(\sqrt{a_e} + \lambda \sqrt{a_t}\right)^2}{\left[\dfrac{a_e - b_e}{K} + (1 + \lambda) \dfrac{a_t - b_t}{K^2}\right]^2},
+\]
+trùng với phát biểu của Định lý~\ref{thm:misclustering-rate}. \qed
+
+% ............................................................
+\subsection{Tối ưu $\lambda^*$ và so sánh với HOSC}
+\label{subsec:lambda-opt}
+
+Đặt $\alpha = a_e - b_e$ (tín hiệu cộng đồng từ tầng cạnh) và $\beta = (a_t - b_t)/K$ (tín hiệu cộng đồng từ tầng tam giác, đã scale theo $K$). Cận tỉ lệ phân cụm sai ở Định lý~\ref{thm:misclustering-rate} viết gọn thành
+\[
+    R_\lambda \;\lesssim\; \frac{a_e + \lambda^2 a_t}{\left[\dfrac{\alpha}{K} + (1 + \lambda) \dfrac{\beta}{K}\right]^2}
+        \cdot \frac{(\sqrt{a_e} + \lambda \sqrt{a_t})^2}{a_e + \lambda^2 a_t}
+\]
+sau khi nhận xét rằng $(\sqrt{a_e} + \lambda \sqrt{a_t})^2 \leq 2(a_e + \lambda^2 a_t)$. Để chọn $\lambda$ tối ưu, ta cực tiểu hoá vế phải dưới dạng đơn giản hơn
+\[
+    f(\lambda) = \frac{a_e + \lambda^2 a_t}{\left[\alpha + (1 + \lambda) \beta\right]^2}.
+\]
+
+\begin{proposition}[Tham số nội suy tối ưu]
+\label{prop:lambda-opt}
+Hàm $f(\lambda)$ trên $\lambda \geq 0$ đạt cực tiểu tại
+\[
+    \lambda^* = \frac{a_e \beta}{a_t (\alpha + \beta)} = \frac{a_e (a_t - b_t)/K}{a_t \left[(a_e - b_e) + (a_t - b_t)/K\right]}.
+\]
+\end{proposition}
+
+\begin{proof}
+Đặt $N(\lambda) = a_e + \lambda^2 a_t$ và $D(\lambda) = \alpha + (1 + \lambda) \beta$. Khi đó $N'(\lambda) = 2 \lambda a_t$ và $D'(\lambda) = \beta$. Điểm dừng $f'(\lambda) = 0$ tương đương $N'(\lambda) D(\lambda) = 2 N(\lambda) D'(\lambda)$:
+\[
+    2 \lambda a_t \left[(\alpha + \beta) + \lambda \beta\right] = 2 (a_e + \lambda^2 a_t) \beta.
+\]
+Khai triển vế trái: $2 \lambda a_t (\alpha + \beta) + 2 \lambda^2 a_t \beta$. Vế phải: $2 a_e \beta + 2 \lambda^2 a_t \beta$. Triệt tiêu $2 \lambda^2 a_t \beta$ ở hai vế cho $\lambda a_t (\alpha + \beta) = a_e \beta$, suy ra $\lambda^*$ ở phát biểu. Kiểm tra đạo hàm hai vế hoặc thay biên $\lambda = 0, \infty$ xác nhận đây là cực tiểu.
+\end{proof}
+
+\textbf{Diễn giải.} Tỉ số $\lambda^* \sim a_e/a_t$ scale theo "tỉ lệ nhiễu cạnh trên nhiễu tam giác". Khi tín hiệu cạnh trội ($\alpha \gg \beta$), $\lambda^* \approx a_e \beta / (a_t \alpha) \sim 1/K$ nhỏ, tức ưu tiên cạnh. Khi tín hiệu tam giác trội ($\alpha \ll \beta$), $\lambda^* \approx a_e/a_t$, tức ưu tiên tam giác. Trong cả hai cực, $\lambda^*$ luôn hữu hạn.
+
+Thay $\lambda^*$ vào $f(\lambda)$ và rút gọn cho cận tại điểm tối ưu:
+\begin{equation}
+    \label{eq:R-lambda-star}
+    R_{\lambda^*} \;\lesssim\; \frac{K^2 \cdot a_e \cdot a_t}{a_t (\alpha + \beta)^2 + a_e \beta^2}.
+\end{equation}
+
+\textbf{So sánh với HOSC.} Thuật toán Higher Order Spectral Clustering tương ứng giới hạn $\lambda \to \infty$ (chỉ dùng ma trận tam giác $A_T$). Ký hiệu cận tương ứng là $R_T$:
+\[
+    R_T \;\lesssim\; \lim_{\lambda \to \infty} f(\lambda) \cdot K^2 = \frac{K^4 a_t}{(a_t - b_t)^2} = \frac{K^2 a_t}{\beta^2}.
+\]
+Tỉ số hai cận:
+\begin{equation}
+    \label{eq:ratio-R-RT}
+    \frac{R_{\lambda^*}}{R_T} \;\lesssim\; \frac{a_e \beta^2}{a_t (\alpha + \beta)^2 + a_e \beta^2} = \frac{1}{1 + \rho_T}, \qquad \rho_T = \frac{a_t (\alpha + \beta)^2}{a_e \beta^2}.
+\end{equation}
+Khi $\rho_T$ lớn, $R_{\lambda^*}$ nhỏ hơn $R_T$ đáng kể; cụ thể, $\rho_T \to \infty$ kéo theo $R_{\lambda^*}/R_T \to 0$.
+
+\textbf{Diễn giải regime.} Đặt $\rho_T = (a_t/a_e) \cdot (1 + K(a_e - b_e)/(a_t - b_t))^2$. Khi tín hiệu cạnh trội ($K(a_e - b_e) \gg (a_t - b_t)$, tức $\alpha \gg \beta$), $\rho_T$ tăng theo $K^2$ và $R_{\lambda^*}/R_T \to 0$ về tốc độ — cải thiện về \emph{rate} so với HOSC. Khi tín hiệu tam giác trội ($\alpha \ll \beta$), $\rho_T \approx a_t/a_e$, độ cải thiện chỉ là constant phụ thuộc tỉ số $a_t/a_e$.
+
+\textbf{Lưu ý về tính chặt của cận.} Cận $R_T$ ở trên thu được bằng cách thay $\lambda \to \infty$ vào~\eqref{eq:R-lambda-bound} và là cận trên cho misclustering rate của HOSC theo cùng kỹ thuật Davis--Kahan. Paul, Milenkovic và Chen \cite{paul2023hosc} chứng minh cận tương đương cho HOSC trực tiếp trên $A_T$, do đó so sánh ở~\eqref{eq:ratio-R-RT} hợp lệ ở mức cận trên. Câu hỏi về cận dưới information-theoretic cho $R_\lambda$ trên SupSBM vẫn là vấn đề mở.
