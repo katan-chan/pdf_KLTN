@@ -276,12 +276,25 @@ Chứng minh nguyên thuỷ của Định lý~\ref{thm:lei-rinaldo} kết hợp 
     R_\lambda \;\lesssim\; \frac{\|W_\lambda - \mathbb{E}[W_\lambda]\|_2^2}{\lambda_{\min}^+(\mathbb{E}[W_\lambda])^2}.
 \end{equation}
 
+\paragraph{Giả thiết.} Khoá luận giả định mô hình SupSBM với các điều kiện sau:
+
+\begin{description}
+    \item[(A0) Cân bằng:] Số cộng đồng là $K$, mỗi cộng đồng có kích thước $n/K$. Bốn tham số $a_e, b_e, a_t, b_t$ thoả $a_e > b_e$ và $a_t > b_t$ (tín hiệu cộng đồng dương trên cả hai tầng).
+    \item[(A1) Sparsity (theo \cite{paul2023hosc}):]
+    \begin{itemize}
+        \item[(A1a)] $\log n \leq a_e \leq c_1 \cdot n^{2/5 - \eta}$,
+        \item[(A1b)] $(\log n)^8 \leq a_t \leq c_2 \cdot n^{2/5 - \varepsilon}$,
+        \item[(A1c)] $a_t > c_3 \cdot a_e^6 / n^2$,
+    \end{itemize}
+    với các hằng số $c_1, c_2, c_3 > 0$ và $\eta, \varepsilon > 0$ nhỏ.
+\end{description}
+
 \begin{theorem}[Tỉ lệ phân cụm sai của phân cụm phổ trên $G_\lambda$]
 \label{thm:misclustering-rate}
-Giả sử mô hình SupSBM cân bằng với cộng đồng cỡ $n/K$ và bốn tham số $a_e, b_e, a_t, b_t$ thoả giả thiết thưa của \cite{paul2023hosc}. Với xác suất $1 - o(1)$, tỉ lệ phân cụm sai của Thuật toán~\ref{alg:spectral-clustering} chạy trên đầu vào $W_\lambda = A_s + \lambda A_T$ thoả
+Dưới các giả thiết \textnormal{(A0)} và \textnormal{(A1)}, với xác suất $1 - o(1)$, tỉ lệ phân cụm sai của Thuật toán~\ref{alg:spectral-clustering} chạy trên đầu vào $W_\lambda = A_s + \lambda A_T$ thoả
 \begin{equation}
 \label{eq:R-lambda-bound}
-    R_\lambda \;\lesssim\; \frac{\left(\sqrt{a_e} + \lambda \sqrt{a_t}\right)^2}{\left[\dfrac{a_e - b_e}{K} + (1 + \lambda) \dfrac{a_t - b_t}{K^2}\right]^2}.
+    R_\lambda \;\lesssim\; \frac{\left(\sqrt{a_e} + \lambda \sqrt{a_t + a_e^6/n^2}\right)^2}{\left[\dfrac{a_e - b_e}{K} + (1 + \lambda) \dfrac{a_t - b_t}{K^2} + \lambda \dfrac{b_e^2 (a_e - b_e)}{K n}\right]^2}.
 \end{equation}
 \end{theorem}
 
@@ -354,7 +367,6 @@ Thay $\mu = \alpha + K\beta$ và $\mu = \alpha$ cho hai giá trị riêng ở ph
 
 \begin{lemma}[{Spectral gap của $\mathbb{E}[A_{E^2}]$}]
 \label{lem:gap-AE}
-Trên mô hình SupSBM cân bằng với $a_e > b_e$,
 \[
     \lambda_{\min}^+(\mathbb{E}[A_{E^2}]) = \frac{a_e - b_e}{K}.
 \]
@@ -398,7 +410,7 @@ Giả thiết $a_e > b_e$ cho cả hai giá trị riêng dương và giá trị 
 
 \begin{lemma}[{Bound chuẩn phổ phần dao động của $A_{E^2}$}]
 \label{lem:bound-AE}
-Trên mô hình SupSBM cân bằng, với xác suất $1 - o(1)$,
+Với xác suất $1 - o(1)$,
 \[
     \|A_{E^2} - \mathbb{E}[A_{E^2}]\|_2 \;\lesssim\; \sqrt{a_e}.
 \]
@@ -408,7 +420,6 @@ $A_{E^2}$ là ma trận kề của mô hình SBM cổ điển với tham số $(
 
 \begin{lemma}[{Spectral gap của $\mathbb{E}[A_{ET}]$}]
 \label{lem:gap-AET}
-Trên mô hình SupSBM cân bằng với $a_t > b_t$,
 \[
     \lambda_{\min}^+(\mathbb{E}[A_{ET}]) = \frac{a_t - b_t}{K^2} + o(1).
 \]
@@ -506,7 +517,7 @@ rồi áp dụng Bổ đề~\ref{lem:spectrum-CBCt} cho hai giá trị riêng kh
 
 \begin{lemma}[{Bound chuẩn phổ phần dao động của $A_{ET}$}]
 \label{lem:bound-AET}
-Trên mô hình SupSBM cân bằng, ở giả thiết thưa $a_t \gtrsim \log n$, với xác suất $1 - o(1)$,
+Với xác suất $1 - o(1)$,
 \[
     \|A_{ET} - \mathbb{E}[A_{ET}]\|_2 \;\lesssim\; \sqrt{a_t}.
 \]
@@ -603,24 +614,26 @@ Cả $\mathbb{E}[A_{E^2}]$ và $\mathbb{E}[A_{ET}]$ đều có hệ vector riên
 \subsection{Kỳ vọng ma trận tam giác $A_T$}
 \label{subsec:expectation-AT-paper}
 
-Paul, Milenkovic và Chen \cite{paul2023hosc} đã phân tích phổ của ma trận tam giác $A_T$ trên mô hình SupSBM cân bằng. Khoá luận trích lại kết quả để áp dụng vào cận tỉ lệ phân cụm sai.
+Paul, Milenkovic và Chen \cite{paul2023hosc} đã phân tích phổ của ma trận tam giác $A_T$ dưới các giả thiết tương tự (A0)--(A1). Khoá luận trích lại kết quả để áp dụng vào cận tỉ lệ phân cụm sai.
 
 Mỗi tam giác trong đồ thị quan sát $G_s = G_E \cup G_T$ được hoàn thành bởi tổ hợp ba cạnh, trong đó mỗi cạnh có hai nguồn khả dĩ: cạnh thuần $E$ từ tầng cạnh, hoặc cạnh sinh từ một tam giác trong tầng tam giác $T$. Bốn tổ hợp tạo ra bốn loại tam giác $E^3, T^3, T^2 E, T E^2$ minh hoạ ở Hình~\ref{fig:imposed-triangles}. Paul, Milenkovic và Chen \cite{paul2023hosc} tính lần lượt kỳ vọng số tam giác qua $\{i, j\}$ trong bốn loại trên dưới giả thiết thưa, cộng bốn đóng góp cho cấu trúc block hai mức của $\mathbb{E}[A_T]$ trên cộng đồng. Từ đó suy ra hai kết quả sau.
 
 \begin{lemma}[{Spectral gap của $\mathbb{E}[A_T]$ \cite{paul2023hosc}}]
 \label{lem:gap-AT}
-Trên mô hình SupSBM cân bằng với $a_t > b_t$,
+Dưới giả thiết $a_e \asymp b_e$ và $a_t \asymp b_t$ (Định lý 3 trong \cite{paul2023hosc}),
 \[
-    \lambda_{\min}^+(\mathbb{E}[A_T]) = \frac{a_t - b_t}{K^2} + o(1).
+    \lambda_{\min}^+(\mathbb{E}[A_T]) \approx \frac{a_t - b_t}{K^2} + \frac{b_e^2 (a_e - b_e)}{K n}.
 \]
+Số hạng thứ hai là đóng góp của các tam giác loại $E^3$ (ba cạnh đều từ tầng cạnh) vào spectral gap.
 \end{lemma}
 
 \begin{lemma}[{Bound chuẩn phổ phần dao động của $A_T$ \cite{paul2023hosc}}]
 \label{lem:bound-AT}
-Trên mô hình SupSBM cân bằng, với xác suất $1 - o(1)$,
+Với xác suất $1 - o(1)$,
 \[
-    \|A_T - \mathbb{E}[A_T]\|_2 \lesssim \sqrt{a_t}.
+    \|A_T - \mathbb{E}[A_T]\|_2 \lesssim \sqrt{a_t + a_e^6/n^2} \leq \sqrt{a_t} + a_e^3/n.
 \]
+Số hạng $a_e^3/n$ là đóng góp của các tam giác loại $E^3$.
 \end{lemma}
 
 \begin{figure}[H]
@@ -644,8 +657,8 @@ Phân tích lần lượt mẫu số và tử số.
 \begin{align*}
     \lambda_{\min}^+(\mathbb{E}[W_\lambda])
         &= \lambda_{\min}^+(\mathbb{E}[A_E]) + \lambda \cdot \lambda_{\min}^+(\mathbb{E}[A_T]) \\
-        &= \left[\frac{a_e - b_e}{K} + \frac{a_t - b_t}{K^2}\right] + \lambda \cdot \frac{a_t - b_t}{K^2} + o(1) \\
-        &= \frac{a_e - b_e}{K} + (1 + \lambda) \cdot \frac{a_t - b_t}{K^2} + o(1),
+        &= \left[\frac{a_e - b_e}{K} + \frac{a_t - b_t}{K^2}\right] + \lambda \left[\frac{a_t - b_t}{K^2} + \frac{b_e^2 (a_e - b_e)}{K n}\right] + o(1) \\
+        &= \frac{a_e - b_e}{K} + (1 + \lambda) \cdot \frac{a_t - b_t}{K^2} + \lambda \cdot \frac{b_e^2 (a_e - b_e)}{K n} + o(1),
 \end{align*}
 trong đó dòng thứ hai dùng Mục~\ref{subsec:apply-bound}, Bổ đề~\ref{lem:gap-AT} và Bổ đề~\ref{lem:bound-AT}.
 
@@ -653,14 +666,14 @@ trong đó dòng thứ hai dùng Mục~\ref{subsec:apply-bound}, Bổ đề~\ref
 \[
     \|W_\lambda - \mathbb{E}[W_\lambda]\|_2 \leq \|A_E - \mathbb{E}[A_E]\|_2 + \lambda \, \|A_T - \mathbb{E}[A_T]\|_2.
 \]
-Đại lượng $\|A_E - \mathbb{E}[A_E]\|_2$ là chuẩn phổ phần dao động của ma trận cạnh thuần $A_{E^2}$ cộng đóng góp bậc thấp từ cạnh sinh trong $G_T$ là $A_{ET}$; kết quả tập trung phổ của Lei và Rinaldo \cite{lei2015} cho phần thuần và bậc của $A_{ET}$ cho tổng $\|A_E - \mathbb{E}[A_E]\|_2 \lesssim \sqrt{a_e}$. Đại lượng $\|A_T - \mathbb{E}[A_T]\|_2 \lesssim \sqrt{a_t}$ trích từ Bổ đề~\ref{lem:bound-AT}. Do đó với xác suất $1 - o(1)$,
+Đại lượng $\|A_E - \mathbb{E}[A_E]\|_2$ là chuẩn phổ phần dao động của ma trận cạnh thuần $A_{E^2}$ cộng đóng góp bậc thấp từ cạnh sinh trong $G_T$ là $A_{ET}$; kết quả tập trung phổ của Lei và Rinaldo \cite{lei2015} cho phần thuần và bậc của $A_{ET}$ cho tổng $\|A_E - \mathbb{E}[A_E]\|_2 \lesssim \sqrt{a_e}$. Đại lượng $\|A_T - \mathbb{E}[A_T]\|_2 \lesssim \sqrt{a_t + a_e^6/n^2}$ trích từ Bổ đề~\ref{lem:bound-AT}. Do đó với xác suất $1 - o(1)$,
 \[
-    \|W_\lambda - \mathbb{E}[W_\lambda]\|_2 \;\lesssim\; \sqrt{a_e} + \lambda \sqrt{a_t}.
+    \|W_\lambda - \mathbb{E}[W_\lambda]\|_2 \;\lesssim\; \sqrt{a_e} + \lambda \sqrt{a_t + a_e^6/n^2}.
 \]
 
 \emph{Gộp tử số và mẫu số.} Thay hai cận trên vào~\eqref{eq:dk-wlambda} cho cận cuối
 \[
-    R_\lambda \;\lesssim\; \frac{\left(\sqrt{a_e} + \lambda \sqrt{a_t}\right)^2}{\left[\dfrac{a_e - b_e}{K} + (1 + \lambda) \dfrac{a_t - b_t}{K^2}\right]^2},
+    R_\lambda \;\lesssim\; \frac{\left(\sqrt{a_e} + \lambda \sqrt{a_t + a_e^6/n^2}\right)^2}{\left[\dfrac{a_e - b_e}{K} + (1 + \lambda) \dfrac{a_t - b_t}{K^2} + \lambda \dfrac{b_e^2 (a_e - b_e)}{K n}\right]^2},
 \]
 trùng với phát biểu của Định lý~\ref{thm:misclustering-rate}. \qed
 
@@ -668,51 +681,78 @@ trùng với phát biểu của Định lý~\ref{thm:misclustering-rate}. \qed
 \subsection{Tối ưu $\lambda^*$ và so sánh với HOSC}
 \label{subsec:lambda-opt}
 
-Đặt $\alpha = a_e - b_e$ (tín hiệu cộng đồng từ tầng cạnh) và $\beta = (a_t - b_t)/K$ (tín hiệu cộng đồng từ tầng tam giác, đã scale theo $K$). Cận tỉ lệ phân cụm sai ở Định lý~\ref{thm:misclustering-rate} viết gọn thành
+Đặt $\alpha = a_e - b_e$ (tín hiệu cộng đồng từ tầng cạnh) và $\beta = (a_t - b_t)/K$ (tín hiệu cộng đồng từ tầng tam giác, đã scale theo $K$). Để gọn ký hiệu khi tính đến đóng góp $E^3$, ta đặt thêm
 \[
-    R_\lambda \;\lesssim\; \frac{a_e + \lambda^2 a_t}{\left[\dfrac{\alpha}{K} + (1 + \lambda) \dfrac{\beta}{K}\right]^2}
-        \cdot \frac{(\sqrt{a_e} + \lambda \sqrt{a_t})^2}{a_e + \lambda^2 a_t}
+    \tilde a_t := a_t + a_e^6/n^2, \qquad \delta := \frac{b_e^2 (a_e - b_e)}{n}, \qquad \tilde\beta := \beta + \delta.
 \]
-sau khi nhận xét rằng $(\sqrt{a_e} + \lambda \sqrt{a_t})^2 \leq 2(a_e + \lambda^2 a_t)$. Để chọn $\lambda$ tối ưu, ta cực tiểu hoá vế phải dưới dạng đơn giản hơn
+Cận tỉ lệ phân cụm sai ở Định lý~\ref{thm:misclustering-rate} viết gọn thành
 \[
-    f(\lambda) = \frac{a_e + \lambda^2 a_t}{\left[\alpha + (1 + \lambda) \beta\right]^2}.
+    R_\lambda \;\lesssim\; \frac{(\sqrt{a_e} + \lambda \sqrt{\tilde a_t})^2}{\dfrac{1}{K^2}\left[\alpha + \beta + \lambda \tilde\beta\right]^2}.
+\]
+Áp dụng bất đẳng thức $(x + y)^2 \leq 2(x^2 + y^2)$ cho $x = \sqrt{a_e}, y = \lambda \sqrt{\tilde a_t}$, ta thu được
+\[
+    (\sqrt{a_e} + \lambda \sqrt{\tilde a_t})^2 \leq 2 (a_e + \lambda^2 \tilde a_t).
+\]
+Thay vào cận trên (chỉ làm tăng hằng số, không thay đổi tốc độ), việc chọn $\lambda$ tối ưu quy về cực tiểu hoá biểu thức đơn giản hơn (bỏ hằng số $2 K^2$):
+\[
+    f(\lambda) = \frac{a_e + \lambda^2 \tilde a_t}{\left[\alpha + \beta + \lambda \tilde\beta\right]^2}.
 \]
 
 \begin{proposition}[Tham số nội suy tối ưu]
 \label{prop:lambda-opt}
 Hàm $f(\lambda)$ trên $\lambda \geq 0$ đạt cực tiểu tại
 \[
-    \lambda^* = \frac{a_e \beta}{a_t (\alpha + \beta)} = \frac{a_e (a_t - b_t)/K}{a_t \left[(a_e - b_e) + (a_t - b_t)/K\right]}.
+    \lambda^* = \frac{a_e \tilde\beta}{\tilde a_t (\alpha + \beta)}.
 \]
 \end{proposition}
 
 \begin{proof}
-Đặt $N(\lambda) = a_e + \lambda^2 a_t$ và $D(\lambda) = \alpha + (1 + \lambda) \beta$. Khi đó $N'(\lambda) = 2 \lambda a_t$ và $D'(\lambda) = \beta$. Điểm dừng $f'(\lambda) = 0$ tương đương $N'(\lambda) D(\lambda) = 2 N(\lambda) D'(\lambda)$:
+Đặt
 \[
-    2 \lambda a_t \left[(\alpha + \beta) + \lambda \beta\right] = 2 (a_e + \lambda^2 a_t) \beta.
+    N(\lambda) := a_e + \lambda^2 \tilde a_t, \qquad D(\lambda) := \alpha + \beta + \lambda \tilde\beta,
 \]
-Khai triển vế trái: $2 \lambda a_t (\alpha + \beta) + 2 \lambda^2 a_t \beta$. Vế phải: $2 a_e \beta + 2 \lambda^2 a_t \beta$. Triệt tiêu $2 \lambda^2 a_t \beta$ ở hai vế cho $\lambda a_t (\alpha + \beta) = a_e \beta$, suy ra $\lambda^*$ ở phát biểu. Kiểm tra đạo hàm hai vế hoặc thay biên $\lambda = 0, \infty$ xác nhận đây là cực tiểu.
+nên $f(\lambda) = N(\lambda) / D(\lambda)^2$. Đạo hàm
+\[
+    N'(\lambda) = 2 \lambda \tilde a_t, \qquad D'(\lambda) = \tilde\beta.
+\]
+Quy tắc thương cho
+\[
+    f'(\lambda) = \frac{N'(\lambda) D(\lambda) - 2 N(\lambda) D'(\lambda)}{D(\lambda)^3}.
+\]
+Vì $D(\lambda) > 0$ với mọi $\lambda \geq 0$, điểm dừng $f'(\lambda) = 0$ tương đương tử số bằng $0$:
+\[
+    N'(\lambda) D(\lambda) = 2 N(\lambda) D'(\lambda).
+\]
+Thay các biểu thức của $N, N', D, D'$ và chia hai vế cho $2$, đẳng thức tương đương với
+\begin{align*}
+    \lambda \tilde a_t \left[\alpha + \beta + \lambda \tilde\beta\right] &= (a_e + \lambda^2 \tilde a_t) \tilde\beta \\
+    \iff \lambda \tilde a_t (\alpha + \beta) + \lambda^2 \tilde a_t \tilde\beta &= a_e \tilde\beta + \lambda^2 \tilde a_t \tilde\beta \\
+    \iff \lambda \tilde a_t (\alpha + \beta) &= a_e \tilde\beta \\
+    \iff \lambda &= \frac{a_e \tilde\beta}{\tilde a_t (\alpha + \beta)},
+\end{align*}
+trong đó dòng thứ hai triệt tiêu $\lambda^2 \tilde a_t \tilde\beta$ ở hai vế. Đây là điểm $\lambda^*$ ở phát biểu. Kiểm tra giá trị biên $f(0) = a_e/(\alpha + \beta)^2$ và $f(\lambda) \to \tilde a_t/\tilde\beta^2$ khi $\lambda \to \infty$ cho thấy đây là cực tiểu duy nhất trên $\lambda \geq 0$.
 \end{proof}
 
-\textbf{Diễn giải.} Tỉ số $\lambda^* \sim a_e/a_t$ scale theo "tỉ lệ nhiễu cạnh trên nhiễu tam giác". Khi tín hiệu cạnh trội ($\alpha \gg \beta$), $\lambda^* \approx a_e \beta / (a_t \alpha) \sim 1/K$ nhỏ, tức ưu tiên cạnh. Khi tín hiệu tam giác trội ($\alpha \ll \beta$), $\lambda^* \approx a_e/a_t$, tức ưu tiên tam giác. Trong cả hai cực, $\lambda^*$ luôn hữu hạn.
+\textbf{Diễn giải.} Tỉ số $\lambda^* \sim a_e/\tilde a_t$ scale theo tỉ lệ nhiễu cạnh trên nhiễu tam giác (sau khi gộp đóng góp $E^3$). Khi tín hiệu cạnh trội ($\alpha \gg \beta$), $\lambda^* \approx a_e \tilde\beta / (\tilde a_t \alpha)$ nhỏ, tức ưu tiên cạnh. Khi tín hiệu tam giác trội ($\alpha \ll \beta$), $\lambda^* \approx a_e/\tilde a_t$, tức ưu tiên tam giác. Trong cả hai cực, $\lambda^*$ luôn hữu hạn.
 
 Thay $\lambda^*$ vào $f(\lambda)$ và rút gọn cho cận tại điểm tối ưu:
 \begin{equation}
     \label{eq:R-lambda-star}
-    R_{\lambda^*} \;\lesssim\; \frac{K^2 \cdot a_e \cdot a_t}{a_t (\alpha + \beta)^2 + a_e \beta^2}.
+    R_{\lambda^*} \;\lesssim\; \frac{K^2 \, a_e \, \tilde a_t}{\tilde a_t (\alpha + \beta)^2 + a_e \tilde\beta^2}.
 \end{equation}
 
-\textbf{So sánh với HOSC.} Thuật toán Higher Order Spectral Clustering tương ứng giới hạn $\lambda \to \infty$ (chỉ dùng ma trận tam giác $A_T$). Ký hiệu cận tương ứng là $R_T$:
-\[
-    R_T \;\lesssim\; \lim_{\lambda \to \infty} f(\lambda) \cdot K^2 = \frac{K^4 a_t}{(a_t - b_t)^2} = \frac{K^2 a_t}{\beta^2}.
-\]
+\textbf{So sánh với HOSC.} Thuật toán Higher Order Spectral Clustering tương ứng giới hạn $\lambda \to \infty$ (chỉ dùng ma trận tam giác $A_T$). Dùng trực tiếp Định lý 3 trong \cite{paul2023hosc}, kết hợp cận chuẩn phổ $\sqrt{\tilde a_t}$ ở Bổ đề~\ref{lem:bound-AT} và spectral gap $\tilde\beta/K$ ở Bổ đề~\ref{lem:gap-AT}, ta được
+\begin{equation}
+    \label{eq:R-T-bound}
+    R_T \;\lesssim\; \frac{\tilde a_t}{(\tilde\beta/K)^2} = \frac{K^2 \tilde a_t}{\tilde\beta^2}.
+\end{equation}
 Tỉ số hai cận:
 \begin{equation}
     \label{eq:ratio-R-RT}
-    \frac{R_{\lambda^*}}{R_T} \;\lesssim\; \frac{a_e \beta^2}{a_t (\alpha + \beta)^2 + a_e \beta^2} = \frac{1}{1 + \rho_T}, \qquad \rho_T = \frac{a_t (\alpha + \beta)^2}{a_e \beta^2}.
+    \frac{R_{\lambda^*}}{R_T} \;\lesssim\; \frac{a_e \tilde\beta^2}{\tilde a_t (\alpha + \beta)^2 + a_e \tilde\beta^2} = \frac{1}{1 + \rho_T}, \qquad \rho_T = \frac{\tilde a_t (\alpha + \beta)^2}{a_e \tilde\beta^2}.
 \end{equation}
-Khi $\rho_T$ lớn, $R_{\lambda^*}$ nhỏ hơn $R_T$ đáng kể; cụ thể, $\rho_T \to \infty$ kéo theo $R_{\lambda^*}/R_T \to 0$.
+Khi $\rho_T$ lớn, $R_{\lambda^*}$ nhỏ hơn $R_T$ đáng kể. Cụ thể $\rho_T \to \infty$ kéo theo $R_{\lambda^*}/R_T \to 0$.
 
-\textbf{Diễn giải regime.} Đặt $\rho_T = (a_t/a_e) \cdot (1 + K(a_e - b_e)/(a_t - b_t))^2$. Khi tín hiệu cạnh trội ($K(a_e - b_e) \gg (a_t - b_t)$, tức $\alpha \gg \beta$), $\rho_T$ tăng theo $K^2$ và $R_{\lambda^*}/R_T \to 0$ về tốc độ — cải thiện về \emph{rate} so với HOSC. Khi tín hiệu tam giác trội ($\alpha \ll \beta$), $\rho_T \approx a_t/a_e$, độ cải thiện chỉ là constant phụ thuộc tỉ số $a_t/a_e$.
+\textbf{Diễn giải regime.} Khi tín hiệu cạnh trội ($\alpha \gg \beta$, và đóng góp $E^3$ là $\delta$ chỉ làm $\tilde\beta$ tăng nhẹ so với $\beta$), $\rho_T \approx \tilde a_t \alpha^2 / (a_e \tilde\beta^2)$ tăng theo $\alpha^2$ và $R_{\lambda^*}/R_T \to 0$ về tốc độ. Khi tín hiệu tam giác trội ($\alpha \ll \beta$), $\rho_T \approx \tilde a_t / a_e$, độ cải thiện chỉ là constant phụ thuộc tỉ số $\tilde a_t / a_e$.
 
 \textbf{Lưu ý về tính chặt của cận.} Cận $R_T$ ở trên thu được bằng cách thay $\lambda \to \infty$ vào~\eqref{eq:R-lambda-bound} và là cận trên cho misclustering rate của HOSC theo cùng kỹ thuật Davis--Kahan. Paul, Milenkovic và Chen \cite{paul2023hosc} chứng minh cận tương đương cho HOSC trực tiếp trên $A_T$, do đó so sánh ở~\eqref{eq:ratio-R-RT} hợp lệ ở mức cận trên. Câu hỏi về cận dưới information-theoretic cho $R_\lambda$ trên SupSBM vẫn là vấn đề mở.
