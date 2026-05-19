@@ -2,130 +2,261 @@
 %  PHỤ LỤC A: CHỨNG MINH CÁC ĐỊNH LÝ TRONG KHÓA LUẬN
 % ============================================================
 
-\chapter{Chứng minh các định lý}
-\label{appx:chung-minh}
+\chapter{Chứng minh các kết quả ở Mục 3.3}
+\label{appx:proofs-misclustering}
 
-Phụ lục này trình bày chứng minh các định lý nền được nêu trong Chương~\ref{chap:co-so}. Một số chứng minh được trình bày đầy đủ, một số chứng minh dài và phức tạp được trình bày dưới dạng phác thảo kèm tham chiếu nguồn chi tiết.
+Phụ lục này trình bày chứng minh chi tiết của các bổ đề và mệnh đề được sử dụng trong phân tích tỉ lệ phân cụm sai ở Mục 3.3 của Chương~\ref{chap:thuat-toan}. Các phát biểu được giữ nguyên ở phần chính, người đọc có thể quay lại đây để xem chi tiết kỹ thuật.
 
-% ------------------------------------------------------------
-\section{Định lý Courant--Fischer}
-\label{appx:courant-fischer}
-
-\textbf{Phát biểu.} Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá trị riêng $\lambda_1 \leq \cdots \leq \lambda_n$ và các vector riêng đơn vị tương ứng $v_1, \ldots, v_n$ tạo thành cơ sở trực chuẩn. Khi đó với mọi $k \in \{1, \ldots, n\}$:
-\[
-    \lambda_k = \min_{\substack{U \subset \mathbb{R}^n \\ \dim U = k}} \max_{x \in U \setminus \{0\}} R(M, x)
-             = \max_{x \perp v_1, \ldots, v_{k-1}} R(M, x).
-\]
+\subsection*{Chứng minh Bổ đề~\ref{lem:spectrum-CBCt} (Phổ của $CBC^\top$)}
 
 \begin{proof}
-Vì $M$ đối xứng, theo định lý phổ tồn tại cơ sở trực chuẩn $\{v_1, \ldots, v_n\}$ của $\mathbb{R}^n$ gồm các vector riêng. Mọi $x \neq 0$ viết được duy nhất dưới dạng $x = \sum_{i=1}^n c_i v_i$ với $c_i = v_i^\top x$. Khi đó
-\[
-    x^\top M x = \sum_{i=1}^n \lambda_i c_i^2,
-    \qquad
-    x^\top x = \sum_{i=1}^n c_i^2,
-\]
-nên $R(M, x) = \frac{\sum_i \lambda_i c_i^2}{\sum_i c_i^2}$ là trung bình có trọng số (không âm) của các giá trị riêng $\lambda_i$.
+Phổ của $B$ rút ra trực tiếp từ tác động lên $\mathbf{1}_K$ và lên phần bù trực giao.
 
-\emph{Đẳng thức thứ hai.} Lấy $x \perp v_1, \ldots, v_{k-1}$, tức $c_1 = \cdots = c_{k-1} = 0$. Khi đó
+Với $v = \mathbf{1}_K$,
 \[
-    R(M, x) = \frac{\sum_{i \geq k} \lambda_i c_i^2}{\sum_{i \geq k} c_i^2} \geq \lambda_k,
-\]
-vì $\lambda_i \geq \lambda_k$ với mọi $i \geq k$. Đẳng thức xảy ra khi $x = v_k$, do đó
-\[
-    \max_{x \perp v_1, \ldots, v_{k-1}} R(M, x) = \lambda_k.
+    B \mathbf{1}_K = \alpha \mathbf{1}_K + \beta \mathbf{1}_K (\mathbf{1}_K^\top \mathbf{1}_K) = (\alpha + K \beta) \mathbf{1}_K.
 \]
 
-\emph{Đẳng thức thứ nhất (min-max).} Với mọi không gian con $U \subset \mathbb{R}^n$ có $\dim U = k$, vì $\dim \mathrm{span}\{v_k, \ldots, v_n\} = n - k + 1$ và $\dim U + (n - k + 1) > n$, hai không gian này phải giao nhau ngoài vector $0$. Lấy $x \in U \cap \mathrm{span}\{v_k, \ldots, v_n\}$ với $x \neq 0$, ta có $c_1 = \cdots = c_{k-1} = 0$ nên
+Với mọi $v \in \mathbb{R}^K$ thoả $\mathbf{1}_K^\top v = 0$,
 \[
-    R(M, x) = \frac{\sum_{i \geq k} \lambda_i c_i^2}{\sum_{i \geq k} c_i^2} \geq \lambda_k.
+    B v = \alpha v + \beta \mathbf{1}_K (\mathbf{1}_K^\top v) = \alpha v.
 \]
-Suy ra $\max_{x \in U \setminus \{0\}} R(M, x) \geq \lambda_k$ với mọi $U$ có $\dim U = k$. Mặt khác, lấy $U = \mathrm{span}\{v_1, \ldots, v_k\}$ thì với mọi $x \in U \setminus \{0\}$, $R(M, x) \leq \lambda_k$, đạt được dấu bằng tại $x = v_k$. Do đó cận dưới đạt được, dẫn tới đẳng thức.
+Không gian $\{v : \mathbf{1}_K^\top v = 0\}$ có chiều $K-1$ nên $\alpha$ là giá trị riêng bội $K-1$.
+
+Để chuyển sang $CBC^\top$, dùng tính cân bằng $C^\top C = (n/K) I_K$: với mọi vector riêng $v$ của $B$ có giá trị riêng $\mu$,
+\[
+    (C B C^\top)(C v) = C B (C^\top C) v = \frac{n}{K} \mu \, (C v).
+\]
+Mặt khác $CBC^\top$ có hạng tối đa $K$ vì chứa thừa số $C \in \mathbb{R}^{n \times K}$, nên các giá trị riêng khác không của $CBC^\top$ chính là $(n/K) \mu$ với $\mu$ chạy trên phổ của $B$.
+
+Thay $\mu = \alpha + K\beta$ và $\mu = \alpha$ cho hai giá trị riêng ở phát biểu.
 \end{proof}
 
-% ------------------------------------------------------------
-\section{Định lý Ky Fan}
-\label{appx:ky-fan}
-
-\textbf{Phát biểu.} Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá trị riêng $\lambda_1 \leq \cdots \leq \lambda_n$. Khi đó với mọi $k \leq n$:
-\[
-    \max_{X \in \mathbb{R}^{n \times k},\ X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_{n-i+1},
-\]
-\[
-    \min_{X \in \mathbb{R}^{n \times k},\ X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_i.
-\]
+\subsection*{Chứng minh Bổ đề~\ref{lem:gap-AE} (Spectral gap của $\mathbb{E}[A_{E^2}]$)}
 
 \begin{proof}
-\emph{Dạng cực tiểu.} Đặt $X = [x_1, \ldots, x_k]$ với $X^\top X = I_k$, tức $\{x_1, \ldots, x_k\}$ là hệ trực chuẩn. Khi đó
+Theo định nghĩa mô hình, $A_{E^2}[u, v] = E_{uv}$ là biến Bernoulli với tham số
 \[
-    \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k x_i^\top M x_i.
-\]
-
-Mở rộng $\{x_1, \ldots, x_k\}$ thành cơ sở trực chuẩn $\{x_1, \ldots, x_n\}$ của $\mathbb{R}^n$. Đặt $Q = [x_1, \ldots, x_n]$ là ma trận trực giao và $\widetilde{M} = Q^\top M Q$. Khi đó $\widetilde{M}$ đồng dạng với $M$ qua phép biến đổi trực giao nên có cùng phổ $\{\lambda_1, \ldots, \lambda_n\}$. Hơn nữa $x_i^\top M x_i = \widetilde{M}_{ii}$, do đó
-\[
-    \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \widetilde{M}_{ii}.
-\]
-
-Theo bổ đề Schur--Horn, vector các phần tử đường chéo của một ma trận đối xứng bị trội (majorize) bởi vector các giá trị riêng của nó. Cụ thể, với mọi hoán vị các phần tử đường chéo, tổng $k$ phần tử đường chéo đầu thỏa
-\[
-    \sum_{i=1}^k \widetilde{M}_{ii} \geq \sum_{i=1}^k \lambda_i,
-\]
-với dấu bằng đạt được khi $\{x_1, \ldots, x_k\}$ là $k$ vector riêng đầu của $M$. Do đó
-\[
-    \min_{X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_i,
-\]
-nghiệm đạt tại $X^* = [v_1, \ldots, v_k]$.
-
-\emph{Dạng cực đại.} Áp dụng kết quả vừa chứng minh cho ma trận $-M$. Phổ của $-M$ thu được bằng cách đảo dấu phổ của $M$ rồi sắp xếp tăng dần:
-\[
-    \lambda_i(-M) = -\lambda_{n - i + 1}(M), \quad i = 1, \ldots, n,
-\]
-do $\lambda_n(M) \geq \cdots \geq \lambda_1(M)$ kéo theo $-\lambda_n(M) \leq \cdots \leq -\lambda_1(M)$. Bởi $-M$ cũng đối xứng, dạng cực tiểu áp dụng được:
-\[
-    \min_{X^\top X = I_k} \mathrm{Tr}\bigl(X^\top (-M) X\bigr)
-    = \sum_{i=1}^k \lambda_i(-M)
-    = -\sum_{i=1}^k \lambda_{n - i + 1}(M).
-\]
-Mặt khác $\mathrm{Tr}(X^\top (-M) X) = -\mathrm{Tr}(X^\top M X)$, do đó
-\[
-    \min_{X^\top X = I_k} \bigl(-\mathrm{Tr}(X^\top M X)\bigr)
-    = -\max_{X^\top X = I_k} \mathrm{Tr}(X^\top M X).
-\]
-Kết hợp hai đẳng thức trên và đổi dấu:
-\[
-    \max_{X^\top X = I_k} \mathrm{Tr}(X^\top M X) = \sum_{i=1}^k \lambda_{n - i + 1}(M),
-\]
-nghiệm đạt tại $X^* = [v_n, v_{n-1}, \ldots, v_{n - k + 1}]$, là $k$ vector riêng ứng với các giá trị riêng lớn nhất của $M$.
-\end{proof}
-
-% ------------------------------------------------------------
-\section{Bất đẳng thức Cheeger}
-\label{appx:cheeger}
-
-\textbf{Phát biểu.} Cho đồ thị vô hướng có trọng số không âm với Laplacian chuẩn hóa $\mathcal{L} = I - D^{-1/2} A D^{-1/2}$ có các giá trị riêng $0 = \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n \leq 2$. Khi đó
-\[
-    \frac{\lambda_2}{2} \leq \phi^* \leq \sqrt{2 \lambda_2}.
-\]
-
-\begin{proof}[Phác thảo chứng minh]
-Chứng minh đầy đủ thuộc tài liệu chuẩn về phổ đồ thị, xem chương 2 của Chung \cite{chung1997}. Ở đây ta phác thảo các bước chính.
-
-\emph{Cận dưới $\lambda_2 / 2 \leq \phi^*$.} Với mọi tập $S \neq \emptyset, V$, đặt vector chỉ thị có trọng
-\[
-    f_u = \begin{cases}
-        \sqrt{\mathrm{vol}(\bar S) / \mathrm{vol}(S)} & \text{nếu } u \in S, \\
-        -\sqrt{\mathrm{vol}(S) / \mathrm{vol}(\bar S)} & \text{nếu } u \in \bar S.
+    \pi^e_{uv} = \begin{cases}
+        a_e/n & \text{nếu } \bar e_u = \bar e_v, \\[2pt]
+        b_e/n & \text{nếu } \bar e_u \neq \bar e_v.
     \end{cases}
 \]
-Khi đó $f$ trực giao với vector $D^{1/2} \mathbf{1}$ ứng với giá trị riêng $\lambda_1 = 0$ của $\mathcal{L}$. Tính toán cho thấy
+Đặt $B_{E^2} \in \mathbb{R}^{K \times K}$ với
 \[
-    R(\mathcal{L}, D^{1/2} f) = \frac{2 \mathrm{cut}(S, \bar S)}{\min(\mathrm{vol}(S), \mathrm{vol}(\bar S))} \cdot \alpha(S),
+    B_{E^2}[k, \ell] = \begin{cases}
+        a_e/n & \text{nếu } k = \ell, \\[2pt]
+        b_e/n & \text{nếu } k \neq \ell.
+    \end{cases}
 \]
-với $\alpha(S) \in [\tfrac{1}{2}, 1]$ là một hệ số chuẩn hóa. Theo Định lý Courant--Fischer (Định lý~\ref{thm:courant-fischer}), $\lambda_2 \leq R(\mathcal{L}, D^{1/2} f)$ với mọi $f \perp D^{1/2} \mathbf{1}$, dẫn tới $\lambda_2 \leq 2 \phi(S)$. Lấy $\inf$ trên $S$ thu được $\lambda_2 / 2 \leq \phi^*$.
+Khi đó
+\begin{align*}
+    \mathbb{E}[A_{E^2}]
+        &= C B_{E^2} C^\top - \frac{a_e}{n} I_n \\
+        &\approx C B_{E^2} C^\top,
+\end{align*}
+trong đó dòng cuối bỏ đường chéo bậc $O(1/n)$, không ảnh hưởng đến hai giá trị riêng chính. Viết $B_{E^2}$ về dạng hai mức
+\[
+    B_{E^2} = \alpha I_K + \beta \mathbf{1}_K \mathbf{1}_K^\top, \qquad \alpha = \dfrac{a_e - b_e}{n}, \quad \beta = \dfrac{b_e}{n},
+\]
+rồi áp dụng Bổ đề~\ref{lem:spectrum-CBCt} với cặp $(\alpha, \beta)$ trên, hai giá trị riêng khác không của $\mathbb{E}[A_{E^2}]$ là
+\begin{align*}
+    \frac{n}{K} (\alpha + K \beta) &= \frac{a_e - b_e}{K} + b_e &&= \frac{a_e + (K-1) b_e}{K} && (\text{bội } 1), \\
+    \frac{n}{K} \alpha             &                            &&= \frac{a_e - b_e}{K}        && (\text{bội } K-1).
+\end{align*}
+Giả thiết $a_e > b_e$ cho cả hai giá trị riêng dương và giá trị nhỏ hơn cho
+\[
+    \lambda_{\min}^+(\mathbb{E}[A_{E^2}]) = \dfrac{a_e - b_e}{K}.
+\]
+\end{proof}
 
-\emph{Cận trên $\phi^* \leq \sqrt{2 \lambda_2}$.} Lấy $v_2$ là vector riêng ứng với $\lambda_2$, đặt $f = D^{-1/2} v_2$. Sắp xếp các đỉnh theo thứ tự tăng của $f_u$ và xét các nhát cắt sweep $S_t = \{u : f_u \leq t\}$ với $t$ chạy qua các giá trị $f_u$. Bằng phân tích chi tiết, tồn tại $t$ sao cho
+\subsection*{Chứng minh Bổ đề~\ref{lem:gap-AET} (Spectral gap của $\mathbb{E}[A_{ET}]$)}
+
+\begin{proof}
+Phân rã $A_{ET} = A_{T^2} - D$ với $D := A_{T^2} - A_{ET}$. Vì $A_{T^2}[u, v] = \sum_{w \neq u, v} T_{uvw}$ là tổng các chỉ thị Bernoulli độc lập, tính tuyến tính của kỳ vọng cho ngay
 \[
-    \phi(S_t) \leq \sqrt{2 \lambda_2}.
+    \mathbb{E}[A_{T^2}[u, v]] = \sum_{w \neq u, v} \pi^t_{uvw} =: \mu_{uv}.
 \]
-Đây là phần khó nhất của chứng minh, sử dụng bất đẳng thức Cauchy--Schwarz và đồng nhất thức về cut và volume trên các nhát cắt sweep. Chi tiết xem \cite[Định lý 2.2]{chung1997}.
+Giá trị $\pi^t_{uvw}$ phụ thuộc cộng đồng của bộ ba $\{u, v, w\}$ nên ta tính $\mu_{uv}$ qua tách tổng thành hai trường hợp theo cộng đồng của cặp $\{u, v\}$.
+
+\emph{Trường hợp 1: $\bar e_u = \bar e_v = k$.} Tách tổng theo việc $w$ có cùng cộng đồng với $\{u, v\}$ hay không:
+\begin{align}
+    \mu_{uv}
+        &= \sum_{w \in C_k \setminus \{u, v\}} \pi^t_{uvw} + \sum_{w \notin C_k} \pi^t_{uvw} \notag \\
+        &= \left(\frac{n}{K} - 2\right) \cdot \frac{a_t}{n^2} + \left(n - \frac{n}{K}\right) \cdot \frac{b_t}{n^2} \notag \\
+        &= \frac{1}{n} \cdot \frac{a_t + (K-1) b_t}{K} + O(1/n^2). \label{eq:AT2-case-same}
+\end{align}
+Tổng thứ nhất ứng với bộ ba cùng cộng đồng nên $\pi^t = a_t/n^2$ và có $n/K - 2$ đỉnh $w$ trong $C_k \setminus \{u, v\}$. Tổng thứ hai ứng với bộ ba có $w$ khác cụm nên $\pi^t = b_t/n^2$ và có $n - n/K$ đỉnh $w$ ngoài $C_k$.
+
+\emph{Trường hợp 2: $\bar e_u \neq \bar e_v$.} Đặt $k_1 = \bar e_u$, $k_2 = \bar e_v$. Tách tổng theo việc $w$ thuộc $C_{k_1} \cup C_{k_2}$ hay không:
+\begin{align}
+    \mu_{uv}
+        &= \sum_{w \in (C_{k_1} \cup C_{k_2}) \setminus \{u, v\}} \pi^t_{uvw} + \sum_{w \notin C_{k_1} \cup C_{k_2}} \pi^t_{uvw} \notag \\
+        &= \left(\frac{2 n}{K} - 2\right) \cdot \frac{b_t}{n^2} + \left(n - \frac{2 n}{K}\right) \cdot \frac{b_t}{n^2} \notag \\
+        &= (n - 2) \cdot \frac{b_t}{n^2}
+        = \frac{b_t}{n} + O(1/n^2). \label{eq:AT2-case-diff}
+\end{align}
+Ở cả hai nhóm, bộ ba $\{u, v, w\}$ đều không cùng cộng đồng (vì đã có $\bar e_u \neq \bar e_v$) nên $\pi^t_{uvw} = b_t/n^2$ đồng nhất.
+
+Gộp hai trường hợp~\eqref{eq:AT2-case-same}, \eqref{eq:AT2-case-diff},
+\[
+    \mu_{uv} = \begin{cases}
+        \dfrac{1}{n} \cdot \dfrac{a_t + (K-1) b_t}{K} + O(1/n^2) & \text{nếu } \bar e_u = \bar e_v, \\[8pt]
+        \dfrac{b_t}{n} + O(1/n^2) & \text{nếu } \bar e_u \neq \bar e_v.
+    \end{cases}
+\]
+
+Tiếp theo tính $\mathbb{E}[D[u, v]]$, ứng với trùng lặp tam giác. Phần tử $D[u, v]$ chỉ khác $0$ khi có từ hai tam giác $G_T$ trở lên qua $(u, v)$. Vì $D = A_{T^2} - A_{ET}$,
+\[
+    \mathbb{E}[D[u, v]] = \mathbb{E}[A_{T^2}[u, v]] - \mathbb{E}[A_{ET}[u, v]] = \mu_{uv} - \left[1 - \prod_{w \neq u, v} (1 - \pi^t_{uvw})\right].
+\]
+Khai triển tích $\prod_w (1 - \pi^t_{uvw})$ ta được:
+\[
+    1 - \prod_{w \neq u, v} (1 - \pi^t_{uvw}) = \sum_w \pi^t_{uvw} - \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'} + \sum_{w < w' < w''} \pi^t_{uvw} \pi^t_{uvw'} \pi^t_{uvw''} - \cdots
+\]
+Đại lượng đầu là $\mu_{uv}$. Tổng các bậc ba trở lên bị chặn bởi
+\[
+    \sum_{w < w' < w''} \pi^t_{uvw} \pi^t_{uvw'} \pi^t_{uvw''} \leq \frac{1}{6}\Big(\sum_w \pi^t_{uvw}\Big)^3 = \frac{\mu_{uv}^3}{6} = O(\mu_{uv}^3).
+\]
+Thay vào,
+\[
+    \mathbb{E}[D[u, v]] = \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'} + O(\mu_{uv}^3).
+\]
+Khai triển bình phương của tổng,
+\[
+    \Big(\sum_w \pi^t_{uvw}\Big)^2 = \sum_w (\pi^t_{uvw})^2 + 2 \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'},
+\]
+do đó
+\[
+    \sum_{w < w'} \pi^t_{uvw} \pi^t_{uvw'} = \frac{1}{2}\left[\Big(\sum_w \pi^t_{uvw}\Big)^2 - \sum_w (\pi^t_{uvw})^2\right] = \frac{1}{2} \mu_{uv}^2 - \frac{1}{2} \sum_w (\pi^t_{uvw})^2.
+\]
+kết hợp
+\[
+    \sum_w (\pi^t_{uvw})^2 = O(n \cdot 1/n^4) = O(1/n^3) = o(\mu_{uv}^2),
+\]
+ta được
+\[
+    \mathbb{E}[D[u, v]] = \frac{1 + o(1)}{2} \mu_{uv}^2 = O(1/n^2),
+\]
+trong đó dùng $\mu_{uv} = O(1/n)$.
+
+Gộp lại, $\mathbb{E}[A_{ET}[u, v]] = \mathbb{E}[A_{T^2}[u, v]] - \mathbb{E}[D[u, v]] = \mu_{uv} + O(1/n^2)$, tức
+\[
+    \mathbb{E}[A_{ET}[u, v]] = \begin{cases}
+        \dfrac{1}{n} \cdot \dfrac{a_t + (K-1) b_t}{K} + O(1/n^2) & \text{nếu } \bar e_u = \bar e_v, \\[8pt]
+        \dfrac{b_t}{n} + O(1/n^2) & \text{nếu } \bar e_u \neq \bar e_v.
+    \end{cases}
+\]
+
+Dùng lại ma trận chỉ thị $C$ và đặt $B_{ET} \in \mathbb{R}^{K \times K}$ với
+\[
+    B_{ET}[k, \ell] = \begin{cases}
+        \dfrac{a_t + (K-1) b_t}{K n} & \text{nếu } k = \ell, \\[8pt]
+        \dfrac{b_t}{n} & \text{nếu } k \neq \ell.
+    \end{cases}
+\]
+Khi đó $\mathbb{E}[A_{ET}] \approx C B_{ET} C^\top$ ở bậc dẫn đầu, sai số chuẩn phổ $O(1/n)$ không ảnh hưởng $\lambda_{\min}^+$. Viết $B_{ET}$ về dạng hai mức
+\[
+    B_{ET} = \alpha_T I_K + \beta_T \mathbf{1}_K \mathbf{1}_K^\top, \qquad \alpha_T = \dfrac{a_t - b_t}{K n}, \quad \beta_T = \dfrac{b_t}{n},
+\]
+rồi áp dụng Bổ đề~\ref{lem:spectrum-CBCt} cho hai giá trị riêng khác không là $\tfrac{a_t + (K^2 - 1) b_t}{K^2}$ (bội $1$) và $\tfrac{a_t - b_t}{K^2}$ (bội $K-1$). Giả thiết $a_t > b_t$ cho cả hai dương, và giá trị nhỏ hơn cho gap.
+\end{proof}
+
+\subsection*{Chứng minh Bổ đề~\ref{lem:bound-AET} (Bound chuẩn phổ của $A_{ET}$)}
+
+\begin{proof}
+$A_{ET}$ là ma trận kề của các cạnh quan sát được trong $G_T$. Cùng một chỉ thị $T_{uvw}$ ảnh hưởng đến cả ba phần tử $A_{ET}[u, v]$, $A_{ET}[u, w]$, $A_{ET}[v, w]$, nên các phần tử của $A_{ET}$ không độc lập theo cặp $(u, v)$. Để tận dụng đánh giá của Paul, Milenkovic và Chen \cite{paul2023hosc} cho ma trận đếm $A_{T^2}$, ta phân rã
+\[
+    A_{ET} = A_{T^2} - D, \qquad D = A_{T^2} - A_{ET}.
+\]
+Bất đẳng thức tam giác cho
+\[
+    \|A_{ET} - \mathbb{E}[A_{ET}]\|_2
+        \leq \|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 + \|D - \mathbb{E}[D]\|_2.
+\]
+
+Đại lượng đầu có bound
+\[
+    \|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 \lesssim \sqrt{a_t}
+\]
+với xác suất $1 - o(1)$, trích trực tiếp từ kết quả của Paul, Milenkovic và Chen \cite{paul2023hosc} cho $A_{T^2}$.
+
+Còn lại $\|D - \mathbb{E}[D]\|_2$. Dùng $\|M\|_2 \leq \|M\|_F$ cho ma trận tuỳ ý,
+\[
+    \|D - \mathbb{E}[D]\|_2 \leq \|D - \mathbb{E}[D]\|_F.
+\]
+Lấy kỳ vọng bình phương và đổi tổng,
+\[
+    \mathbb{E}\big[\|D - \mathbb{E}[D]\|_F^2\big] = \sum_{u, v} \mathrm{Var}(D[u, v]).
+\]
+Vậy chỉ cần chặn phương sai từng phần tử.
+
+Đặt $X_{uv} := A_{T^2}[u, v] = \sum_w T_{uvw}$. Theo định nghĩa,
+\[
+    D[u, v] = \begin{cases}
+        X_{uv} - 1 & \text{nếu } X_{uv} \geq 2, \\
+        0 & \text{nếu trái lại}.
+    \end{cases}
+\]
+Khi $X_{uv} \geq 2$, $(X_{uv} - 1)^2 \leq X_{uv}(X_{uv} - 1)$, do đó $D[u, v]^2 \leq X_{uv}(X_{uv} - 1)$ ở mọi giá trị của $X_{uv}$. Vì các $T_{uvw}$ độc lập theo $w$,
+\[
+    \mathbb{E}[X_{uv}(X_{uv} - 1)] = \sum_{w \neq w'} \pi^t_{uvw} \pi^t_{uvw'} \leq \Big(\sum_w \pi^t_{uvw}\Big)^2 = \mu_{uv}^2.
+\]
+Kết hợp,
+\[
+    \mathrm{Var}(D[u, v]) \leq \mathbb{E}[D[u, v]^2] \leq \mu_{uv}^2 = O(1/n^2).
+\]
+
+Tổng theo $n^2$ cặp $(u, v)$,
+\[
+    \mathbb{E}\big[\|D - \mathbb{E}[D]\|_F^2\big] = \sum_{u, v} \mathrm{Var}(D[u, v]) \leq n^2 \cdot O(1/n^2) = O(1).
+\]
+Đặt $Y := \|D - \mathbb{E}[D]\|_F^2$. Áp dụng bất đẳng thức Markov cho biến ngẫu nhiên không âm $Y$: với mỗi $M > 0$,
+\[
+    \Pr(Y > M) \leq \frac{\mathbb{E}[Y]}{M} = \frac{O(1)}{M}.
+\]
+Chọn $M = \log n$, xác suất ở vế phải tiến đến $0$. Do đó với xác suất $1 - o(1)$,
+\[
+    \|D - \mathbb{E}[D]\|_F = O(\sqrt{\log n}) = o(\sqrt{a_t}),
+\]
+trong đó dùng giả thiết $a_t \gtrsim \log n$. Dùng tiếp $\|M\|_2 \leq \|M\|_F$,
+\[
+    \|D - \mathbb{E}[D]\|_2 = o(\sqrt{a_t}).
+\]
+
+Kết hợp với $\|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 \lesssim \sqrt{a_t}$,
+\[
+    \|A_{ET} - \mathbb{E}[A_{ET}]\|_2 \leq \|A_{T^2} - \mathbb{E}[A_{T^2}]\|_2 + \|D - \mathbb{E}[D]\|_2 \lesssim \sqrt{a_t}
+\]
+với xác suất $1 - o(1)$.
+\end{proof}
+
+\subsection*{Chứng minh Mệnh đề~\ref{prop:lambda-opt} (Tham số nội suy tối ưu)}
+
+\begin{proof}
+Đặt
+\[
+    N(\lambda) := a_e + \lambda^2 \tilde a_t, \qquad D(\lambda) := \alpha + \beta + \lambda \tilde\beta,
+\]
+nên $f(\lambda) = N(\lambda) / D(\lambda)^2$. Đạo hàm
+\[
+    N'(\lambda) = 2 \lambda \tilde a_t, \qquad D'(\lambda) = \tilde\beta.
+\]
+Quy tắc thương cho
+\[
+    f'(\lambda) = \frac{N'(\lambda) D(\lambda) - 2 N(\lambda) D'(\lambda)}{D(\lambda)^3}.
+\]
+Vì $D(\lambda) > 0$ với mọi $\lambda \geq 0$, điểm dừng $f'(\lambda) = 0$ tương đương tử số bằng $0$:
+\[
+    N'(\lambda) D(\lambda) = 2 N(\lambda) D'(\lambda).
+\]
+Thay các biểu thức của $N, N', D, D'$ và chia hai vế cho $2$, đẳng thức tương đương với
+\begin{align*}
+    \lambda \tilde a_t \left[\alpha + \beta + \lambda \tilde\beta\right] &= (a_e + \lambda^2 \tilde a_t) \tilde\beta \\
+    \iff \lambda \tilde a_t (\alpha + \beta) + \lambda^2 \tilde a_t \tilde\beta &= a_e \tilde\beta + \lambda^2 \tilde a_t \tilde\beta \\
+    \iff \lambda \tilde a_t (\alpha + \beta) &= a_e \tilde\beta \\
+    \iff \lambda &= \frac{a_e \tilde\beta}{\tilde a_t (\alpha + \beta)},
+\end{align*}
+trong đó dòng thứ hai triệt tiêu $\lambda^2 \tilde a_t \tilde\beta$ ở hai vế. Đây là điểm $\lambda^*$ ở phát biểu. Kiểm tra giá trị biên $f(0) = a_e/(\alpha + \beta)^2$ và $f(\lambda) \to \tilde a_t/\tilde\beta^2$ khi $\lambda \to \infty$ cho thấy đây là cực tiểu duy nhất trên $\lambda \geq 0$.
 \end{proof}
 

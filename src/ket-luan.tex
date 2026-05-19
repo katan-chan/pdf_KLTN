@@ -8,35 +8,37 @@
 \section*{Đóng góp của khóa luận}
 
 \begin{enumerate}
-    \item Đề xuất ma trận hỗn hợp $W_\lambda = A + \lambda W^{(M)}$ kết hợp thông tin cạnh và motif qua một tham số nội suy duy nhất. Chứng minh $W_\lambda$ luôn là ma trận trọng số đối xứng không âm hợp lệ (Mệnh đề~\ref{prop:wlambda-valid}), kế thừa bất đẳng thức Cheeger trên đồ thị có trọng số (Định lý~\ref{thm:wlambda-cheeger}) và tính đúng đắn của phép nới lỏng phổ NCut (Định lý~\ref{thm:wlambda-spectral-correctness}). Ma trận $W_\lambda$ khắc phục hạn chế của $W^{(M)}$ thuần khi đồ thị có cạnh không nằm trong motif nào (Mệnh đề~\ref{prop:wlambda-fixes-gm}).
+    \item \textbf{Đề xuất ma trận hỗn hợp $W_\lambda$.} Khoá luận đề xuất ma trận $W_\lambda = A + \lambda W^{(M)}$ nội suy thông tin cạnh và motif qua một tham số duy nhất. $W_\lambda$ luôn là ma trận trọng số đối xứng không âm hợp lệ (Mệnh đề~\ref{prop:wlambda-valid}), kế thừa bất đẳng thức Cheeger trên đồ thị có trọng số (Định lý~\ref{thm:wlambda-cheeger}) và tính đúng đắn của phép nới lỏng phổ NCut (Định lý~\ref{thm:wlambda-spectral-correctness}). Ma trận $W_\lambda$ khắc phục hạn chế của $W^{(M)}$ thuần khi đồ thị có cạnh không nằm trong motif nào (Mệnh đề~\ref{prop:wlambda-fixes-gm}).
 
-    \item Tiến hành thực nghiệm hệ thống với Thuật toán~\ref{alg:spectral-clustering} sử dụng đầu vào $W_\lambda$ trên bốn mô hình sinh ngẫu nhiên có cấu trúc cộng đồng (SBM, Planted Partition, GRPG, LFR) và mười đồ thị mạng xã hội thật.
+    \item \textbf{Phân tích lý thuyết tỉ lệ phân cụm sai trên SupSBM, chặt hơn HOSC.} Áp dụng kỹ thuật Davis--Kahan dạng Lei--Rinaldo cho đầu vào $W_\lambda = A_s + \lambda A_T$ trên mô hình Superimposed SBM của Paul, Milenkovic và Chen, khoá luận thu được cận trên tỉ lệ phân cụm sai $R_\lambda$ (Định lý~\ref{thm:misclustering-rate}). Từ cận này, xác định tham số nội suy tối ưu $\lambda^* = a_e \tilde\beta / (\tilde a_t (\alpha + \beta))$ (Mệnh đề~\ref{prop:lambda-opt}). Đây là kết quả lý thuyết chính của khoá luận: tại $\lambda^*$, tỉ số $R_{\lambda^*} / R_T \to 0$ về tốc độ ở chế độ tín hiệu cạnh trội, tức cận trên của thuật toán đề xuất \textbf{chặt hơn cận của Higher Order Spectral Clustering} trên cùng mô hình SupSBM. Ở chế độ tín hiệu tam giác trội, $R_{\lambda^*} / R_T$ là một hằng số phụ thuộc tỉ số $\tilde a_t / a_e$, nghĩa là thuật toán đề xuất \textbf{không bao giờ tệ hơn HOSC} về tốc độ, và chặt hơn ở vùng cạnh trội.
 
-    \item Phát hiện thực nghiệm hai chế độ tối ưu của $\lambda^*$ phụ thuộc cơ chế sinh tam giác:
+    \item \textbf{Phát hiện thực nghiệm hai chế độ giá trị của $\lambda^*$.} Qua thực nghiệm hệ thống với Thuật toán~\ref{alg:spectral-clustering} chạy trên bốn mô hình sinh ngẫu nhiên có cấu trúc cộng đồng (SBM, Planted Partition, GRPG, LFR) và mười đồ thị mạng xã hội thật, với $\lambda$ quét trong $\{0;\ 0{,}5;\ 1;\ 5;\ 10\}$, quan sát được hai chế độ phân biệt:
     \begin{itemize}
-        \item Trên đồ thị sinh ngẫu nhiên, $\lambda^*$ tối ưu nằm trong khoảng $\{0{,}5, 1\}$. Tam giác là hệ quả thống kê của mật độ cạnh, không độc lập với cạnh, nên thêm trọng số motif lớn làm pha loãng cạnh và giảm chất lượng phân hoạch.
-        \item Trên đồ thị mạng xã hội thật, $\lambda^*$ dịch về phía $\{5, 10, W_M\}$ ở chín trên mười đồ thị. Triadic closure tạo tam giác mang tín hiệu cộng đồng độc lập với cạnh đơn lẻ, nên trọng số motif lớn có lợi.
+        \item Trên các đồ thị sinh ngẫu nhiên Planted, SBM và GRPG, $\lambda^*$ rơi vào $\{0{,}5;\ 1\}$. Tam giác trong các mô hình này là hệ quả thống kê của mật độ cạnh, không độc lập với cạnh, nên trọng số motif lớn làm pha loãng tín hiệu cạnh và giảm chất lượng phân hoạch. Riêng LFR có cấu trúc cộng đồng được áp đặt qua quy luật riêng, $\lambda^*$ có thể dịch lên $5$ ở một số cấu hình.
+        \item Trên đồ thị mạng xã hội thật, $\lambda^*$ dịch về phía $\{5;\ 10;\ W_M\}$ ở chín trên mười đồ thị. Cơ chế đóng tam giác tạo tam giác mang tín hiệu cộng đồng độc lập với cạnh đơn lẻ, nên trọng số motif lớn có lợi.
     \end{itemize}
+    Hai chế độ thực nghiệm này khớp định tính với hai cực $\alpha \gg \beta$ và $\alpha \ll \beta$ trong phân tích lý thuyết ở Đóng góp 2.
 
-    \item Phát hiện quan hệ ngược giữa $\Delta Q$ và $Q(0)$ trên đồ thị thật: khi $Q(0)$ thấp, $W_\lambda$ cải thiện rõ rệt với $\Delta Q$ đạt $+0{,}08$ đến $+0{,}12$; khi $Q(0)$ đã cao, biên độ cải thiện khả dĩ vốn nhỏ nên $\Delta Q$ chỉ $+0{,}001$ đến $+0{,}03$, hầu như không thay đổi kết quả phân cụm. Xu hướng này quan sát được trên nhiều đồ thị thật, kể cả khi so sánh các giá trị $K$ khác nhau trên cùng một đồ thị.
+    \item \textbf{Phát hiện quan hệ ngược giữa $\Delta Q$ và $Q(0)$.} Trên đồ thị thật, khi $Q(0)$ thấp thì $W_\lambda$ cải thiện rõ rệt với $\Delta Q$ đạt $+0{,}08$ đến $+0{,}12$. Khi $Q(0)$ đã cao thì biên độ cải thiện khả dĩ vốn nhỏ nên $\Delta Q$ chỉ $+0{,}001$ đến $+0{,}03$, hầu như không thay đổi kết quả phân cụm. Xu hướng này quan sát được trên nhiều đồ thị, kể cả khi so sánh các giá trị $K$ khác nhau trên cùng một đồ thị.
 \end{enumerate}
 
 \section*{Hạn chế}
 
 \begin{itemize}
-    \item Chưa có công thức lý thuyết tiên đoán $\lambda^*$ từ các đại lượng cấu trúc của đồ thị như mật độ tam giác hay phân bố bậc.
-    \item Chỉ thực nghiệm với motif tam giác $K_3$; chưa khảo sát các motif bậc cao hơn như $K_4$ hay bi-fan.
+    \item Phân tích lý thuyết ở Mục~\ref{sec:wlambda-supsbm} mới chỉ áp dụng cho mô hình SupSBM với motif là tam giác và dưới giả thiết thưa cụ thể. Các mô hình sinh ngẫu nhiên dùng trong thực nghiệm có cấu trúc tổng quát hơn SupSBM, nên đối chiếu giữa lý thuyết và thực nghiệm chỉ dừng ở mức định tính qua hai chế độ tín hiệu.
+    \item Chưa có công thức tiên đoán $\lambda^*$ từ các đại lượng cấu trúc tổng quát như mật độ tam giác hay phân bố bậc trên đồ thị thật.
+    \item Chỉ thực nghiệm với motif tam giác $K_3$. Chưa khảo sát các motif bậc cao hơn như $K_4$ hay bi-fan.
     \item Chưa phát biểu chặt chẽ điều kiện cấu trúc để đảm bảo tồn tại $\lambda^* > 0$ với $Q(\lambda^*) > Q(0)$.
 \end{itemize}
 
 \section*{Hướng phát triển}
 
 \begin{itemize}
-    \item Xây dựng khung chứng minh bất đẳng thức $Q_A(S_\lambda) \geq Q_A(S_0)$ dưới điều kiện cấu trúc trên $G$, kèm phát biểu chặt chẽ ý nghĩa của motif $K_3$ trên đồ thị.
-    \item Mở rộng ma trận trọng số sang dạng tổng quát $f(e, \lambda)$ cá nhân hóa theo cạnh: hệ số Jaccard, hệ số phân cụm cạnh, hoặc tham số $\lambda$ riêng cho từng đỉnh.
-    \item Định nghĩa modularity hỗn hợp $Q_\lambda$ sử dụng null model tương thích với $W_\lambda$, thay vì dùng $Q_A$ làm chỉ số đánh giá.
+    \item Mở rộng phân tích Davis--Kahan trên SupSBM sang motif bậc cao hơn $K_3$, hoặc sang mô hình sinh khác mô tả tốt hơn các đồ thị thật.
+    \item Xây dựng khung chứng minh bất đẳng thức $Q_A(S_\lambda) \geq Q_A(S_0)$ dưới điều kiện cấu trúc trên $G$.
+    \item Mở rộng ma trận trọng số sang dạng tổng quát $f(e, \lambda)$ tuỳ biến theo cạnh: hệ số Jaccard, hệ số phân cụm cạnh, hoặc tham số $\lambda$ riêng cho từng đỉnh.
+    \item Định nghĩa modularity hỗn hợp $Q_\lambda$ sử dụng mô hình ngẫu nhiên tương thích với $W_\lambda$, thay vì dùng $Q_A$ làm chỉ số đánh giá.
     \item Mở rộng phương pháp sang đồ thị có hướng qua kỹ thuật tách đỉnh, giữ nguyên cấu trúc đối xứng cho ma trận trọng số.
-    \item So sánh với các motif khác ngoài $K_3$ để kiểm tra giả thuyết tam giác là đơn vị cộng đồng tự nhiên nhất trên mạng xã hội.
 \end{itemize}
 
 \cleardoublepage

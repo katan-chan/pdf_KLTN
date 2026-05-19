@@ -33,7 +33,7 @@ Cho một đồ thị vô hướng $G = (V, E)$ mô hình hoá một hệ thốn
 \begin{itemize}
     \item Trong đó $\mathcal{P}(V)$ là tập tất cả các phân hoạch của $V$ thành các tập con không rỗng đôi một rời nhau.
 \end{itemize}
-Ngay cả khi đã cố định một tiêu chí $f$, việc tìm phân hoạch tối ưu $f$ vẫn là một bài toán khó. Lực lượng của $\mathcal{P}(V)$ tăng theo cấp số mũ với $n$ và được đếm bởi số Bell $B_n$, nên duyệt toàn bộ là không khả thi với đồ thị quy mô lớn. Hơn nữa, hai bài toán cụ thể là cực đại modularity và cực tiểu normalized cut đều thuộc lớp NP-khó \cite{newman2006, shi2000}.
+Ngay cả khi đã cố định một tiêu chí $f$, việc tìm phân hoạch tối ưu $f$ vẫn là một bài toán khó. Lực lượng của $\mathcal{P}(V)$ tăng theo cấp số mũ với $n$, nên duyệt toàn bộ là không khả thi với đồ thị quy mô lớn. Hơn nữa, hai bài toán cụ thể là cực đại modularity và cực tiểu normalized cut đều thuộc lớp NP-khó \cite{newman2006, shi2000}.
 
 % ............................................................
 \subsection{Bài toán với modularity}
@@ -41,7 +41,7 @@ Ngay cả khi đã cố định một tiêu chí $f$, việc tìm phân hoạch 
 
 \begin{definition}[Ma trận modularity]
 \label{def:modularity-matrix}
-Mô hình ngẫu nhiên cùng dãy bậc cho kỳ vọng cạnh giữa hai đỉnh $u$ và $v$ bằng $d_u d_v / (2m)$. Ma trận modularity được định nghĩa
+Ma trận modularity được định nghĩa
 \[
     B = A - \frac{d d^\top}{2m},
 \]
@@ -50,7 +50,15 @@ trong đó $d \in \mathbb{R}^n$ là vector bậc của đồ thị.
 
 \begin{definition}[Modularity của phân hoạch \cite{newman2006}]
 \label{def:modularity}
-Cho phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $c_u$ ký hiệu cụm chứa đỉnh $u$, và $\delta(c_u, c_v)$ là Kronecker delta, bằng $1$ nếu $c_u = c_v$ và bằng $0$ nếu khác. Modularity được định nghĩa
+
+Cho phân hoạch của đồ thị $G$ là $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $c_u$ ký hiệu cụm chứa đỉnh $u$, và $\delta(c_u, c_v)$ là Kronecker delta
+\[
+    \delta(c_u, c_v) = \begin{cases}
+        1 & \text{nếu } c_u = c_v, \\
+        0 & \text{nếu } c_u \neq c_v.
+    \end{cases}
+\]
+Modularity được định nghĩa
 \[
     Q(\mathcal{C}) = \frac{1}{2m} \sum_{u, v} \!\left( A_{uv} - \frac{d_u d_v}{2m} \right)\! \delta(c_u, c_v).
 \]
@@ -69,7 +77,7 @@ Cho phân hoạch $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $c_u$ ký hiệu c�
 \label{eq:modularity-objective}
     \max_{S \in \mathbb{R}^{n \times K}} \; \mathrm{Tr}(S^\top B S).
 \end{equation}
-Ma trận $S$ là ma trận assignment chịu ba ràng buộc, mỗi ràng buộc thể hiện một tính chất bắt buộc của phân hoạch.
+Trong đó, $S$ là ma trận nhãn thỏa mãn:
 
 Mỗi phần tử $S_{uk}$ là nhãn cho biết đỉnh $u$ có thuộc cụm $k$ hay không, do đó chỉ nhận giá trị nhị phân:
 \begin{equation}
@@ -89,7 +97,7 @@ Không cụm nào được rỗng, tức là tổng các phần tử trên cột
     \sum_{u \in V} S_{uk} \geq 1, \qquad \forall\, k \in \{1, \ldots, K\}.
 \end{equation}
 
-Ba ràng buộc trên tương đương với điều kiện $\mathcal{C} \in \mathcal{P}_K(V)$.
+Ba điều kiện trên trên tương đương với điều kiện $\mathcal{C} \in \mathcal{P}_K(V)$.
 
 Bài toán \eqref{eq:modularity-objective} với các ràng buộc trên là NP-khó \cite{newman2006}. Phép nới lỏng phổ chuẩn thay các ràng buộc rời rạc bằng một ràng buộc trực giao đại số tuyến tính, biến bài toán tổ hợp thành bài toán liên tục giải được bằng phân tích trị riêng. Cơ sở của phép nới lỏng này là định lý Ky Fan, một tổng quát hóa của thương Rayleigh từ một vector lên $K$ vector trực giao.
 
@@ -181,7 +189,7 @@ là thương Rayleigh đại số trên ma trận đối xứng $M$ tổng quát
 
 Nhờ đồng nhất thức trên, mọi câu hỏi về cực trị của $\mathcal{R}(f)$ đều quy về câu hỏi về phổ của $\mathcal{L}$. Quan sát rằng hàm hằng $f \equiv c$ cho $\mathcal{R}(f) = 0$ vì không có biến thiên qua cạnh nào, ứng với giá trị riêng nhỏ nhất $\lambda_1 = 0$ của $\mathcal{L}$. Khi loại bỏ thành phần hằng, cực tiểu của $\mathcal{R}(f)$ cho ta giá trị riêng nhỏ thứ hai. Kết quả tổng quát hơn cho mọi giá trị riêng được phát biểu qua định lý Courant--Fischer.
 
-\begin{theorem}[Tính chất biến phân Courant--Fischer]
+\begin{theorem}[{Tính chất biến phân Courant--Fischer \cite{horn2013}}]
 \label{thm:courant-fischer}
 Cho ma trận đối xứng $M \in \mathbb{R}^{n \times n}$ với các giá trị riêng $\lambda_1(M) \leq \cdots \leq \lambda_n(M)$ và các vector riêng đơn vị tương ứng $v_1, \ldots, v_n$. Khi đó với mọi $k \in \{1, \ldots, n\}$:
 \[
@@ -241,7 +249,7 @@ Bài toán này là NP-khó \cite{shi2000}. Phép nới lỏng phổ tương ứ
 \section{Đồ thị Higher Order}
 \label{sec:higher-order}
 
-Mục~\ref{sec:problem} đã trình bày bài toán phát hiện cộng đồng dưới góc nhìn cạnh: chất lượng phân hoạch được đo qua $\mathrm{cut}$, $\phi$, $Q$, đều là các đại lượng dựa trên cấu trúc cạnh đơn lẻ. Tuy nhiên trong nhiều mạng thực, đặc biệt là mạng xã hội, cấu trúc bậc cao mang theo tín hiệu cộng đồng mạnh hơn cả cạnh đơn lẻ. Mục này hình thức hóa khái niệm đó thông qua \emph{motif} và \emph{đồ thị Higher Order}, đồng thời chứng tỏ rằng tam giác $K_3$ là motif then chốt cho lớp đồ thị xã hội thực tế thông qua hệ số phân cụm.
+Mục~\ref{sec:problem} đã trình bày bài toán phát hiện cộng đồng dưới góc nhìn cạnh: chất lượng phân hoạch được đo qua conductance và modularity, đều là các đại lượng dựa trên cấu trúc cạnh đơn lẻ. Tuy nhiên trong nhiều mạng thực, đặc biệt là mạng xã hội, cấu trúc bậc cao mang theo tín hiệu cộng đồng mạnh hơn cả cạnh đơn lẻ. Mục này hình thức hóa khái niệm đó thông qua motif và đồ thị Higher Order, đồng thời chứng tỏ rằng tam giác $K_3$ là motif then chốt cho lớp đồ thị xã hội thực tế thông qua hệ số phân cụm.
 
 % ............................................................
 \subsection{Motif}
@@ -345,23 +353,18 @@ Hình~\ref{fig:higher-order-construction} minh họa phép xây dựng này trê
     \label{fig:higher-order-construction}
 \end{figure}
 
-\begin{proposition}
+\begin{theorem}[Higher-order Cheeger inequality \cite{benson2016}]
+\label{thm:higher-cheeger}
 \label{prop:gm-valid-weighted-graph}
-Ma trận $W^{(M)}$ đối xứng và không âm. Do đó $G_M$ là đồ thị có trọng số vô hướng hợp lệ, và mọi kết quả phổ phát biểu cho lớp đồ thị này, bao gồm bất đẳng thức Cheeger và các phép nới lỏng phổ của NCut hay modularity, áp dụng được cho $G_M$.
-\end{proposition}
-
-Tương tự đồ thị gốc, ta định nghĩa motif degree $d_u^{(M)} = \sum_{v \in V} W^{(M)}_{uv}$ và motif volume $\mathrm{vol}_M(S) = \sum_{u \in S} d_u^{(M)}$. Đại lượng cắt theo motif là
+Ma trận $W^{(M)}$ đối xứng và không âm, nên $G_M = (V, W^{(M)})$ là đồ thị có trọng số vô hướng hợp lệ. Tương tự đồ thị gốc, đặt motif degree $d_u^{(M)} = \sum_{v \in V} W^{(M)}_{uv}$, motif volume $\mathrm{vol}_M(S) = \sum_{u \in S} d_u^{(M)}$, đại lượng cắt theo motif
 \[
     \mathrm{cut}_M(S, \bar{S}) = \bigl| \{\, \text{motif instance có ít nhất một đỉnh ở mỗi bên} \,\} \bigr|,
 \]
-và conductance motif tương ứng là
+và conductance motif tương ứng
 \[
     \phi_M(S) = \frac{\mathrm{cut}_M(S, \bar{S})}{\min(\mathrm{vol}_M(S), \mathrm{vol}_M(\bar{S}))}.
 \]
-
-\begin{theorem}[Higher-order Cheeger inequality \cite{benson2016}]
-\label{thm:higher-cheeger}
-Phân cụm phổ trên $W^{(M)}$ thu được nhát cắt có $\phi_M$ gần tối ưu, với cùng dạng cận như bất đẳng thức Cheeger cổ điển. Tính chất này là hệ quả trực tiếp của Mệnh đề~\ref{prop:gm-valid-weighted-graph} và bất đẳng thức Cheeger áp dụng cho $G_M$.
+Khi đó mọi kết quả phổ phát biểu cho lớp đồ thị có trọng số áp dụng nguyên dạng cho $G_M$, bao gồm bất đẳng thức Cheeger và các phép nới lỏng phổ của NCut hay modularity. Cụ thể, phân cụm phổ trên $W^{(M)}$ thu được nhát cắt có $\phi_M$ gần tối ưu, với cùng dạng cận như bất đẳng thức Cheeger cổ điển.
 \end{theorem}
 
 \begin{remark}[Hai hạn chế của $G_M$ thuần]
@@ -548,6 +551,6 @@ Bất đẳng thức kép này là kết quả mấu chốt: nghiệm $S^{\mathr
 \]
 trong đó cận trên đạt được một cách xây dựng thông qua Thuật toán~\ref{alg:spectral-clustering}: phân hoạch thu được từ $K$ vector riêng đầu của $\mathcal{L}$ kết hợp với $k$-means trên tọa độ phổ có $\max_k \phi(C_k)$ không vượt quá $O(K^2) \sqrt{\lambda_K}$. Đây là dạng tổng quát của Định lý~\ref{thm:sweep-bound} cho $K$ cụm và đảm bảo Thuật toán~\ref{alg:spectral-clustering} là một thuật toán xấp xỉ tốt cho bài toán cực tiểu hóa conductance trên $K$ cụm.
 
-\emph{Áp dụng cho đồ thị Higher Order.} Mệnh đề~\ref{prop:gm-valid-weighted-graph} đảm bảo $G_M = (V, W^{(M)})$ là đồ thị có trọng số vô hướng hợp lệ, do đó toàn bộ khung lý luận trên áp dụng nguyên vẹn cho $G_M$ với conductance motif $\phi_M$ thay cho $\phi$. Hệ quả là Thuật toán~\ref{alg:spectral-clustering} với đầu vào $W = W^{(M)}$ cho phân hoạch có $\phi_M$ gần tối ưu, là điểm tựa cho phương pháp đề xuất ở Chương~\ref{chap:thuat-toan}.
+\emph{Áp dụng cho đồ thị Higher Order.} Định lý~\ref{thm:higher-cheeger} đảm bảo $G_M = (V, W^{(M)})$ là đồ thị có trọng số vô hướng hợp lệ, do đó toàn bộ khung lý luận trên áp dụng nguyên vẹn cho $G_M$ với conductance motif $\phi_M$ thay cho $\phi$. Hệ quả là Thuật toán~\ref{alg:spectral-clustering} với đầu vào $W = W^{(M)}$ cho phân hoạch có $\phi_M$ gần tối ưu, là điểm tựa cho phương pháp đề xuất ở Chương~\ref{chap:thuat-toan}.
 
 \cleardoublepage

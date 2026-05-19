@@ -308,7 +308,7 @@ Cơ chế đứng sau hiện tượng này thống nhất giữa bốn mô hình
 \section{Đồ thị mạng xã hội thật}
 \label{sec:results-real}
 
-Mười một đồ thị thật được khảo sát với $\lambda \in \{0,\ 1,\ 5,\ 10,\ W_M\}$ và $K$ quét trong $\{50, 100, 200, 300, 400, 500\}$. Mỗi đồ thị có ý nghĩa đỉnh và cạnh riêng, dẫn đến đặc tính cấu trúc khác nhau. Bảng~\ref{tab:real-summary} tổng hợp bộ test có $\Delta Q$ cao nhất cho mỗi đồ thị, sau đó từng đồ thị được trình bày kèm biểu đồ chi tiết.
+Mười đồ thị thật được khảo sát với $\lambda \in \{0,\ 1,\ 5,\ 10,\ W_M\}$ và $K$ quét trong $\{50, 100, 200, 300, 400, 500\}$. Mỗi đồ thị có ý nghĩa đỉnh và cạnh riêng, dẫn đến đặc tính cấu trúc khác nhau. Bảng~\ref{tab:real-summary} tổng hợp bộ test có $\Delta Q$ cao nhất cho mỗi đồ thị, sau đó từng đồ thị được trình bày kèm biểu đồ chi tiết.
 
 \begin{table}[H]
 \centering
@@ -691,7 +691,7 @@ $\Delta Q$ luôn dương trên cả mười đồ thị, nên ma trận hỗn h�
 So sánh giữa các giá trị $\lambda$ cung cấp thêm một bằng chứng thiết kế quan trọng. Trên hầu hết đồ thị thật, $\overline{\mathrm{CC}}$ ở $\lambda = W_M$ bật lên rất cao so với các $\lambda$ hữu hạn — chẳng hạn trên lastfm\_asia tại $K = 50$, $\overline{\mathrm{CC}}$ chuyển từ $0{,}2681$ ở $\lambda = 10$ lên $0{,}6044$ ở $W_M$, gấp hơn hai lần; trên CA-HepTh chuyển từ $0{,}5337$ lên $0{,}7043$; trên musae\_facebook chuyển từ $0{,}4508$ lên $0{,}6439$. Cùng phân hoạch đó, $\overline{\mathrm{CC}}_w$ chỉ tăng nhẹ giữa $\lambda$ hữu hạn và $W_M$, giữ ổn định trong cùng dải biến thiên. Sự bất đối xứng này có lời giải thích trực tiếp: bỏ hoàn toàn ma trận kề $A$ và chỉ dùng $W^{(M)}$ khiến phân cụm phổ tách đồ thị thành nhiều cụm rất nhỏ, vì các đỉnh không nằm trong tam giác trở thành cô lập trong $G_M$ (Mệnh đề~\ref{prop:wlambda-fixes-gm}). Các cụm nhỏ này có hệ số phân cụm cục bộ gần $1$ và đẩy $\overline{\mathrm{CC}}$ lên rất nhanh, nhưng $\overline{\mathrm{CC}}_w$ không bị thổi phồng vì trọng số tỉ lệ với kích thước cụm. Vì vậy mức tăng đo bởi $\overline{\mathrm{CC}}_w$ phản ánh đúng phần đóng góp thực của motif vào chất lượng phân hoạch; $\overline{\mathrm{CC}}$ thì bị ảnh hưởng nặng bởi hiện tượng phân mảnh cụm khi $\lambda \to \infty$.
 
 % ============================================================
-\section{Tổng hợp: hai chế độ tối ưu của $\lambda$}
+\section{Tổng hợp: hai chế độ giá trị của $\lambda^*$}
 \label{sec:summary-results}
 
 Kết hợp toàn bộ kết quả thực nghiệm, $\lambda^*$ tối ưu thể hiện hai chế độ trái ngược, phụ thuộc vào cơ chế sinh cạnh của đồ thị.
