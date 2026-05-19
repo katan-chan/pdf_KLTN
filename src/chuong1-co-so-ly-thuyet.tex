@@ -7,7 +7,7 @@
 
 Chương này trình bày các kết quả nền tảng được dùng làm công cụ cho phần lý thuyết ở Chương~\ref{chap:thuat-toan}. Nội dung đi từ phát biểu bài toán phát hiện cộng đồng dưới dạng tối ưu, qua hệ số phân cụm và các dạng đồ thị, đến thuật toán phân cụm phổ kèm các định lý nền.
 
-Quy ước ký hiệu. Trong toàn khóa luận, $G = (V, E)$ là đồ thị vô hướng với $|V| = n$, $|E| = m$, ma trận kề $A$ đối xứng và không âm. Đỉnh trong $V$ được ký hiệu bằng các chữ cái $u, v, w$. Bậc của đỉnh $u$ là $d_u = \sum_{v \in V} A_{uv}$. Một phân hoạch của $V$ thành $K$ cụm được ký hiệu $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $V = \bigsqcup_k C_k$.
+Quy ước ký hiệu. Trong toàn khóa luận, $G = (V, E)$ là đồ thị vô hướng với $|V| = n$, $|E| = m$, ma trận kề $A$ đối xứng. $A_{uv} = 1 nếu $ Đỉnh trong $V$ được ký hiệu bằng các chữ cái $u, v, w$. Bậc của đỉnh $u$ là $d_u = \sum_{v \in V} A_{uv}$. Một phân hoạch của $V$ thành $K$ cụm được ký hiệu $\mathcal{C} = \{C_1, \ldots, C_K\}$ với $V = \bigsqcup_k C_k$.
 
 % ============================================================
 \section{Phát biểu bài toán}
@@ -25,8 +25,7 @@ Cho một đồ thị vô hướng $G = (V, E)$ mô hình hoá một hệ thốn
     \caption[Ví dụ phân hoạch đồ thị $20$ đỉnh thành $4$ cụm.]{Ví dụ phân hoạch đồ thị $20$ đỉnh thành $4$ cụm. Cạnh liền nét là cạnh nội cụm, cạnh nét đứt là cạnh liên cụm.}
     \label{fig:partition-example}
 \end{figure}
-
-Đặc điểm quan trọng nhất khiến bài toán này khó là khái niệm cộng đồng vốn không có một định nghĩa toán học duy nhất. Trong mạng xã hội, cộng đồng có thể là một nhóm bạn bè thân thiết; trong mạng sinh học, có thể là một phức hợp protein cùng chức năng; trong mạng trích dẫn, có thể là một chủ đề nghiên cứu. Mỗi ngữ cảnh ứng với một tiêu chí khác nhau về ``thế nào là cộng đồng'', và do đó không có một phân hoạch nào được công nhận là đúng tuyệt đối cho mọi đồ thị. Để có thể đánh giá và so sánh các phân hoạch một cách có hệ thống, người ta đưa ra các tiêu chí đánh giá dưới dạng một hàm số 
+Để có thể đánh giá và so sánh các phân hoạch một cách có hệ thống, người ta đưa ra các tiêu chí đánh giá dưới dạng một hàm số 
 \begin{equation}
     f: \mathcal{P}(V) \to \mathbb{R}
 \end{equation}

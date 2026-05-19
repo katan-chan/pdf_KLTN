@@ -14,16 +14,16 @@
 Khó khăn nằm ở chỗ cộng đồng không có một định nghĩa toán học duy nhất: trong mạng xã hội cộng đồng là một nhóm bạn bè, trong mạng sinh học là một phức hợp protein cùng chức năng, trong mạng trích dẫn là một chủ đề nghiên cứu. Tuỳ vào hiện tượng cần nắm bắt, cùng một đồ thị có thể được phân tích theo nhiều cách khác nhau, và mỗi cách đặt ra một bài toán toán học riêng với cách thao tác hoá riêng. Bài toán phát hiện cộng đồng vì vậy không phải là một bài toán đơn lẻ, mà là một họ bài toán mà mỗi biến thể trả lời một câu hỏi quan sát khác về cấu trúc của mạng. Hai mục tiếp theo điểm qua các biến thể thường gặp và các hướng tiếp cận thuật toán đã được nghiên cứu, qua đó dẫn tới hướng đi mà khoá luận lựa chọn.
 
 % ============================================================
-\section{Các biến thể của bài toán}
+\section{Các biến thể của bài toán phát hiện cộng đồng}
 \label{sec:bien-the}
 
 Ba biến thể được nhắc đến nhiều nhất là phát hiện cộng đồng toàn cục, cục bộ và chồng chéo. Mỗi biến thể tương ứng với một câu hỏi quan sát khác và dẫn tới các thuật toán có cấu trúc rất khác nhau.
 
-\textbf{Phát hiện cộng đồng toàn cục} đặt ra yêu cầu cơ bản nhất: cho toàn bộ đồ thị $G$, hãy phân hoạch tập đỉnh thành các cụm sao cho cấu trúc cộng đồng nội tại được phản ánh đúng. Đây là biến thể được nghiên cứu sớm nhất và sâu nhất, đồng thời là biến thể mà khoá luận tập trung giải quyết, vì phân hoạch toàn cục cho ta một bức tranh tổng thể về cấu trúc của đồ thị và là điểm khởi đầu tự nhiên trước khi xét các biến thể chi tiết hơn.
+\textbf{Phát hiện cộng đồng toàn cục} đặt ra yêu cầu cơ bản nhất: cho toàn bộ đồ thị $G$, hãy phân hoạch tập đỉnh thành các cộng đồng. Đây là biến thể được nghiên cứu sớm nhất và sâu nhất, đồng thời là biến thể mà khoá luận tập trung giải quyết, vì phân hoạch toàn cục cho ta một bức tranh tổng thể về cấu trúc của đồ thị và là điểm khởi đầu tự nhiên trước khi xét các biến thể chi tiết hơn.
 
 \textbf{Phát hiện cộng đồng cục bộ} thay đổi giả thiết đầu vào: thay vì duyệt toàn bộ đồ thị, người ta chỉ quan sát một đồ thị con $G' \subseteq G$ hoặc xuất phát từ một tập đỉnh hạt giống, rồi tìm cộng đồng trong lân cận của nó. Biến thể này phù hợp với đồ thị quá lớn để duyệt toàn bộ hoặc khi người dùng chỉ quan tâm tới một nhóm cụ thể; các phương pháp dựa trên bước ngẫu nhiên cá nhân hoá hay khuếch tán cục bộ là đại diện điển hình.
 
-\textbf{Phát hiện cộng đồng chồng chéo} bỏ giả thiết phân hoạch: trong nhiều mạng thực, một đỉnh có thể đồng thời thuộc nhiều cộng đồng, chẳng hạn một người dùng vừa là thành viên của nhóm bạn học vừa là thành viên của nhóm đồng nghiệp. Khi đó bài toán không còn là phân hoạch tập đỉnh nữa mà là gán cho mỗi đỉnh một tập các cộng đồng mà nó thuộc về \cite{do2025overlap}.
+\textbf{Phát hiện cộng đồng chồng chéo} Trong nhiều mạng thực, một đỉnh có thể đồng thời thuộc nhiều cộng đồng. Khi đó bài toán không còn là phân hoạch tập đỉnh nữa mà là gán cho mỗi đỉnh một tập các cộng đồng mà nó thuộc về \cite{do2025overlap}.
 
 Ngoài ba biến thể trên còn nhiều mở rộng đáng kể, như phát hiện cộng đồng trên đồ thị có hướng \cite{dang2023directed}, trên đồ thị động theo thời gian, hay trên đồ thị có thuộc tính trên đỉnh. Khoá luận giới hạn ở biến thể toàn cục trên đồ thị vô hướng có trọng số không âm.
 
